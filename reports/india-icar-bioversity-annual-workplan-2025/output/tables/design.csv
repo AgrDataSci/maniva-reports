@@ -1,0 +1,14 @@
+label,n_genotypes,min_alloc,max_alloc,median_alloc
+"Chickpea, Akole",8,18,19,19.0
+"Chickpea, Tumkur",8,13,16,13.5
+"Finger millet, Akole",16,9,10,9.0
+"Finger millet, Kaprada",16,9,10,9.0
+"Finger millet, Sambalpur",16,6,8,7.0
+"Foxtail millet, Shahada",9,7,11,8.0
+"Horse gram, Sambalpur",11,4,8,6.0
+"Little millet, Akole",10,15,15,15.0
+"Little millet, Kaprada",9,16,17,17.0
+"Maize, Shahada",10,15,15,15.0
+"Rice, Kaprada",16,9,10,9.0
+"Rice, Sambalpur",16,6,10,9.0
+"Sorghum, Shahada",10,12,15,14.0

@@ -1,0 +1,75 @@
+# Report configuration. Every field the renderer reads is here.
+title: "Farmer evaluation of crop varieties in India with the tricot approach"
+subtitle: "Results from the 2025 ICAR-Bioversity Annual Workplan trials"
+kicker: "Technical report"
+date: "November 2026"
+status: "Draft. Authors to be confirmed"
+language: en
+
+# Order to be confirmed by the India team
+authors:
+  - Jai C Rana
+  - Sarika Mittra
+  - Rashmi Yadav
+  - Harinder Vishwakarma
+  - Kauê de Sousa
+institutions:
+  - Bioversity International
+  - ICAR-National Bureau of Plant Genetic Resources
+  - BAIF Development Research Foundation
+
+theme: cgiar
+logos: []        # paths to logo files supplied by the authors, relative to this folder
+boundaries: null # path to an official boundary file for the map, when one is required
+
+# Headline numbers on the cover, from output/overview.csv
+highlights:
+  - {value: "646", label: "farmers"}
+  - {value: "13", label: "trials"}
+  - {value: "8", label: "crops"}
+  - {value: "109", label: "varieties and landraces"}
+  - {value: "4", label: "states"}
+
+# Which trials the report covers
+data:
+  source: "https://raw.githubusercontent.com/AgrDataSci/tricot-data/main/"
+  filter:
+    country_iso3: IND
+    start_year: 2025
+    program: "ICAR-Bioversity Annual Workplan India"
+  trial_ids: []  # or list trial ids and leave the filter empty
+
+analysis:
+  overall_trait: overall_performance   # the most recent overall-type question in these trials
+  vs_local_trait: overall_performance_vs_local
+  yield_trait: yield_sampled_plants
+  group: farmer_gender
+  min_group_n: 20
+  alpha: 0.05
+  reasons:
+    most: reason_most_preferred
+    least: reason_least_preferred
+    themes: content/reason-themes.yml
+
+# Trials drawn side by side in the log-worth figures
+figure_groups:
+  finger-millet: ["Finger millet, Akole", "Finger millet, Kaprada", "Finger millet, Sambalpur"]
+  rice: ["Rice, Kaprada", "Rice, Sambalpur"]
+  small-millets: ["Little millet, Akole", "Little millet, Kaprada", "Foxtail millet, Shahada"]
+  maize-sorghum: ["Maize, Shahada", "Sorghum, Shahada"]
+  pulses: ["Chickpea, Akole", "Chickpea, Tumkur", "Horse gram, Sambalpur"]
+
+# Layout
+figure_widths:
+  fig01-map.png: 62
+  fig02-participation.png: 92
+  fig04-rice.png: 86
+  fig08-local.png: 82
+  fig09-trait-agreement.png: 80
+  fig10-reasons.png: 84
+page_break_before: ["Variety performance", "Data availability"]
+
+# Sections kept in content/report.md and left out of this rendered version
+exclude_sections: ["Limitations and next steps"]
+
+output_name: "india-tricot-2025-technical-report"

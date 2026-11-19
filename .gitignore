@@ -1,0 +1,9 @@
+.DS_Store
+.Rhistory
+.Rapp.history
+.RData
+.Rproj.user/
+__pycache__/
+*.pyc
+renv/library/
+reports/*/report.html

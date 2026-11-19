@@ -1,0 +1,14 @@
+label,n_women,n_men,lr,df,p_value,top_women,top_men,rho
+"Chickpea, Akole",19,31,16.6674532913203,7.0,0.019671041005586733,Kripa,Vijay,-0.4523809523809524
+"Chickpea, Tumkur",3,34,,,,,,
+"Finger millet, Akole",14,36,23.721247007406674,15.0,0.0699809280835966,Bharathi,T-14,-0.22941176470588234
+"Finger millet, Kaprada",19,26,21.632320408675497,15.0,0.11781354337491162,Diwali Bendri,Diwali Bendri,0.23823529411764705
+"Finger millet, Sambalpur",10,15,,,,,,
+"Foxtail millet, Shahada",3,23,,,,,,
+"Horse gram, Sambalpur",8,13,,,,,,
+"Little millet, Akole",10,40,,,,,,
+"Little millet, Kaprada",22,24,10.660568274657464,8.0,0.22168330615188434,Gari varai,Gari varai,0.39999999999999997
+"Maize, Shahada",6,44,,,,,,
+"Rice, Kaprada",15,33,15.860502403773367,15.0,0.3913829123408719,Ambamahore scented,Surati kolam,0.25
+"Rice, Sambalpur",8,34,,,,,,
+"Sorghum, Shahada",8,38,,,,,,

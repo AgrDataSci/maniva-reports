@@ -1,0 +1,217 @@
+{
+ "n": 646,
+ "gender": {
+  "man": 467,
+  "woman": 178,
+  "NaN": 1
+ },
+ "age": {
+  "count": 644.0,
+  "mean": 43.8,
+  "std": 12.0,
+  "min": 17.0,
+  "25%": 35.0,
+  "50%": 43.0,
+  "75%": 52.0,
+  "max": 90.0
+ },
+ "age_by_gender": {
+  "man": 45.0,
+  "woman": 40.0
+ },
+ "farm_size": {
+  "count": 606.0,
+  "mean": 1.35,
+  "std": 2.74,
+  "min": 0.1,
+  "25%": 0.6,
+  "50%": 1.0,
+  "75%": 1.5,
+  "max": 48.0
+ },
+ "crop_usually_grown": {
+  "yes": 472,
+  "no": 173,
+  "NaN": 1
+ },
+ "tricot_previous_year": {
+  "no": 556,
+  "NaN": 51,
+  "yes": 39
+ },
+ "seed_source": {
+  "own seeds": 280,
+  "NaN": 174,
+  "local market purchase": 157,
+  "provided by neighbour or relative": 30,
+  "provided by government schemes": 4,
+  "community seed bank": 1
+ },
+ "fertilizer_types": [
+  {
+   "cowdung": 0.944,
+   "urea": 0.875,
+   "dap": 0.606,
+   "potash": 0.54,
+   "gromor": 0.287,
+   "vermicompost": 0.107,
+   "chicken manure": 0.063,
+   "other": 0.036,
+   "no fertilizer": 0.002
+  },
+  606
+ ],
+ "irrigation_method": [
+  {
+   "flood": 0.414,
+   "well": 0.333,
+   "no irrigation": 0.289,
+   "farm ponds": 0.165,
+   "trenches": 0.071,
+   "drip": 0.059,
+   "other": 0.023
+  },
+  606
+ ],
+ "tillage_practice": [
+  {
+   "ploughing": 0.799,
+   "harrowing": 0.536,
+   "puddling": 0.447,
+   "other": 0.03,
+   "no tillage": 0.002
+  },
+  606
+ ],
+ "water_conservation": [
+  {
+   "farm bunds": 0.851,
+   "stone bunds": 0.531,
+   "farm ponds": 0.109,
+   "recharge pit": 0.106,
+   "no water conservation": 0.078,
+   "check dam": 0.059,
+   "other": 0.002
+  },
+  606
+ ],
+ "soil_conservation": [
+  {
+   "farm bunds": 0.629,
+   "crop rotation": 0.503,
+   "stone bunds": 0.497,
+   "organic farming": 0.21,
+   "no soil conservation": 0.054,
+   "cct": 0.046,
+   "boulder": 0.021,
+   "wat": 0.008,
+   "chainlink gabion": 0.003
+  },
+  606
+ ],
+ "crops_grown": [
+  {
+   "rice": 0.749,
+   "pigeonpea (toor)": 0.414,
+   "black gram (urad)": 0.335,
+   "little millet": 0.322,
+   "finger millet": 0.295,
+   "maize": 0.239,
+   "mango": 0.233,
+   "bottle gourd": 0.229,
+   "brinjal": 0.221,
+   "okra": 0.219
+  },
+  606
+ ],
+ "by_state": [
+  {
+   "adm1": "Gujarat",
+   "n": 150,
+   "women": 60
+  },
+  {
+   "adm1": "Karnataka",
+   "n": 50,
+   "women": 7
+  },
+  {
+   "adm1": "Maharashtra",
+   "n": 300,
+   "women": 63
+  },
+  {
+   "adm1": "Odisha",
+   "n": 146,
+   "women": 48
+  }
+ ],
+ "villages": 31,
+ "by_gender_trial": [
+  {
+   "label": "Chickpea, Akole",
+   "man": 31,
+   "woman": 19
+  },
+  {
+   "label": "Chickpea, Tumkur",
+   "man": 43,
+   "woman": 7
+  },
+  {
+   "label": "Finger millet, Akole",
+   "man": 36,
+   "woman": 14
+  },
+  {
+   "label": "Finger millet, Kaprada",
+   "man": 28,
+   "woman": 22
+  },
+  {
+   "label": "Finger millet, Sambalpur",
+   "man": 30,
+   "woman": 18
+  },
+  {
+   "label": "Foxtail millet, Shahada",
+   "man": 45,
+   "woman": 5
+  },
+  {
+   "label": "Horse gram, Sambalpur",
+   "man": 27,
+   "woman": 21
+  },
+  {
+   "label": "Little millet, Akole",
+   "man": 40,
+   "woman": 10
+  },
+  {
+   "label": "Little millet, Kaprada",
+   "man": 27,
+   "woman": 23
+  },
+  {
+   "label": "Maize, Shahada",
+   "man": 44,
+   "woman": 6
+  },
+  {
+   "label": "Rice, Kaprada",
+   "man": 35,
+   "woman": 15
+  },
+  {
+   "label": "Rice, Sambalpur",
+   "man": 40,
+   "woman": 9
+  },
+  {
+   "label": "Sorghum, Shahada",
+   "man": 41,
+   "woman": 9
+  }
+ ]
+}

@@ -1,0 +1,66 @@
+label,trait,mean,count
+"Chickpea, Akole",disease_resistance,0.1372549019607843,17
+"Chickpea, Akole",maturity,0.17333333333333337,50
+"Chickpea, Akole",plant_height_rank,0.02040816326530612,49
+"Chickpea, Akole",pod_size,0.10204081632653061,49
+"Chickpea, Akole",yield_rank,0.6598639455782314,49
+"Chickpea, Tumkur",disease_resistance,0.45454545454545453,22
+"Chickpea, Tumkur",maturity,0.3888888888888889,36
+"Chickpea, Tumkur",plant_height_rank,0.2777777777777778,36
+"Chickpea, Tumkur",pod_size,0.24074074074074073,36
+"Chickpea, Tumkur",yield_rank,-0.308641975308642,27
+"Finger millet, Akole",disease_resistance,0.04,50
+"Finger millet, Akole",maturity,-0.4,50
+"Finger millet, Akole",plant_height_rank,-0.02666666666666666,50
+"Finger millet, Akole",tillering,0.06666666666666667,50
+"Finger millet, Akole",yield_rank,0.9591836734693877,49
+"Finger millet, Kaprada",disease_resistance,0.02222222222222222,45
+"Finger millet, Kaprada",maturity,0.5259259259259259,45
+"Finger millet, Kaprada",plant_height_rank,-0.0074074074074074086,45
+"Finger millet, Kaprada",tillering,0.007407407407407403,45
+"Finger millet, Kaprada",yield_rank,0.3484848484848485,44
+"Finger millet, Sambalpur",disease_resistance,0.2,25
+"Finger millet, Sambalpur",maturity,0.41333333333333333,25
+"Finger millet, Sambalpur",plant_height_rank,0.2,25
+"Finger millet, Sambalpur",tillering,0.28,25
+"Finger millet, Sambalpur",yield_rank,0.8888888888888888,24
+"Foxtail millet, Shahada",cob_size,0.8461538461538461,26
+"Foxtail millet, Shahada",disease_resistance,0.6410256410256411,26
+"Foxtail millet, Shahada",maturity,0.10256410256410255,26
+"Foxtail millet, Shahada",plant_height_rank,0.8461538461538461,26
+"Foxtail millet, Shahada",yield_rank,0.5416666666666667,16
+"Horse gram, Sambalpur",disease_resistance,-0.03703703703703703,18
+"Horse gram, Sambalpur",maturity,0.3650793650793651,21
+"Horse gram, Sambalpur",plant_height_rank,0.14285714285714285,21
+"Horse gram, Sambalpur",pod_size,0.17460317460317462,21
+"Horse gram, Sambalpur",yield_rank,0.8333333333333334,20
+"Little millet, Akole",disease_resistance,0.026666666666666675,50
+"Little millet, Akole",maturity,-0.29333333333333333,50
+"Little millet, Akole",plant_height_rank,0.039999999999999994,50
+"Little millet, Akole",tillering,0.02666666666666666,50
+"Little millet, Akole",yield_rank,0.8666666666666667,45
+"Little millet, Kaprada",disease_resistance,0.014492753623188413,46
+"Little millet, Kaprada",maturity,0.2463768115942029,46
+"Little millet, Kaprada",plant_height_rank,-0.07246376811594203,46
+"Little millet, Kaprada",tillering,-0.07246376811594205,46
+"Little millet, Kaprada",yield_rank,0.2463768115942029,46
+"Maize, Shahada",cob_size,0.92,50
+"Maize, Shahada",disease_resistance,0.7466666666666667,50
+"Maize, Shahada",maturity,-0.21333333333333332,50
+"Maize, Shahada",plant_height_rank,0.32,50
+"Maize, Shahada",yield_rank,0.7333333333333333,50
+"Rice, Kaprada",disease_resistance,0.049645390070921995,47
+"Rice, Kaprada",maturity,0.08333333333333333,48
+"Rice, Kaprada",plant_height_rank,0.125,48
+"Rice, Kaprada",tillering,-0.013888888888888886,48
+"Rice, Kaprada",yield_rank,0.18055555555555555,48
+"Rice, Sambalpur",disease_resistance,0.2839506172839506,27
+"Rice, Sambalpur",maturity,-0.3953488372093023,43
+"Rice, Sambalpur",plant_height_rank,0.2698412698412699,42
+"Rice, Sambalpur",tillering,0.015873015873015872,42
+"Rice, Sambalpur",yield_rank,0.689922480620155,43
+"Sorghum, Shahada",cob_size,0.17391304347826086,46
+"Sorghum, Shahada",disease_resistance,0.13043478260869565,46
+"Sorghum, Shahada",maturity,-0.0144927536231884,46
+"Sorghum, Shahada",plant_height_rank,0.07246376811594203,46
+"Sorghum, Shahada",yield_rank,0.8260869565217391,46

@@ -1,0 +1,49 @@
+# Report configuration. Copy this folder to reports/<country>-<programme>-<year>/ and fill it.
+# Leave a field empty when you do not know it. Never invent an author, funder or DOI.
+title: ""
+subtitle: ""
+kicker: "Technical report"
+date: ""
+status: "Draft for review"   # remove when the authors approve and the R scripts have run
+language: en
+
+authors: []
+institutions: []
+
+theme: cgiar
+logos: []        # paths to logo files supplied by the authors, relative to this folder
+boundaries: null # path to an official boundary file for the map, when one is required
+
+# Three to five headline numbers for the cover, from output/overview.csv
+highlights:
+  - {value: "", label: "farmers"}
+  - {value: "", label: "trials"}
+  - {value: "", label: "crops"}
+
+# Which trials the report covers. Use trial_ids, or a filter on datasets.csv
+data:
+  source: "https://raw.githubusercontent.com/AgrDataSci/tricot-data/main/"
+  trial_ids: []
+  filter:
+    country_iso3: null
+    crop_name: null
+    start_year: null
+    program: null
+
+analysis:
+  overall_trait: overall_performance   # the most recent overall-type question, see decisions/ranking.md
+  vs_local_trait: overall_performance_vs_local
+  yield_trait: null
+  group: farmer_gender
+  min_group_n: 20
+  alpha: 0.05
+  reasons:
+    most: reason_most_preferred
+    least: reason_least_preferred
+    themes: null   # content/reason-themes.yml when open answers are coded
+
+figure_groups: null       # trials drawn side by side, or null for one figure per crop
+figure_widths: {}         # figure file name and its width in percent of the text width
+page_break_before: []     # section headings that start a new page
+exclude_sections: []      # sections kept in content/report.md and left out of this version
+output_name: null         # file name of the PDF, the folder name when null

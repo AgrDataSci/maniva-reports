@@ -1,0 +1,21 @@
+{
+  "report": "india-icar-bioversity-annual-workplan-2025",
+  "status": "draft",
+  "run": "2026-11-19",
+  "data_source": "https://github.com/AgrDataSci/tricot-data",
+  "data_commit": "5d5999f",
+  "data_doi": "https://doi.org/10.5281/zenodo.17112491",
+  "schema_version": "3.0",
+  "selection": "13 trials with country_iso3 IND, start year 2025 and programme 'ICAR-Bioversity Annual Workplan India'",
+  "outputs": {
+    "output/tables/*.csv": {"script": "script/other-language/analysis.py", "language": "Python", "decision_records": ["ranking.md", "trait-associations.md", "socioeconomic-heterogeneity.md"]},
+    "output/tables/participants.json": {"script": "script/other-language/analysis.py", "language": "Python"},
+    "output/figures/*.png": {"script": "script/other-language/figs.py", "language": "Python"},
+    "output/india-tricot-2025-technical-report.pdf": {"script": "script/other-language/render.py", "language": "Python", "input": "content/report.md"}
+  },
+  "r_scripts": "script/01-analysis.R, script/02-figures.R and script/03-render.R of maniva-reports, not executed yet",
+  "workflows_commit": "44328b96052685e5256df3a2bb4d343de53ba72f",
+  "map_boundaries": "State outlines from github.com/geohacker/india (2014), indicative only, map cropped to the trial region",
+  "context": "Programme figures in the background section come from a presentation by Rashmi Yadav (ICAR-NBPGR), 'tricot status India 2026', shared by the authors",
+  "doi": null
+}

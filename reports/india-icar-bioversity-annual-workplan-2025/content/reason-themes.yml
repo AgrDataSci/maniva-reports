@@ -1,0 +1,21 @@
+# Themes for the reasons farmers gave for their most and least preferred entry.
+# One regular expression per theme, matched on the lowercased answer. An answer can match several themes.
+# The Python draft also moved answers on dead or rotten panicles from plant type to disease.
+language_note: Answers are in Marathi, Gujarati and English. Keyword coding by Claude on 2026-11-19, to be reviewed by a native speaker before publication.
+themes:
+- name: Yield and production
+  pattern: yield|yeild|production|cultivation|उत्पन्न|उत्पादन|ઉત્પાદન|more grain|less grain|loosing|પાક સારો|paak saro|saro paak|સારો પાકેલ|સારી રીતે પાકે
+- name: Maturity time
+  pattern: early|late|મોડી|મોડે|mode |વહેલ|વેહલી|સમય|ગરવી|garvi|divas|samay
+- name: Taste and eating quality
+  pattern: ખાવા|चवदार|गोड|સુગંધ|રોટલી|sugar free
+- name: Disease and pests
+  pattern: disease|pest|રોગ|જીવાત|મરેલ|મરી|mari |mare |marti|કોહવાઈ|કોવાઈ|કાળું|કાળી|ચકલા
+- name: Lodging
+  pattern: નીચે પડ|પડી જાય|fall|પડતી નથી
+- name: Water and local adaptation
+  pattern: water|પાણી|વરસાદ|pani|suitable|suit|land
+- name: Plant type (panicle, tillers, pods, height, grain size)
+  pattern: tillar|tiller|panicle|pinnacle|finger|કંઠી|કટી|kanthi|ફૂટ|pod|density|height|hight|ઊંચાઈ|ઉંચાઈ|uchai|size|कणीस|દાણા|small grain|long grain|weight of grain|straw|beared
+- name: Market price and appearance
+  pattern: market|બજાર|માર્કેટ|માકેટ|बाजार|बाजरी भाव|colour|colou|દેખાવ|દેખાય|attractive|good to see|white|red|black

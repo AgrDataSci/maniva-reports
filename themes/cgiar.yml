@@ -1,0 +1,38 @@
+# cgiar theme, the default of maniva-reports.
+# Green and mint from the colour themes shown on cgiar.org (November 2026).
+# Dark green, amber and pale green from the ICAR-NBPGR deck that inspired the first report.
+# This is the team's choice of colours, not an official brand template.
+name: cgiar
+
+colours:
+  primary: "#06604B"
+  primary_dark: "#0F533F"
+  highlight: "#58FBD4"
+  accent: "#F6A93B"
+  accent_dark: "#B45F00"
+  tint: "#F3F8EE"
+  ink: "#22332A"
+  muted: "#4A5A52"
+  rule: "#CFE1D8"
+  cover_text: "#FFFFFF"
+  cover_subtext: "#D9EFE8"
+  link_underline: "#9CC9B9"
+
+fonts:
+  body: "Inter"
+  display: "Inter Display"
+  mono: "DejaVu Sans Mono"
+
+# ColorBrewer colours for charts
+charts:
+  single: "#238B45"        # Greens, one series
+  single_light: "#A1D99B"  # Greens, intervals and secondary bars
+  not_different: "#8A8A8A" # trials where entries do not differ
+  positive: "#01665E"      # BrBG, for example most preferred
+  negative: "#8C510A"      # BrBG, for example least preferred
+  sequential: "Greens"
+  diverging: "BrBG"
+  qualitative: "Paired"
+  map_fill: "#F7F7F7"
+  map_focus: "#E5F5E0"
+  map_line: "#9A9A9A"
