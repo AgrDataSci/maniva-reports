@@ -84,6 +84,7 @@ if (identical(cfg$type, "annual")) {
   write.csv(pt$contributors, file.path(tab, "contributors.csv"), row.names = FALSE)
   write.csv(pt$funders, file.path(tab, "funders.csv"), row.names = FALSE)
   write.csv(annual_prms(trials, ao, rec, cfg), file.path(tab, "prms-results.csv"), row.names = FALSE)
+  write.csv(annual_reporting_fields(trials, ao, cfg), file.path(tab, "reporting-fields.csv"), row.names = FALSE, na = "")
 }
 
 # 9. Provenance -----------------------------------------------------------

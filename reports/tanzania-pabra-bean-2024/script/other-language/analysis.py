@@ -272,7 +272,8 @@ for _, e in REC[(REC.trials_ranked >= 3) & (REC.share_top3 >= 0.5)].iterrows():
                                  % (e.top3, e.trials_ranked, e.years_tested.replace(';', ', ')),
                      evidence='output/tables/entries-record.csv, output/tables/pl-estimates.csv', countries='Tanzania', doi=doi,
                      readiness_level='', impact_areas=''))
-pd.DataFrame(prms).to_csv(os.path.join(OUT, 'prms-results.csv'), index=False)
+PRMS = pd.DataFrame(prms)
+PRMS.to_csv(os.path.join(OUT, 'prms-results.csv'), index=False)
 
 # overall preference, how many trials ranked and separated their entries
 ovt = T[T.indicator == 'overall_performance']
@@ -281,6 +282,60 @@ pd.DataFrame([dict(period=per, trials=len(tt), trials_separated=int((tt.p_value 
                    trials_without=int((T0.overall_n == 0).sum()))
               for per, tt, T0 in [('reporting_year', ovt[ovt.year == YEAR], T[T.year == YEAR]), ('cumulative', ovt, T)]]) \
     .to_csv(os.path.join(OUT, 'overall-summary.csv'), index=False)
+
+# ---------------------------------------------------------------- reporting fields and suggested tags
+# docs/annual-report-standard.md, "Reporting fields". Suggestions follow fixed rules from the data and
+# never set a principal (2) score. The programme confirms or changes every value.
+rep = cfg.get('reporting') or {}
+ranked = set(P[P.value_type == 'rank'].trait.unique())
+roles = {str(g.get('role') or '').lower() for m in meta.values() for g in m['genotypes']}
+g_known = cum['women'] + cum['men']; g_share = cum['women'] / g_known if g_known else 0
+g_cover = g_known / cum['participants'] if cum['participants'] else 0
+CLIMATE = {'drought_tolerance', 'flood_tolerance', 'heat_tolerance', 'maturity', 'waterlogging_tolerance'}
+MARKET = {'marketability', 'yield_rank', 'grain_size', 'grain_color', 'taste', 'cooking_time'}
+ia = [
+    ('Nutrition, health and food security', 'nutrition', 1, 'Variety evaluation of a food crop with farmers',
+     'crop %s, %d trials' % (flt['crop_name'], cum['trials'])),
+    ('Poverty reduction, livelihoods and jobs', 'poverty', 1 if ranked & MARKET else 0, 'Market or yield traits ranked by farmers',
+     ', '.join(sorted(ranked & MARKET)) or 'none ranked'),
+    ('Gender equality, youth and social inclusion', 'gender', 1 if (g_share >= 0.3 and g_cover >= 0.8) else 0,
+     'Gender recorded for at least 80% of participants and women at least 30% of them',
+     'gender recorded for %.0f%%, women %.0f%%' % (100 * g_cover, 100 * g_share)),
+    ('Climate adaptation and mitigation', 'climate', 1 if ranked & CLIMATE else 0, 'A climate-stress or earliness trait ranked by farmers',
+     ', '.join(sorted(ranked & CLIMATE)) or 'none ranked'),
+    ('Environmental health and biodiversity', 'environment', 1 if any(('landrace' in r) or ('accession' in r) for r in roles) else 0,
+     'Landraces or genebank accessions among the entries', 'entry roles: ' + ', '.join(sorted(r for r in roles if r)))]
+SDG = {'nutrition': 'SDG 2 Zero hunger', 'poverty': 'SDG 1 No poverty', 'gender': 'SDG 5 Gender equality',
+       'climate': 'SDG 13 Climate action', 'environment': 'SDG 15 Life on land'}
+given_ia = rep.get('impact_areas') or {}
+rows = []
+for name, key, sc, rule, ev in ia:
+    rows.append(dict(group='Impact Areas', field=name, given=given_ia.get(key), suggested=sc, rule=rule, evidence=ev))
+# SDG 17 always, because tricot trials and maniva work through partnerships of farmers, NARES and CGIAR
+sdg_sug = '; '.join(sorted([SDG[k] for _, k, sc, _, _ in ia if sc > 0] + ['SDG 17 Partnerships for the goals'], key=lambda x: int(x.split()[1])))
+rows.append(dict(group='SDGs', field='Sustainable Development Goals', given='; '.join(rep.get('sdgs') or []) or None,
+                 suggested=sdg_sug, rule='One SDG per Impact Area scored 1 or 2, and SDG 17 always for tricot and maniva work',
+                 evidence='Impact Areas above; trials run with farmers, national partners and CGIAR'))
+rows.append(dict(group='Innovation', field='Innovation readiness level of the entries under evaluation', given=rep.get('readiness_level'),
+                 suggested='8 Uncontrolled testing', rule='Entries tested by farmers on their own farms, under their own management. 9 needs evidence of validated impact, such as a release and its use',
+                 evidence='%d entries in %d farmer-managed trials' % (cum['entries'], cum['trials'])))
+rows.append(dict(group='Innovation', field='Innovation use', given=rep.get('innovation_use'), suggested=None,
+                 rule='Set by the programme, for example a release or seed multiplication that used the trial evidence', evidence=None))
+rows.append(dict(group='Policy', field='Policy change', given=rep.get('policy_change'), suggested=None, rule='Set by the programme', evidence=None))
+cs = rep.get('capacity_sharing') or {}
+for k, lab in [('short_term_women', 'Short-term trainees, women'), ('short_term_men', 'Short-term trainees, men'),
+               ('long_term_women', 'Long-term trainees, women'), ('long_term_men', 'Long-term trainees, men'),
+               ('degree_students', 'Students supervised for a degree')]:
+    rows.append(dict(group='Capacity sharing for development', field=lab, given=cs.get(k), suggested=None,
+                     rule='Recorded by the programme. Trial participants are not trainees', evidence=None))
+bud = rep.get('budget') or {}
+for k, lab in [('previous_year', 'Approved budget, previous year'), ('reporting_year', 'Approved budget, reporting year')]:
+    rows.append(dict(group='Budget', field=lab, given=bud.get(k), suggested=None, rule='Set by the programme', evidence=None))
+rows.append(dict(group='Outcomes', field='End-of-project outcomes and their status', given='; '.join(o.get('name', '') for o in rep.get('outcomes') or []) or None,
+                 suggested=None, rule='Set by the programme, status on track, delayed or off track', evidence=None))
+rows.append(dict(group='Linkages', field='CGIAR programmes and accelerators', given='; '.join(rep.get('linkages') or []) or None,
+                 suggested=None, rule='Named by the programme', evidence=None))
+pd.DataFrame(rows).to_csv(os.path.join(OUT, 'reporting-fields.csv'), index=False)
 
 # trial table, aggregated
 T.drop(columns=[]).to_csv(os.path.join(OUT, 'trials.csv'), index=False, float_format='%.4f')

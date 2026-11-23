@@ -87,7 +87,7 @@ Crop the map to the region of the trials. Boundaries shown on a map are indicati
 
 ## Word version
 
-Every report comes as a PDF and as a Word file. The PDF shows the layout. The Word file is for comments and edits, with tracked changes, by partners who do not use the repository. It holds the same text, tables and figures, takes its styles from `template/reference.docx` and uses Arial, so it opens the same everywhere. Layout that Word cannot hold, such as two columns or the story side panel, becomes plain text and lists. Rebuild `template/reference.docx` with `python3 template/make-reference-docx.py cgiar` after a change to the theme. Edits made in Word go back into `content/report.md` before the next render.
+Every report comes as a PDF and as a Word file. The PDF shows the layout and carries the machine-readable data, hidden beside each figure and attached as files. The Word file is for comments and edits, ends with an annex of the data behind the figures, with tracked changes, by partners who do not use the repository. It holds the same text, tables and figures, takes its styles from `template/reference.docx` and uses Arial, so it opens the same everywhere. Layout that Word cannot hold, such as two columns or the story side panel, becomes plain text and lists. Rebuild `template/reference.docx` with `python3 template/make-reference-docx.py cgiar` after a change to the theme. Edits made in Word go back into `content/report.md` before the next render.
 
 ## Typography
 

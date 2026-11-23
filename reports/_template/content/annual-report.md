@@ -58,6 +58,10 @@ Participants by year and gender, the map with the districts table, entries by ye
 |---|---|---|
 | | | |
 
+Every field of the results framework, with the tags maniva suggests.
+
+<!-- insert: output/tables/reporting-fields.csv -->
+
 ## Section 5: Partnerships
 
 Institutions by role, and the people credited in the metadata.

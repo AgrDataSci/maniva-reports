@@ -23,9 +23,10 @@ This repository holds the report standard, the page layout and the R workflow th
 - Do not push a report on unpublished data to a public repository. Do not copy participant-level data into a report folder. Read the trial files from their source.
 - Use logos only from `logos/` of this repository, or from files the user supplies. Do not download logos, and never redraw or recolour one.
 - Do not present a theme as the official brand of an organisation. A theme is a set of colours and fonts the team chose.
-- Never assign an outcome status, Impact Area, SDG, innovation readiness level, budget or trainee count. Print them only when the authors give them in `report.yml`.
+- Print every reporting field, filled or empty. Suggest Impact Areas, SDGs (always with SDG 17) and the innovation readiness level only with the rules of `docs/annual-report-standard.md`, labelled as suggestions, never as a principal score. Never fill an outcome status, budget, trainee count, innovation use or policy change yourself.
+- Write the data of every figure to `output/figure-data/`. The PDF embeds them as hidden text and attachments, and the Word file prints them in an annex.
 - Never count trial participants as people trained.
-- State in the colophon of every annual report that it was drafted with an AI assistant and reviewed by the authors.
+- The colophon of every annual report carries the statement of `template/colophon.yml`, generated with AI through maniva, a CGIAR Digital Transformation Accelerator commons, with the maniva citation, and says whether the authors reviewed it (`approved` in `report.yml`).
 
 ## Conventions for new code
 

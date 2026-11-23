@@ -172,3 +172,11 @@ section.story aside.panel h4 { font: 700 7.6pt var(--font-body), sans-serif; let
   margin: 0 0 1.2mm 0; }
 section.story aside.panel div { margin-bottom: 3.6mm; }
 section.story aside.panel .empty { color: var(--muted); font-style: italic; }
+
+/* data behind each figure, in the text layer of the PDF for reporting tools, kept out of sight.
+   Not display:none, which would drop it from the PDF. The Word file prints the same data in an annex. */
+figure { position: relative; }
+.machine-data { position: absolute; left: 0; top: 0; width: 100%; z-index: -1; font-size: 1pt; line-height: 1.1;
+  color: #fff; text-align: left; pointer-events: none; }
+.machine-data table, .machine-data td, .machine-data p { border: 0; padding: 0; margin: 0; background: none !important; font-size: 1pt;
+  color: #fff; border-radius: 0; break-inside: auto; }

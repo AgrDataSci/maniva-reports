@@ -7,6 +7,9 @@
 - Logos of CGIAR, its centres, the Alliance of Bioversity International and CIAT and the Crop Trust in `logos/`, as SVG and PNG.
 - Every report also comes as a Word file for comments and edits, styled by `template/reference.docx`.
 - Annual cover after the Portfolio Narrative, with logos, a deep green band and the title in mint.
+- Reporting fields of the CGIAR results framework, all printed, with Impact Areas, SDGs (always SDG 17) and readiness level suggested from the data by fixed rules (`reporting-fields.csv`).
+- Machine-readable reports. The data of each figure in `output/figure-data/`, hidden in the PDF text layer and attached to the PDF with the result tables and `report-data.json`, and printed as an annex in the Word file.
+- Colophon states that the report was generated with AI through maniva, a CGIAR Digital Transformation Accelerator commons, and cites maniva (`template/colophon.yml`).
 - Test annual report on the PABRA bean trials in Tanzania, 2024 with the record since 2021, from a Python run.
 
 # maniva-reports 0.1.0 (2026-11-19)

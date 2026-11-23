@@ -39,14 +39,22 @@ colophon:
   citation: "Pan-Africa Bean Research Alliance (PABRA). 2026. Annual Technical Report 2024. Pan-Africa Bean Research Alliance in Tanzania. On-farm testing of bean varieties with the tricot approach. Test draft produced with maniva-reports."
   handle: ""      # CGSpace handle, empty until issued
   licence: "CC BY 4.0"
-  ai_statement: "This draft was produced with an AI assistant (Claude, Anthropic) following the maniva-reports standard. The assistant ran the analysis code, drew the figures and wrote the text from the result tables. The authors have not reviewed it yet."
+  ai_statement: ""  # added after the standard statement of template/colophon.yml
+approved: false     # true once the authors approve, which changes the statement on review
 
-# Judgements that belong to the programme. Left empty, so the report prints none of them.
-outcomes: []        # list of {name, status: on track | delayed | off track, narrative}
-impact_areas: {}    # {principal: [], significant: []}
-budget: {}          # {2023: "", 2024: ""}
-trainees: {}        # people trained, by gender and year, only when recorded by the programme
-linkages: []        # CGIAR programmes the authors name
+# Reporting fields of the programme. Every field is printed, empty or not. maniva suggests the
+# Impact Areas, SDGs and readiness level from the data (output/tables/reporting-fields.csv), and
+# a value given here replaces the suggestion.
+reporting:
+  impact_areas: {nutrition: null, poverty: null, gender: null, climate: null, environment: null}  # 0, 1 or 2
+  sdgs: []
+  readiness_level: null
+  innovation_use: null
+  policy_change: null
+  capacity_sharing: {short_term_women: null, short_term_men: null, long_term_women: null, long_term_men: null, degree_students: null}
+  budget: {previous_year: null, reporting_year: null}
+  outcomes: []          # list of {name, status: on track | delayed | off track, narrative}
+  linkages: []          # CGIAR programmes and accelerators
 
 story:
   primary_impact_area: ""

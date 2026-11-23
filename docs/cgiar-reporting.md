@@ -67,7 +67,7 @@ The `cgiar` theme takes every colour from these reports. The Portfolio Narrative
 ## What maniva-reports does not do
 
 - It does not claim CGIAR branding. The `cgiar` theme takes its colours from the two CGIAR reports above, read from their vector fills, and it remains the team's choice. The CGIAR and centre logos in `logos/` were cut from the same reports and appear only on reports by programmes that use them.
-- It does not assign Impact Areas, SDG contributions, innovation readiness levels, outcome status or work package ratings. These are judgements the programme makes and signs. The report holds empty fields for them in `report.yml`, prints them when filled, and leaves the section out when empty.
+- It suggests Impact Areas, SDG contributions and innovation readiness levels from the data, with fixed rules and labelled as suggestions, and prints every other field of the results framework empty until the programme fills it. Outcome status and work package ratings are judgements the programme makes and signs. The report shows every field, filled or empty, as `docs/annual-report-standard.md` sets out.
 - It does not count farmers who ranked varieties as people trained. Participation in a trial is not capacity sharing in the PRMS sense unless the programme ran a training and recorded it. The report counts participants and leaves the trainee count to the authors.
 - It does not submit results to PRMS. It writes `output/prms-results.csv`, a list of candidate results with their evidence, for the programme's PRMS focal point to review.
 
@@ -82,7 +82,7 @@ PRMS records each result under one type. The candidates maniva can document from
 | Capacity sharing for development | Training given to farmers, extension staff or students, only when the programme recorded it | Left to the authors |
 | Innovation use, policy change, other outcome | A variety release or a seed system decision that used the trial evidence | The trials and figures the decision drew on. The decision itself comes from the authors |
 
-The innovation readiness scale runs from 0 (idea) to 9 (proven innovation). A variety evaluated by farmers on their own farms is tested under uncontrolled conditions, but the level of an innovation is set by the programme for the whole innovation, not by one trial. maniva prints the level only when the authors give it.
+The innovation readiness scale runs from 0 (idea) to 9 (proven innovation). A variety evaluated by farmers on their own farms is tested under uncontrolled conditions, but the level of an innovation is set by the programme for the whole innovation, not by one trial. maniva suggests level 8, uncontrolled testing, for entries under on-farm evaluation, and leaves level 9 to the programme.
 
 ## Sources read
 

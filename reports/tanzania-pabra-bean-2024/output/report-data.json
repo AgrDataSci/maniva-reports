@@ -1,0 +1,252 @@
+{
+  "schema": "maniva-reports/report-data/0.1",
+  "title": "Pan-Africa Bean Research Alliance in Tanzania",
+  "subtitle": "On-farm testing of bean varieties with the tricot approach",
+  "type": "annual",
+  "reporting_year": 2024,
+  "period": "2021 to 2024",
+  "corporate_author": "Pan-Africa Bean Research Alliance (PABRA)",
+  "authors": [],
+  "institutions": [
+    "International Center for Tropical Agriculture (CIAT)",
+    "Tanzania Agricultural Research Institute (TARI)",
+    "Bioversity International"
+  ],
+  "status": "Test draft. Not reviewed by the authors",
+  "licence": "CC BY 4.0",
+  "handle": null,
+  "data_source": "https://raw.githubusercontent.com/AgrDataSci/tricot-data/main/",
+  "generated_with": "maniva-reports",
+  "maniva_citation": "de Sousa K, Laporte M-A, Youngberg B, Cremaschi A, Chase R, van Etten J. 2026. maniva. An open commons of evidence, protocols, data and analysis for agricultural research. Version 1.0.0. Zenodo. https://doi.org/10.5281/zenodo.24011051",
+  "overview": [
+    {
+      "metric": "trials",
+      "reporting_year": "4",
+      "cumulative": "25"
+    },
+    {
+      "metric": "participants",
+      "reporting_year": "715",
+      "cumulative": "2866"
+    },
+    {
+      "metric": "women",
+      "reporting_year": "310",
+      "cumulative": "1339"
+    },
+    {
+      "metric": "men",
+      "reporting_year": "320",
+      "cumulative": "1441"
+    },
+    {
+      "metric": "not_stated",
+      "reporting_year": "85",
+      "cumulative": "86"
+    },
+    {
+      "metric": "entries",
+      "reporting_year": "26",
+      "cumulative": "51"
+    },
+    {
+      "metric": "districts",
+      "reporting_year": "22",
+      "cumulative": "55"
+    },
+    {
+      "metric": "vs_local_answers",
+      "reporting_year": "360",
+      "cumulative": "2514"
+    },
+    {
+      "metric": "vs_local_better",
+      "reporting_year": "265",
+      "cumulative": "1672"
+    }
+  ],
+  "reporting_fields": [
+    {
+      "group": "Impact Areas",
+      "field": "Nutrition, health and food security",
+      "given": "",
+      "suggested": "1",
+      "rule": "Variety evaluation of a food crop with farmers",
+      "evidence": "crop commonbean, 25 trials"
+    },
+    {
+      "group": "Impact Areas",
+      "field": "Poverty reduction, livelihoods and jobs",
+      "given": "",
+      "suggested": "1",
+      "rule": "Market or yield traits ranked by farmers",
+      "evidence": "cooking_time, grain_color, grain_size, marketability, taste, yield_rank"
+    },
+    {
+      "group": "Impact Areas",
+      "field": "Gender equality, youth and social inclusion",
+      "given": "",
+      "suggested": "1",
+      "rule": "Gender recorded for at least 80% of participants and women at least 30% of them",
+      "evidence": "gender recorded for 97%, women 48%"
+    },
+    {
+      "group": "Impact Areas",
+      "field": "Climate adaptation and mitigation",
+      "given": "",
+      "suggested": "1",
+      "rule": "A climate-stress or earliness trait ranked by farmers",
+      "evidence": "drought_tolerance, flood_tolerance, maturity"
+    },
+    {
+      "group": "Impact Areas",
+      "field": "Environmental health and biodiversity",
+      "given": "",
+      "suggested": "0",
+      "rule": "Landraces or genebank accessions among the entries",
+      "evidence": "entry roles: comparative check, evaluation entry, farmer check, historical check, release candidate"
+    },
+    {
+      "group": "SDGs",
+      "field": "Sustainable Development Goals",
+      "given": "",
+      "suggested": "SDG 1 No poverty; SDG 2 Zero hunger; SDG 5 Gender equality; SDG 13 Climate action; SDG 17 Partnerships for the goals",
+      "rule": "One SDG per Impact Area scored 1 or 2, and SDG 17 always for tricot and maniva work",
+      "evidence": "Impact Areas above; trials run with farmers, national partners and CGIAR"
+    },
+    {
+      "group": "Innovation",
+      "field": "Innovation readiness level of the entries under evaluation",
+      "given": "",
+      "suggested": "8 Uncontrolled testing",
+      "rule": "Entries tested by farmers on their own farms, under their own management. 9 needs evidence of validated impact, such as a release and its use",
+      "evidence": "51 entries in 25 farmer-managed trials"
+    },
+    {
+      "group": "Innovation",
+      "field": "Innovation use",
+      "given": "",
+      "suggested": "",
+      "rule": "Set by the programme, for example a release or seed multiplication that used the trial evidence",
+      "evidence": ""
+    },
+    {
+      "group": "Policy",
+      "field": "Policy change",
+      "given": "",
+      "suggested": "",
+      "rule": "Set by the programme",
+      "evidence": ""
+    },
+    {
+      "group": "Capacity sharing for development",
+      "field": "Short-term trainees, women",
+      "given": "",
+      "suggested": "",
+      "rule": "Recorded by the programme. Trial participants are not trainees",
+      "evidence": ""
+    },
+    {
+      "group": "Capacity sharing for development",
+      "field": "Short-term trainees, men",
+      "given": "",
+      "suggested": "",
+      "rule": "Recorded by the programme. Trial participants are not trainees",
+      "evidence": ""
+    },
+    {
+      "group": "Capacity sharing for development",
+      "field": "Long-term trainees, women",
+      "given": "",
+      "suggested": "",
+      "rule": "Recorded by the programme. Trial participants are not trainees",
+      "evidence": ""
+    },
+    {
+      "group": "Capacity sharing for development",
+      "field": "Long-term trainees, men",
+      "given": "",
+      "suggested": "",
+      "rule": "Recorded by the programme. Trial participants are not trainees",
+      "evidence": ""
+    },
+    {
+      "group": "Capacity sharing for development",
+      "field": "Students supervised for a degree",
+      "given": "",
+      "suggested": "",
+      "rule": "Recorded by the programme. Trial participants are not trainees",
+      "evidence": ""
+    },
+    {
+      "group": "Budget",
+      "field": "Approved budget, previous year",
+      "given": "",
+      "suggested": "",
+      "rule": "Set by the programme",
+      "evidence": ""
+    },
+    {
+      "group": "Budget",
+      "field": "Approved budget, reporting year",
+      "given": "",
+      "suggested": "",
+      "rule": "Set by the programme",
+      "evidence": ""
+    },
+    {
+      "group": "Outcomes",
+      "field": "End-of-project outcomes and their status",
+      "given": "",
+      "suggested": "",
+      "rule": "Set by the programme, status on track, delayed or off track",
+      "evidence": ""
+    },
+    {
+      "group": "Linkages",
+      "field": "CGIAR programmes and accelerators",
+      "given": "",
+      "suggested": "",
+      "rule": "Named by the programme",
+      "evidence": ""
+    }
+  ],
+  "prms_candidates": [
+    {
+      "type": "Knowledge product",
+      "title": "Open trial data of the PABRA bean tricot trials in Tanzania, 2021 to 2024",
+      "description": "25 tricot trials with 2866 registered participants, published under CC0 1.0 in tricot-data",
+      "evidence": "datasets.csv of tricot-data, programme Pan-Africa Bean Research Alliance (PABRA)",
+      "countries": "Tanzania",
+      "doi": "https://doi.org/10.5281/zenodo.17112491",
+      "readiness_level": "",
+      "impact_areas": ""
+    }
+  ],
+  "figures": [
+    {
+      "file": "figures/fig01-map.png",
+      "data": "figure-data/fig01-map.csv"
+    },
+    {
+      "file": "figures/fig02-participants.png",
+      "data": "figure-data/fig02-participants.csv"
+    },
+    {
+      "file": "figures/fig03-entries.png",
+      "data": "figure-data/fig03-entries.csv"
+    },
+    {
+      "file": "figures/fig04-year-results.png",
+      "data": "figure-data/fig04-year-results.csv"
+    },
+    {
+      "file": "figures/fig05-vs-local.png",
+      "data": "figure-data/fig05-vs-local.csv"
+    },
+    {
+      "file": "figures/fig06-entry-record.png",
+      "data": "figure-data/fig06-entry-record.csv"
+    }
+  ]
+}

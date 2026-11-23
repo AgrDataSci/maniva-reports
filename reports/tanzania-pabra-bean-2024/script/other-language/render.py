@@ -10,6 +10,7 @@ Needs the Python packages markdown and pyyaml, and Google Chrome or Chromium.
 """
 import csv
 import html
+import json
 import os
 import re
 import shutil
@@ -33,6 +34,37 @@ parts = re.split(r'(?m)^(?=## )', text)
 parts = [p for p in parts if not (p.startswith('## ') and p.splitlines()[0][3:].strip() in exclude)]
 text = ''.join(p for p in parts if not p.startswith('# '))  # the title comes from report.yml
 
+# 1b. tables inserted from result files, so no number is typed by hand ---------
+# <!-- insert: output/tables/<file>.csv --> becomes a markdown table. The reporting fields get
+# their own layout, with the value the programme gave beside the one maniva suggests.
+def md_cell(v):
+    if v is None or (isinstance(v, float) and v != v) or str(v).strip() in ('', 'nan', 'None'):
+        return ''
+    v = str(v)
+    return v[:-2] if v.endswith('.0') and v[:-2].isdigit() else v.replace('|', '/')
+
+
+def insert_table(m):
+    path = os.path.join(report, m.group(1))
+    rows = list(csv.DictReader(open(path, encoding='utf-8')))
+    if os.path.basename(path) == 'reporting-fields.csv':
+        out = ['| Field | Given by the programme | Suggested by maniva | Basis of the suggestion |', '|---|---|---|---|']
+        group = None
+        for r in rows:
+            if r['group'] != group:
+                group = r['group']; out.append(f'| **{group}** | | | |')
+            sug = md_cell(r['suggested'])
+            if r['group'] == 'Impact Areas' and sug:
+                sug = {'0': '0, not targeted', '1': '1, significant', '2': '2, principal'}.get(sug, sug)
+            basis = md_cell(r['rule']) + ('. ' + md_cell(r['evidence']) if md_cell(r['evidence']) else '')
+            out.append(f'| {r["field"]} | {md_cell(r["given"]) or "Empty"} | {sug or "None"} | {basis} |')
+        return '\n'.join(out)
+    cols = list(rows[0].keys())
+    return '\n'.join(['| ' + ' | '.join(cols) + ' |', '|' + '---|' * len(cols)] +
+                     ['| ' + ' | '.join(md_cell(r[c]) for c in cols) + ' |' for r in rows])
+
+text = re.sub(r'<!-- insert: ([^ ]+) -->', insert_table, text)
+
 # 2. markdown to HTML ---------------------------------------------------------
 body = markdown.markdown(text, extensions=['tables'])
 
@@ -40,11 +72,23 @@ body = markdown.markdown(text, extensions=['tables'])
 widths = cfg.get('figure_widths') or {}
 
 
+def figure_data(src):
+    """The numbers a figure draws, from output/figure-data/, or None."""
+    f = os.path.join(report, 'output', 'figure-data', os.path.basename(src).replace('.png', '.csv'))
+    return (os.path.relpath(f, report), list(csv.reader(open(f, encoding='utf-8')))) if os.path.exists(f) else (None, None)
+
+
 def figure(m):
     alt, src, num, cap = m.group(1), m.group(2), m.group(3), m.group(4)
     w = widths.get(os.path.basename(src), 100)
+    path, rows = figure_data(src)
+    hidden = ''
+    if rows:
+        # the table is in the text layer of the PDF, for reporting tools and screen readers, and not shown
+        hidden = (f'<div class="machine-data" data-figure="{esc(num)}" data-source="{esc(path)}"><p>Data of {esc(num)}, {esc(path)}</p><table>' +
+                  ''.join('<tr>' + ''.join(f'<td>{esc(c)}</td>' for c in r) + '</tr>' for r in rows) + '</table></div>')
     return (f'<figure><img src="{src}" alt="{alt}" style="width:{w}%">'
-            f'<figcaption><span class="fignum">{num}</span> {cap}</figcaption></figure>')
+            f'<figcaption><span class="fignum">{num}</span> {cap}</figcaption>{hidden}</figure>')
 
 body = re.sub(r'<p><img alt="([^"]*)" src="([^"]*)" ?/?></p>\s*<p><em>(Figure \d+)\. (.*?)</em></p>', figure, body, flags=re.S)
 
@@ -96,14 +140,26 @@ if st:
     inner = re.sub(r'(</h3>\s*)<p>', r'\1<p class="standfirst">', inner, count=1)
     hm = re.search(r'^(.*?<p class="standfirst">.*?</p>)(.*)$', inner, flags=re.S)
     sc = cfg.get('story') or {}
+    rf_path = os.path.join(report, 'output', 'tables', 'reporting-fields.csv')
+    rf = list(csv.DictReader(open(rf_path, encoding='utf-8'))) if os.path.exists(rf_path) else []
+    sug_ia = [r['field'] for r in rf if r['group'] == 'Impact Areas' and r['suggested'] == '1']
+    sug_sdg = next((r['suggested'] for r in rf if r['group'] == 'SDGs'), '')
+    sug_rl = next((r['suggested'] for r in rf if r['field'].startswith('Innovation readiness')), '')
 
-    def item(title, v):
+    def item(title, v, suggestion=None):
         v = [v] if isinstance(v, str) else (v or [])
         v = [x for x in v if x]
-        val = ' &middot; '.join(esc(x) for x in v) if v else '<span class="empty">To be set by the programme</span>'
+        if v:
+            val = ' &middot; '.join(esc(x) for x in v)
+        elif suggestion:
+            val = '<span class="empty">Suggested by maniva, to confirm</span><br>' + esc(suggestion)
+        else:
+            val = '<span class="empty">Empty, to be set by the programme</span>'
         return f'<div><h4>{title}</h4>{val}</div>'
     panel = ('<aside class="panel">' + item('Primary Impact Area', sc.get('primary_impact_area')) +
-             item('Other Impact Areas', sc.get('other_impact_areas')) + item('Geographic scope', sc.get('geographic_scope')) +
+             item('Other Impact Areas', sc.get('other_impact_areas'), ', '.join(sug_ia) + ' (significant)' if sug_ia else None) +
+             item('SDGs', sc.get('sdgs'), sug_sdg) + item('Innovation readiness', sc.get('readiness_level'), sug_rl) +
+             item('Geographic scope', sc.get('geographic_scope')) +
              item('Contributing programmes and funders', sc.get('contributing')) + item('Contributing centres', sc.get('centres')) +
              item('Contributing partners', sc.get('partners')) + '</aside>')
     if hm:
@@ -147,6 +203,7 @@ else:
 
 # 9. colophon and contents, annual type only -----------------------------------
 front = ''
+shared = yaml.safe_load(open(os.path.join(root, 'template', 'colophon.yml'), encoding='utf-8'))
 if annual:
     co = cfg.get('colophon') or {}
     fund_path = os.path.join(report, 'output', 'tables', 'funders.csv')
@@ -162,7 +219,9 @@ if annual:
 <h4>Disclaimers</h4>
 <p>This report presents evidence from the trial data it names. Views and interpretations are those of the authors and do not necessarily represent those of their institutions or funders.</p>
 <p>Boundaries on the maps are indicative and do not imply any opinion on the legal status of any country, territory or area, or on the delimitation of its frontiers.</p>
-<h4>Use of artificial intelligence</h4><p>{esc(co.get("ai_statement", ""))}</p>
+<h4>Use of artificial intelligence</h4><p>{esc(shared["generated_by"])} {esc(shared["reviewed"] if cfg.get("approved") else shared["not_reviewed"])} {esc(co.get("ai_statement") or "")}</p>
+<p><strong>Cite maniva as</strong> {esc(shared["maniva_citation"])}</p>
+<h4>Machine-readable content</h4><p>{esc(shared["machine_readable"])}</p>
 <div class="ack"><h4>Acknowledgements</h4><p>We thank the farmers who tested the varieties on their own farms and shared their assessments.
 The trials were funded by {fund_txt}.</p></div></section>'''
     items = ''.join(f'<li><span class="lab">{esc(l) if l else ""}</span><span class="nm">{nm}</span></li>' for l, nm in heads)
@@ -192,6 +251,34 @@ out_pdf = os.path.join(report, 'output', (cfg.get('output_name') or os.path.base
 os.makedirs(os.path.dirname(out_pdf), exist_ok=True)
 subprocess.run([chrome, '--headless=new', '--no-sandbox', '--disable-gpu', '--no-pdf-header-footer',
                 f'--print-to-pdf={out_pdf}', 'file://' + out_html], check=True, capture_output=True, timeout=300)
+
+# 11b. machine-readable summary and attachments -------------------------------
+# output/report-data.json holds the reporting fields, the PRMS candidates and an index of the figure
+# data. It and every aggregated result table are attached to the PDF, so a reporting tool can read
+# them without parsing the layout. No participant-level table is attached.
+def read_csv(p):
+    return list(csv.DictReader(open(p, encoding='utf-8'))) if os.path.exists(p) else []
+
+tab = os.path.join(report, 'output', 'tables'); figd = os.path.join(report, 'output', 'figure-data')
+summary = dict(
+    schema='maniva-reports/report-data/0.1', title=cfg['title'], subtitle=cfg.get('subtitle'), type=cfg.get('type', 'technical'),
+    reporting_year=cfg.get('reporting_year'), period=cfg.get('period_label'), corporate_author=cfg.get('corporate_author'),
+    authors=cfg.get('authors') or [], institutions=cfg.get('institutions') or [], status=cfg.get('status'),
+    licence=(cfg.get('colophon') or {}).get('licence', 'CC BY 4.0'), handle=(cfg.get('colophon') or {}).get('handle') or None,
+    data_source=cfg['data']['source'], generated_with='maniva-reports', maniva_citation=shared['maniva_citation'],
+    overview=read_csv(os.path.join(tab, 'overview.csv')), reporting_fields=read_csv(os.path.join(tab, 'reporting-fields.csv')),
+    prms_candidates=read_csv(os.path.join(tab, 'prms-results.csv')),
+    figures=[dict(file='figures/' + f.replace('.csv', '.png'), data='figure-data/' + f) for f in sorted(os.listdir(figd))] if os.path.isdir(figd) else [])
+json_path = os.path.join(report, 'output', 'report-data.json')
+json.dump(summary, open(json_path, 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+attach = [json_path] + [os.path.join(figd, f) for f in sorted(os.listdir(figd))] if os.path.isdir(figd) else [json_path]
+attach += [os.path.join(tab, f) for f in sorted(os.listdir(tab)) if f.endswith('.csv') and f != 'map-points.csv'] if os.path.isdir(tab) else []
+if shutil.which('qpdf'):
+    cmd = ['qpdf', out_pdf, '--replace-input']
+    for a in attach:
+        key = os.path.relpath(a, os.path.join(report, 'output'))
+        cmd += ['--add-attachment', a, '--key=' + key, '--filename=' + key, '--mimetype=' + ('application/json' if a.endswith('.json') else 'text/csv'), '--']
+    subprocess.run(cmd, check=True)
 print(out_pdf)
 
 # 12. Word version, for comments and edits ------------------------------------
@@ -206,9 +293,20 @@ md = re.sub(r'<!--.*?-->\n?', '', md, flags=re.S)
 def docx_image(m):
     alt, src, cap = m.group(1), m.group(2), m.group(3)
     w = (60 if src in split_figs else widths.get(os.path.basename(src), 100)) * 16.5 / 100
+    path, rows = figure_data(src)
+    if rows:
+        annex.append((cap.split('.')[0], path, rows))
     return f'![]({src}){{width={w:.1f}cm}}\n\n*{cap}*'
 
+annex = []
 md = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)\s*\n\s*\n\*(Figure \d+\..*?)\*', docx_image, md, flags=re.S)
+# the Word file carries the data behind the figures as a visible annex, one table per figure.
+# The PDF carries the same data as hidden text and as attachments.
+if annex:
+    md += PAGE + '\n# Annex. Data behind the figures\n\nThe numbers each figure draws, as published with the report in `output/figure-data/`.\n'
+    for num, path, rows in sorted(annex, key=lambda a: int(a[0].split()[1])):
+        md += f'\n## {num}\n\nFile `{path}`.\n\n| ' + ' | '.join(rows[0]) + ' |\n|' + '---|' * len(rows[0]) + '\n' + \
+              '\n'.join('| ' + ' | '.join(md_cell(c) for c in r) + ' |' for r in rows[1:]) + '\n'
 if annual:
     md = re.sub(r'(?m)^## (Section \d+: )', PAGE + r'# \1', md)
     md = re.sub(r'(?m)^## ', '# ', md)
@@ -261,7 +359,11 @@ if annual:
 
 This publication is licensed under a Creative Commons Attribution 4.0 International License ({co.get("licence", "CC BY 4.0")}). The trial data it uses are released under CC0 1.0.
 
-**Use of artificial intelligence.** {co.get("ai_statement", "")}
+**Use of artificial intelligence.** {shared["generated_by"]} {shared["reviewed"] if cfg.get("approved") else shared["not_reviewed"]} {co.get("ai_statement") or ""}
+
+**Cite maniva as** {shared["maniva_citation"]}
+
+**Machine-readable content.** {shared["machine_readable"]} In this Word file the figure data are in the annex.
 '''
 src_md = os.path.join(report, 'report-docx.md')
 # numbered sections of the annual type open a new page themselves

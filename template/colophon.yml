@@ -1,0 +1,18 @@
+# Text shared by the colophon of every report. A report can add to it with colophon in report.yml.
+# Keep the maniva citation in step with CITATION.cff of AgrDataSci/maniva.
+generated_by: >-
+  This report was generated with artificial intelligence through maniva, an open commons
+  of evidence, protocols, data and analysis for agricultural research, developed under the
+  CGIAR Digital Transformation Accelerator. An AI assistant read the published trial data,
+  ran the analysis code of the maniva analysis layer, drew the figures and drafted the text
+  from the result tables, following the maniva-reports standard. Every number comes from
+  a result table that is published with the report, and the code that produced it is open.
+reviewed: "The authors reviewed and approved the text."
+not_reviewed: "The authors have not reviewed this version yet."
+maniva_citation: >-
+  de Sousa K, Laporte M-A, Youngberg B, Cremaschi A, Chase R, van Etten J. 2026. maniva.
+  An open commons of evidence, protocols, data and analysis for agricultural research.
+  Version 1.0.0. Zenodo. https://doi.org/10.5281/zenodo.24011051
+machine_readable: >-
+  The data behind every figure are embedded in this file as text and as attached CSV
+  files, with a JSON summary of the reporting fields, so reporting tools can read them.

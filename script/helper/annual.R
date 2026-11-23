@@ -192,3 +192,70 @@ annual_prms = function(trials, ov, record, cfg) {
   out
 
 }
+
+
+#' Reporting fields of the CGIAR results framework, with suggested tags
+#'
+#' Every field is returned, empty or not, so the report shows the full set. Impact Areas,
+#' SDGs and the readiness level are suggested from the data with fixed rules
+#' (docs/annual-report-standard.md). A suggestion never sets a principal score (2). The
+#' value the programme gives under `reporting` in report.yml goes in `given`.
+annual_reporting_fields = function(trials, ov, cfg) {
+
+  rep = cfg$reporting
+  cum = stats::setNames(ov$cumulative, ov$metric)
+  p = do.call(rbind, lapply(trials, function(x) x$plot_data[, c("trait", "value_type")]))
+  ranked = unique(p$trait[p$value_type == "rank"])
+  roles = tolower(unique(unlist(lapply(trials, function(x) x$metadata$genotypes$role))))
+  known = cum["women"] + cum["men"]
+  g_share = if (known > 0) cum["women"] / known else 0
+  g_cover = if (cum["participants"] > 0) known / cum["participants"] else 0
+  climate = intersect(ranked, c("drought_tolerance", "flood_tolerance", "heat_tolerance", "maturity", "waterlogging_tolerance"))
+  market = intersect(ranked, c("marketability", "yield_rank", "grain_size", "grain_color", "taste", "cooking_time"))
+  biod = any(grepl("landrace|accession", roles))
+  given = function(x) if (is.null(x) || length(unlist(x)) == 0) NA_character_ else paste(unlist(x), collapse = "; ")
+  row = function(group, field, g, s, rule, ev) data.frame(group = group, field = field, given = given(g),
+                                                          suggested = if (is.null(s)) NA else as.character(s), rule = rule,
+                                                          evidence = if (is.null(ev)) NA else ev)
+  ia = rep$impact_areas
+  out = rbind(
+    row("Impact Areas", "Nutrition, health and food security", ia$nutrition, 1, "Variety evaluation of a food crop with farmers",
+        paste(cum["trials"], "trials")),
+    row("Impact Areas", "Poverty reduction, livelihoods and jobs", ia$poverty, as.integer(length(market) > 0),
+        "Market or yield traits ranked by farmers", if (length(market) > 0) paste(sort(market), collapse = ", ") else "none ranked"),
+    row("Impact Areas", "Gender equality, youth and social inclusion", ia$gender, as.integer(g_share >= 0.3 && g_cover >= 0.8),
+        "Gender recorded for at least 80% of participants and women at least 30% of them",
+        sprintf("gender recorded for %.0f%%, women %.0f%%", 100 * g_cover, 100 * g_share)),
+    row("Impact Areas", "Climate adaptation and mitigation", ia$climate, as.integer(length(climate) > 0),
+        "A climate-stress or earliness trait ranked by farmers", if (length(climate) > 0) paste(sort(climate), collapse = ", ") else "none ranked"),
+    row("Impact Areas", "Environmental health and biodiversity", ia$environment, as.integer(biod),
+        "Landraces or genebank accessions among the entries", paste("entry roles:", paste(sort(roles[nzchar(roles)]), collapse = ", "))))
+  sdg = c(Nutrition = "SDG 2 Zero hunger", Poverty = "SDG 1 No poverty", Gender = "SDG 5 Gender equality",
+          Climate = "SDG 13 Climate action", Environmental = "SDG 15 Life on land")
+  on = c(sdg[sub(" .*|,.*", "", out$field)[as.integer(out$suggested) > 0]], "SDG 17 Partnerships for the goals")
+  on = on[order(as.integer(sub("SDG ([0-9]+).*", "\\1", on)))]
+  cs = rep$capacity_sharing
+  bud = rep$budget
+  out = rbind(out,
+    row("SDGs", "Sustainable Development Goals", rep$sdgs, paste(on, collapse = "; "),
+        "One SDG per Impact Area scored 1 or 2, and SDG 17 always for tricot and maniva work",
+        "Impact Areas above; trials run with farmers, national partners and CGIAR"),
+    row("Innovation", "Innovation readiness level of the entries under evaluation", rep$readiness_level, "8 Uncontrolled testing",
+        "Entries tested by farmers on their own farms, under their own management. 9 needs evidence of validated impact, such as a release and its use",
+        paste(cum["entries"], "entries in", cum["trials"], "farmer-managed trials")),
+    row("Innovation", "Innovation use", rep$innovation_use, NULL, "Set by the programme, for example a release or seed multiplication that used the trial evidence", NULL),
+    row("Policy", "Policy change", rep$policy_change, NULL, "Set by the programme", NULL),
+    row("Capacity sharing for development", "Short-term trainees, women", cs$short_term_women, NULL, "Recorded by the programme. Trial participants are not trainees", NULL),
+    row("Capacity sharing for development", "Short-term trainees, men", cs$short_term_men, NULL, "Recorded by the programme. Trial participants are not trainees", NULL),
+    row("Capacity sharing for development", "Long-term trainees, women", cs$long_term_women, NULL, "Recorded by the programme. Trial participants are not trainees", NULL),
+    row("Capacity sharing for development", "Long-term trainees, men", cs$long_term_men, NULL, "Recorded by the programme. Trial participants are not trainees", NULL),
+    row("Capacity sharing for development", "Students supervised for a degree", cs$degree_students, NULL, "Recorded by the programme. Trial participants are not trainees", NULL),
+    row("Budget", "Approved budget, previous year", bud$previous_year, NULL, "Set by the programme", NULL),
+    row("Budget", "Approved budget, reporting year", bud$reporting_year, NULL, "Set by the programme", NULL),
+    row("Outcomes", "End-of-project outcomes and their status", vapply(rep$outcomes, function(o) o$name, character(1)), NULL,
+        "Set by the programme, status on track, delayed or off track", NULL),
+    row("Linkages", "CGIAR programmes and accelerators", rep$linkages, NULL, "Named by the programme", NULL))
+  rownames(out) = NULL
+  out
+
+}

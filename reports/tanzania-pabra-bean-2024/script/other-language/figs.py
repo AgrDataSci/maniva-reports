@@ -30,9 +30,16 @@ plt.rcParams.update({'font.family': 'Inter', 'font.size': 8.5, 'axes.edgecolor':
 W = 16 / 2.54  # full-width figure, 16 cm
 
 
-def save(fig, name):
+DAT = os.path.join(REPORT, 'output', 'figure-data')
+os.makedirs(DAT, exist_ok=True)
+
+
+def save(fig, name, data=None):
+    """Save a figure and, beside it, the exact numbers it draws, for readers and reporting tools."""
     fig.savefig(os.path.join(FIG, name), bbox_inches='tight', facecolor='white')
     plt.close(fig)
+    if data is not None:
+        data.to_csv(os.path.join(DAT, name.replace('.png', '.csv')), index=False, float_format='%.3f')
 
 
 def year_colours(years):
@@ -76,7 +83,10 @@ ax.set_xlim(x0, x1); ax.set_ylim(y0, y1); ax.set_aspect('equal'); ax.axis('off')
 ax.legend(title='Season start', frameon=False, loc='upper right', fontsize=7.5, title_fontsize=7.5, markerscale=1.4)
 for nm, lo, la in [('Indian Ocean', 40.6, -8.6)]:
     x, y = eqearth(lo, la); ax.text(x, y, nm, fontsize=7, color='#6b8fa3', style='italic', ha='center')
-save(fig, 'fig01-map.png')
+dist = pd.read_csv(os.path.join(TAB, 'districts.csv'))
+save(fig, 'fig01-map.png', dist[['district', 'participants', 'participants_year', 'trials', 'lon', 'lat']]
+     .rename(columns={'participants': 'participants_since_start', 'participants_year': 'participants_reporting_year',
+                      'lon': 'longitude_median', 'lat': 'latitude_median'}))
 
 # ---------------------------------------------------------------- 2. participants by year and gender
 by = pd.read_csv(os.path.join(TAB, 'by-year.csv'))
@@ -98,7 +108,7 @@ ax.legend(frameon=False, ncol=3, loc='lower right', bbox_to_anchor=(1, 1.0), fon
 ax.grid(axis='x', color='#eeeeee', lw=0.6); ax.set_axisbelow(True)
 for t in ax.get_yticklabels():
     if t.get_text() == str(YEAR): t.set_fontweight('bold')
-save(fig, 'fig02-participants.png')
+save(fig, 'fig02-participants.png', by[['year', 'women', 'men', 'not_stated', 'participants']])
 
 # ---------------------------------------------------------------- 3. entries by year, new and repeated
 fig, ax = plt.subplots(figsize=(W * 0.62, W * 0.3))
@@ -110,7 +120,7 @@ for i, (r, n) in enumerate(zip(rep, by.entries)):
 ax.set_ylabel('Entries tested'); ax.set_ylim(0, by.entries.max() * 1.2)
 ax.legend(frameon=False, fontsize=7, loc='upper left')
 ax.grid(axis='y', color='#eeeeee', lw=0.6); ax.set_axisbelow(True)
-save(fig, 'fig03-entries.png')
+save(fig, 'fig03-entries.png', by.assign(tested_before=by.entries - by.new_entries)[['year', 'entries', 'new_entries', 'tested_before']])
 
 # ---------------------------------------------------------------- 4. log-worth, trials of the reporting year
 PL = pd.read_csv(os.path.join(TAB, 'pl-estimates.csv'))
@@ -133,7 +143,8 @@ for ax, code in zip(np.atleast_1d(axes), codes):
     ax.tick_params(axis='x', labelsize=7)
 fig.supxlabel('Log-worth with 95% interval', fontsize=7.8)
 fig.tight_layout(w_pad=0.6)
-save(fig, 'fig04-year-results.png')
+save(fig, 'fig04-year-results.png', cur.assign(lower=cur.logworth - 1.96 * cur.se, upper=cur.logworth + 1.96 * cur.se)
+     [['code', 'trait', 'moment', 'genotype', 'logworth', 'se', 'lower', 'upper', 'n_tested', 'n_rankings', 'p_value']])
 
 # ---------------------------------------------------------------- 5. better than the local variety, by year
 vl = pd.read_csv(os.path.join(TAB, 'vs-local-year.csv'))
@@ -149,7 +160,7 @@ for i, r in vl.iterrows():
 ax.axhline(50, color='#888', lw=0.6, ls='--')
 ax.set_ylim(0, 100); ax.set_ylabel('Plots rated better than\nthe local variety (%)')
 ax.grid(axis='y', color='#eeeeee', lw=0.6); ax.set_axisbelow(True)
-save(fig, 'fig05-vs-local.png')
+save(fig, 'fig05-vs-local.png', vl[['year', 'trials', 'farms', 'plots', 'better', 'share', 'lower', 'upper']])
 
 # ---------------------------------------------------------------- 6. record of entries ranked in three or more trials
 R = pd.read_csv(os.path.join(TAB, 'entries-record.csv'))
@@ -161,5 +172,5 @@ for i, (_, r) in enumerate(R.iterrows()):
 ax.set_xlim(0, 60); ax.set_xlabel('Trials where the entry ranked in the top three for overall preference (%)')
 ax.tick_params(axis='y', labelsize=7)
 ax.grid(axis='x', color='#eeeeee', lw=0.6); ax.set_axisbelow(True)
-save(fig, 'fig06-entry-record.png')
+save(fig, 'fig06-entry-record.png', R[['genotype', 'trials_ranked', 'top3', 'share_top3', 'median_rank', 'years_tested']].iloc[::-1])
 print('figures written to', FIG)

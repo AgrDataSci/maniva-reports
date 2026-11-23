@@ -107,14 +107,16 @@ No entry stood out across seasons. Of the 16 entries ranked for overall preferen
 
 *Figure 5. Entries ranked for overall preference in three or more trials, by the share of those trials in which farmers placed them in the top three. Labels give the count. One Plackett-Luce model per trial with at least 15 rankings.*
 
-**Candidate results for PRMS.** The data support one knowledge product now. No entry meets the threshold this report uses for an innovation-development candidate, a top-three place in at least half of three or more trials. The PRMS focal point reviews this list before submission, and sets the type, readiness level and Impact Areas.
+**Candidate results for PRMS.** The data support one knowledge product now. No entry meets the threshold this report uses for an innovation-development candidate, a top-three place in at least half of three or more trials. The PRMS focal point reviews this list before submission.
 
 | PRMS type | Result | Evidence |
 |---|---|---|
 | Knowledge product | Open trial data of the PABRA bean tricot trials in Tanzania, 2021 to 2024 | 25 trials, 2,866 participants, CC0 1.0, https://doi.org/10.5281/zenodo.17112491 |
 | Knowledge product | This annual report, once on CGSpace | Handle to be issued |
 
-Impact Area tags, contributions to the Sustainable Development Goals, innovation readiness levels and the number of people trained are not shown, because the programme has not given them. Farmers who ranked varieties are participants and are not counted as people trained.
+**Reporting fields and suggested tags.** The table holds every field of the CGIAR results framework, filled or empty. maniva suggests the Impact Areas, SDGs and readiness level from the data with fixed rules, and the programme confirms or changes them. It suggests four Impact Areas as significant, five SDGs including SDG 17, and readiness level 8, uncontrolled testing, for the entries under evaluation. A principal score is left to the programme. Farmers who ranked varieties are participants and are not counted as people trained.
+
+<!-- insert: output/tables/reporting-fields.csv -->
 
 ## Section 5: Partnerships
 
@@ -175,7 +177,7 @@ The comparison is with each farmer's own variety, so the entries changed between
 - The comparison with the local variety pools different entries, districts and local varieties across years. It shows a trend in what farmers saw, not the effect of one variety.
 - Yield was recorded in part of the trials, with units flagged as unclear for some sites. It is not used here.
 - Entries are counted by the name recorded in the data. Some names may refer to the same line, which the programme should confirm.
-- The programme has not given its outcomes, Impact Areas, SDG tags, readiness levels, budget or training records, so those parts are empty.
+- The programme has not given its outcomes, budget or training records, so those fields are empty. The Impact Areas, SDGs and readiness level are suggestions from fixed rules and wait for the programme to confirm them.
 - This is a test draft computed in Python where R was not available. It is not reviewed by the authors.
 
 ## Data availability
