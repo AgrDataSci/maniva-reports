@@ -7,7 +7,7 @@ description: Use whenever a user asks for a report from on-farm trial data, such
 
 A report standard, a page layout and an R workflow that turn trial data in the [maniva](https://github.com/AgrDataSci/maniva) commons into a technical report people want to read. One trial file, or a set of them, goes in. A PDF and a Word file with a cover, key findings, variety rankings, figures and a data statement comes out.
 
-The methods come from [tricot-analysis-workflows](https://github.com/AgrDataSci/tricot-analysis-workflows). The data format comes from [tricot-data](https://github.com/AgrDataSci/tricot-data). This skill adds how to tell the story and how to lay it out. It does not define methods of its own.
+The [maniva router](https://raw.githubusercontent.com/AgrDataSci/maniva/main/SKILL.md) sends every request for a report here, whatever the report is called. The methods come from [tricot-analysis-workflows](https://github.com/AgrDataSci/tricot-analysis-workflows). The data format comes from [tricot-data](https://github.com/AgrDataSci/tricot-data). This skill adds how to tell the story and how to lay it out. It does not define methods of its own.
 
 ## Names
 
