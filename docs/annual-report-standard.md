@@ -54,3 +54,4 @@ Run the checklist of `docs/report-standard.md`, and also these.
 3. No status, Impact Area, SDG, readiness level, budget or trainee count appears unless the authors gave it.
 4. The colophon states that the report was drafted with an AI assistant, which steps it did, and that the authors reviewed it.
 5. The suggested citation names the corporate author and leaves the handle empty until CGSpace issues one.
+6. The PDF and the Word file were both rendered and opened. The Word file holds every table and figure of the PDF.

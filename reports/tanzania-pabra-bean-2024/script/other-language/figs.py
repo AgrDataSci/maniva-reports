@@ -1,7 +1,7 @@
 """Figures for the annual report of the PABRA bean tricot trials in Tanzania.
 
 Python draft mirroring script/02-figures.R, run where R was not available. Reads only the
-aggregated tables in output/tables/. Colours from the theme (YlGnBu, RdBu, Set1).
+aggregated tables in output/tables/. Colours from the theme, taken from the CGIAR reports the team supplied.
 Country outlines from datasets/geo-countries (Natural Earth, public domain), indicative only.
 
 Usage, from the repository root
@@ -23,7 +23,6 @@ YEAR = int(cfg['reporting_year'])
 TAB = os.path.join(REPORT, 'output', 'tables')
 FIG = os.path.join(REPORT, 'output', 'figures')
 os.makedirs(FIG, exist_ok=True)
-YLGNBU = ['#c7e9b4', '#7fcdbb', '#41b6c4', '#1d91c0', '#225ea8', '#253494']
 
 plt.rcParams.update({'font.family': 'Inter', 'font.size': 8.5, 'axes.edgecolor': '#9a9a9a', 'axes.linewidth': 0.6,
                      'axes.labelcolor': '#4a4a4a', 'xtick.color': '#4a4a4a', 'ytick.color': '#4a4a4a',
@@ -37,12 +36,8 @@ def save(fig, name):
 
 
 def year_colours(years):
-    """Reporting year in the dark end of YlGnBu, earlier years lighter."""
-    earlier = [y for y in years if y != YEAR]
-    steps = YLGNBU[:len(earlier)] if len(earlier) <= 4 else YLGNBU
-    out = {y: steps[i] for i, y in enumerate(earlier)}
-    out[YEAR] = CH['single']
-    return out
+    """Reporting year in the primary green, earlier years in mint, as year against cumulative."""
+    return {y: (CH['single'] if y == YEAR else CH['single_light']) for y in years}
 
 
 # ---------------------------------------------------------------- 1. map, Equal Earth
@@ -68,7 +63,7 @@ for f in gj['features']:
         if ring[:, 0].max() < bbox[0] - 8 or ring[:, 0].min() > bbox[1] + 8 or ring[:, 1].max() < bbox[2] - 8 or ring[:, 1].min() > bbox[3] + 8:
             continue
         x, y = eqearth(ring[:, 0], ring[:, 1])
-        ax.add_patch(Polygon(np.c_[x, y], closed=True, fc=theme['colours']['tint'] if focus else '#e4e4e4',
+        ax.add_patch(Polygon(np.c_[x, y], closed=True, fc=CH['map_focus'] if focus else CH['map_fill'],
                              ec=CH['map_line'], lw=0.5 if focus else 0.35, zorder=1))
 cols = year_colours(sorted(pts.year.unique()))
 for y_ in sorted(pts.year.unique()):
@@ -88,12 +83,13 @@ by = pd.read_csv(os.path.join(TAB, 'by-year.csv'))
 fig, ax = plt.subplots(figsize=(W, W * 0.33))
 ys = by.year.astype(str)[::-1]
 left = np.zeros(len(by))
-for col, lab, c in [('women', 'Women', CH['positive']), ('men', 'Men', CH['negative']), ('not_stated', 'Not stated', '#bdbdbd')]:
+for col, lab, c in [('women', 'Women', CH['positive']), ('men', 'Men', CH['negative']), ('not_stated', 'Not stated', CH['missing'])]:
     v = by[col].values[::-1]
     ax.barh(ys, v, left=left, color=c, height=0.62, label=lab)
     for i, (l, w) in enumerate(zip(left, v)):
         if w >= 60:
-            ax.text(l + w / 2, i, f'{w:,}', ha='center', va='center', fontsize=7.5, color='white')
+            ax.text(l + w / 2, i, f'{w:,}', ha='center', va='center', fontsize=7.5,
+                    color='white' if c == CH['positive'] else theme['colours']['ink'])
     left += v
 for i, tot in enumerate(left):
     ax.text(tot + 12, i, f'{int(tot):,}', va='center', fontsize=7.5, color='#333')
@@ -149,7 +145,7 @@ ax.errorbar(range(len(vl)), vl.share * 100, yerr=[(vl.share - vl.lower) * 100, (
             fmt='none', ecolor='#333', elinewidth=0.8, capsize=2.5)
 for i, r in vl.iterrows():
     ax.text(i, r.upper * 100 + 2.5, f'{r.share * 100:.0f}%', ha='center', fontsize=7.8, fontweight='bold')
-    ax.text(i, 4, f'{int(r.plots):,} plots', ha='center', fontsize=6.6, color='white' if r.year == YEAR else '#333')
+    ax.text(i, 4, f'{int(r.plots):,} plots', ha='center', fontsize=6.6, color='white' if r.year == YEAR else theme['colours']['ink'])
 ax.axhline(50, color='#888', lw=0.6, ls='--')
 ax.set_ylim(0, 100); ax.set_ylabel('Plots rated better than\nthe local variety (%)')
 ax.grid(axis='y', color='#eeeeee', lw=0.6); ax.set_axisbelow(True)

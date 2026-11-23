@@ -21,6 +21,7 @@ What did the PABRA bean programme test with farmers in Tanzania in 2024, how doe
 | `report.yml` | Type, title, cover, colophon, trials, analysis settings and layout |
 | `content/report.md` | The text, in the seven sections of the CGIAR annual technical report plus limitations, data and references |
 | `output/tanzania-pabra-bean-annual-report-2024.pdf` | The rendered report |
+| `output/tanzania-pabra-bean-annual-report-2024.docx` | The same report in Word, for comments and edits |
 | `output/figures/` | Six figures |
 | `output/tables/` | Aggregated result tables, with no participant-level rows |
 | `script/other-language/` | The Python code that produced the outputs |

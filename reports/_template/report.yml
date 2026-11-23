@@ -15,7 +15,7 @@ authors: []
 institutions: []
 
 theme: cgiar
-logos: []        # paths to logo files supplied by the authors, relative to this folder
+logos: []        # for example ../../logos/cgiar.svg, see logos/README.md, or files the authors supply
 boundaries: null # path to an official boundary file for the map, when one is required
 
 # Three to five headline numbers for the cover, from output/overview.csv.

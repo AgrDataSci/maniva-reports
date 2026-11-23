@@ -5,7 +5,7 @@ description: Use whenever a user asks for a report from on-farm trial data, such
 
 # maniva-reports
 
-A report standard, a page layout and an R workflow that turn trial data in the [maniva](https://github.com/AgrDataSci/maniva) commons into a technical report people want to read. One trial file, or a set of them, goes in. A PDF with a cover, key findings, variety rankings, figures and a data statement comes out.
+A report standard, a page layout and an R workflow that turn trial data in the [maniva](https://github.com/AgrDataSci/maniva) commons into a technical report people want to read. One trial file, or a set of them, goes in. A PDF and a Word file with a cover, key findings, variety rankings, figures and a data statement comes out.
 
 The methods come from [tricot-analysis-workflows](https://github.com/AgrDataSci/tricot-analysis-workflows). The data format comes from [tricot-data](https://github.com/AgrDataSci/tricot-data). This skill adds how to tell the story and how to lay it out. It does not define methods of its own.
 
@@ -34,9 +34,9 @@ Once per conversation, before the first report, read the files you need from `ht
 3. **Read the decision records** in tricot-analysis-workflows that the report standard names for each section, before any analysis.
 4. **Run the analysis in R.** `Rscript script/01-analysis.R reports/<folder>` writes the result tables to `output/`, and `script/02-figures.R` draws the figures. If you cannot run R, follow "Deliver a reproducible project", step 6, in the tricot-analysis-workflows skill. Run the analysis in a language you can execute, keep that code in `script/other-language/` of the report folder, mark the report as draft, and never approximate a method with no faithful equivalent.
 5. **Write `content/report.md`** from the result tables, section by section, following the report standard. Every number in the text comes from a file in `output/`. Write for the reader named in step 1.
-6. **Render.** `Rscript script/03-render.R reports/<folder>` builds the HTML and the PDF with the theme named in `report.yml`.
+6. **Render.** `Rscript script/03-render.R reports/<folder>` builds the PDF and the Word file with the theme named in `report.yml`. The PDF shows the layout, and the Word file is for comments and edits.
 7. **Check before delivery.** Run the checklist at the end of the report standard, and look at every page of the PDF.
-8. **Deliver** the PDF and the report folder. Say what was computed, with what, and what the authors still need to confirm.
+8. **Deliver** the PDF, the Word file and the report folder. When the authors send back edits in Word, carry them into `content/report.md` and render again. Say what was computed, with what, and what the authors still need to confirm.
 
 ## Boundaries
 
@@ -46,7 +46,7 @@ Once per conversation, before the first report, read the files you need from `ht
 - The data are read-only. When you find an error in a trial file, help the user report it to the data managers through an issue in tricot-data, and say how you handled it in the report.
 - Data that are not public yet stay private. Do not push a report on unpublished trials to a public repository, and do not copy participant-level data into the report folder.
 - Check the input for personal data such as names, phone numbers or exact GPS points before you write or map anything.
-- Logos and brand colours belong to their organisations. Use a logo only when the user supplies the file and has the right to use it.
+- Logos and brand colours belong to their organisations. Use the logos in `logos/`, or a file the user supplies, and only for organisations that took part in the work.
 - Draw every map in the Equal Earth projection (EPSG:8857). Keep coordinates in WGS84 for calculations and project only to draw. Check national boundaries against the official source of the country before a report is published there.
 - R is the language of the suite. Use `=` for assignment.
 - An outcome status, Impact Area, SDG contribution, innovation readiness level, budget and trainee count belong to the programme. Print them only when the authors give them in `report.yml`. Trial participants are not people trained.

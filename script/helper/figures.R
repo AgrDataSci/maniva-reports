@@ -196,14 +196,12 @@ figure_reasons = function(rt, theme) {
 # ---------------------------------------------------------------- annual report
 # Status: reviewed-not-executed (written 2026-11-23). Mirrors
 #   reports/tanzania-pabra-bean-2024/script/other-language/figs.py.
-# The reporting year takes the dark end of YlGnBu and earlier years lighter steps.
+# The reporting year takes the primary green of the theme and earlier years its mint,
+# as year against cumulative.
 
 year_colours = function(years, reporting_year, theme) {
 
-  steps = c("#C7E9B4", "#7FCDBB", "#41B6C4", "#1D91C0")
-  earlier = sort(setdiff(years, reporting_year))
-  cols = stats::setNames(rep_len(steps, length(earlier)), earlier)
-  c(cols, stats::setNames(theme$charts$single, reporting_year))
+  stats::setNames(ifelse(years == reporting_year, theme$charts$single, theme$charts$single_light), years)
 
 }
 
@@ -222,7 +220,7 @@ figure_participants_year = function(by, cfg, theme) {
     ggplot2::geom_text(data = tot, ggplot2::aes(n, year, label = format(n, big.mark = ",")), inherit.aes = FALSE,
                        hjust = -0.15, size = 2.6) +
     ggplot2::scale_fill_manual(values = c("Women" = theme$charts$positive, "Men" = theme$charts$negative,
-                                          "Not stated" = "#BDBDBD"), breaks = c("Women", "Men", "Not stated"), name = NULL) +
+                                          "Not stated" = theme$charts$missing), breaks = c("Women", "Men", "Not stated"), name = NULL) +
     ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.1))) +
     ggplot2::labs(x = "Participants registered", y = NULL) +
     theme_report()

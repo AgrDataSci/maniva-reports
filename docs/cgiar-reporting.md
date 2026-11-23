@@ -49,6 +49,10 @@ The 2025 Portfolio Narrative synthesises results across the portfolio. Four disp
 
 Event material of Bioversity International, CIAT and their partners, such as the name tags of the 2026 Opportunity Crops India workshop of the Power of Diversity Funding Facility, uses a dark green band with partner logos at top right, a two-tone title (dark green over a lighter green), a black-and-white photograph that leaves colour to the text, and the date and place set in bold below. maniva-reports plans this as the cover of a report produced for a workshop or event (`cover_style: event`, not built yet).
 
+## Colours
+
+The `cgiar` theme takes every colour from these reports. The Portfolio Narrative gives the deep green cover band (`#02211A`), the main green (`#065F4A`), the dark green of bars (`#033529`), the mint of its title and maps (`#17F1BD`, `#A9FAE7`, `#67C4AA`) and its greys. The RTB report gives the yellow (`#FCC72E`) and its pale tint (`#FEF1CB`), the status colours (on track `#88C445`, delayed `#F1D71B`, off track `#EA4636`), and the muted categorical palette of its charts, which holds for colour-blind readers.
+
 ## Layout features to keep
 
 - A4 portrait, wide outer margins, two columns of text on narrative pages and one column on figure pages.
@@ -62,7 +66,7 @@ Event material of Bioversity International, CIAT and their partners, such as the
 
 ## What maniva-reports does not do
 
-- It does not claim CGIAR branding. The `cgiar` theme is a set of colours the team chose. The CGIAR wordmark, centre logos and programme logos appear only when the authors supply the files and have the right to use them.
+- It does not claim CGIAR branding. The `cgiar` theme takes its colours from the two CGIAR reports above, read from their vector fills, and it remains the team's choice. The CGIAR and centre logos in `logos/` were cut from the same reports and appear only on reports by programmes that use them.
 - It does not assign Impact Areas, SDG contributions, innovation readiness levels, outcome status or work package ratings. These are judgements the programme makes and signs. The report holds empty fields for them in `report.yml`, prints them when filled, and leaves the section out when empty.
 - It does not count farmers who ranked varieties as people trained. Participation in a trial is not capacity sharing in the PRMS sense unless the programme ran a training and recorded it. The report counts participants and leaves the trainee count to the authors.
 - It does not submit results to PRMS. It writes `output/prms-results.csv`, a list of candidate results with their evidence, for the programme's PRMS focal point to review.

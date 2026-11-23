@@ -21,7 +21,9 @@ institutions:
   - Bioversity International
 
 theme: cgiar
-logos: []        # paths to logo files supplied by the authors, relative to this folder
+logos:           # from logos/ of this repository, relative to this folder
+  - ../../logos/cgiar.svg
+  - ../../logos/alliance-bioversity-ciat.svg
 cover_photo: null
 boundaries: null
 

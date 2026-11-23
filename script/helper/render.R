@@ -143,13 +143,13 @@ render_report = function(report) {
                     "</div><div class=\"tiles\">", tiles_of(cfg$highlights[per == "year"]), "</div></div>",
                     "<div class=\"tilegroup cumulative\"><div class=\"gl\">Since the start, ", esc(as.character(cfg$period_label)),
                     "</div><div class=\"tiles\">", tiles_of(cfg$highlights[per == "cumulative"]), "</div></div></div>")
-    band = if (!is.null(cfg$cover_photo)) paste0("<img src=\"", esc(cfg$cover_photo$file), "\" alt=\"\"><div class=\"credit\">", esc(cfg$cover_photo$credit), "</div>")
-           else "<div class=\"rings\"></div><div class=\"rings2\"></div>"
-    cover = paste0("<section class=\"cover annual\"><div class=\"band\">", band, "<div class=\"label\">", esc(cfg$corporate_author), "</div></div>",
-                   "<div class=\"titleblock\"><div class=\"programme\">", esc(cfg$programme_label), "</div><h1>", esc(cfg$title), "</h1>",
-                   "<div class=\"sub\">", esc(cfg$subtitle), "</div><div class=\"kicker\">", esc(kicker), "</div></div>",
+    pic = if (!is.null(cfg$cover_photo)) paste0("<img src=\"", esc(cfg$cover_photo$file), "\" alt=\"\"><div class=\"credit\">", esc(cfg$cover_photo$credit), "</div>")
+          else "<div class=\"rings\"></div><div class=\"rings2\"></div>"
+    cover = paste0("<section class=\"cover annual\"><div class=\"logobar\">", logos, "</div>",
+                   "<div class=\"band\"><div class=\"programme\">", esc(cfg$programme_label), "</div><div class=\"kicker\">", esc(kicker), "</div>",
+                   "<h1>", esc(cfg$title), "</h1><div class=\"sub\">", esc(cfg$subtitle), "</div></div>",
+                   "<div class=\"photo\">", pic, "</div>",
                    "<div class=\"bottom\">", groups, "<div class=\"inst\">", inst, "</div>",
-                   if (nzchar(logos)) paste0("<div class=\"logos\">", logos, "</div>") else "",
                    "<div class=\"meta\"><div>", esc(as.character(cfg$date)), "</div>",
                    if (!is.null(cfg$status)) paste0("<div class=\"status\">", esc(cfg$status), "</div>") else "",
                    "</div></div></section>")
@@ -203,6 +203,77 @@ render_report = function(report) {
                          options = list(printBackground = TRUE, preferCSSPageSize = TRUE),
                          extra_args = c("--no-pdf-header-footer"))
 
-  out_pdf
+  # 12. Word version, for comments and edits, with the styles of template/reference.docx
+  out_docx = render_docx(report, cfg, lines, sub("[.]pdf$", ".docx", out_pdf))
+
+  c(out_pdf, out_docx)
+
+}
+
+
+#' Word version of a report, for comments and edits
+#'
+#' Same text as the PDF. Figures and logos go in as PNG, layout markers become plain Word
+#' content and status chips stay as their words. Needs pandoc, which comes with RStudio.
+render_docx = function(report, cfg, lines, out_docx) {
+
+  annual = identical(cfg$type, "annual")
+  page = "\n```{=openxml}\n<w:p><w:r><w:br w:type=\"page\"/></w:r></w:p>\n```\n"
+  md = paste(lines, collapse = "\n")
+  split_figs = regmatches(md, gregexpr("<!-- split -->\\s*!\\[[^]]*\\]\\(([^)]+)\\)", md, perl = TRUE))[[1]]
+  split_figs = sub(".*\\(([^)]+)\\)$", "\\1", split_figs)
+  md = gsub("(?s)<!--.*?-->\\n?", "", md, perl = TRUE)
+
+  # figures with their width, the caption paragraph kept as it is
+  figs = regmatches(md, gregexpr("!\\[[^]]*\\]\\([^)]+\\)", md, perl = TRUE))[[1]]
+  for (f in unique(figs)) {
+    src = sub("^!\\[[^]]*\\]\\(([^)]+)\\)$", "\\1", f)
+    w = if (src %in% split_figs) 60 else if (!is.null(cfg$figure_widths[[basename(src)]])) cfg$figure_widths[[basename(src)]] else 100
+    md = gsub(f, paste0("![](", src, "){width=", round(w * 16.5 / 100, 1), "cm}"), md, fixed = TRUE)
+  }
+
+  if (annual) {
+    md = gsub("(?m)^## (Section [0-9]+: )", paste0(gsub("\\\\", "\\\\\\\\", page), "# \\1"), md, perl = TRUE)
+    md = gsub("(?m)^## ", "# ", md, perl = TRUE)
+    md = gsub("(?m)^### ", "## ", md, perl = TRUE)
+    sc = cfg$story
+    val = function(v) { v = unlist(v); v = v[nzchar(v)]; if (length(v) > 0) paste(v, collapse = "; ") else "*To be set by the programme*" }
+    panel = paste0("- **", c("Primary Impact Area", "Other Impact Areas", "Geographic scope", "Contributing programmes and funders",
+                             "Contributing centres", "Contributing partners"), ".** ",
+                   c(val(sc$primary_impact_area), val(sc$other_impact_areas), val(sc$geographic_scope), val(sc$contributing),
+                     val(sc$centres), val(sc$partners)), collapse = "\n")
+    md = sub("(?s)(# Section [0-9]+: Key result story\\n.*?)(?=\\n# |$)", paste0("\\1\n\n", gsub("\\\\", "\\\\\\\\", panel), "\n"), md, perl = TRUE)
+  }
+
+  styled = function(style, txt) if (is.null(txt) || !nzchar(txt)) "" else paste0("::: {custom-style=\"", style, "\"}\n", txt, "\n:::\n")
+  hl = cfg$highlights
+  rows = vapply(hl, function(t) {
+    per = if (identical(t$period, "year")) paste("In", cfg$reporting_year) else if (identical(t$period, "cumulative")) cfg$period_label else ""
+    paste0("| ", tools::toTitleCase(t$label), " | ", t$value, " | ", per, " |")
+  }, character(1))
+  logos = paste0("![](", sub("[.]svg$", ".png", unlist(cfg$logos)), "){height=1.4cm}", collapse = " ")
+  byline = if (!is.null(cfg$corporate_author)) cfg$corporate_author else paste(unlist(cfg$authors), collapse = ", ")
+  front = paste0(if (length(cfg$logos) > 0) logos else "", "\n\n**", cfg$kicker, "**\n\n",
+                 styled("Title", cfg$title), styled("Subtitle", cfg$subtitle), styled("Author", byline),
+                 styled("Date", as.character(cfg$date)), if (!is.null(cfg$status)) paste0("**", cfg$status, "**\n\n") else "",
+                 "| Highlight | Value | Period |\n|---|---:|---|\n", paste(rows, collapse = "\n"), "\n\n",
+                 paste(unlist(cfg$institutions), collapse = " · "), "\n")
+  if (annual) {
+    co = cfg$colophon
+    front = paste0(front, page, "**Author.** ", cfg$corporate_author, "\n\n**Title.** ", co$title,
+                   "\n\n**Suggested citation.** ", co$citation, "\n\n",
+                   if (is.null(co$handle) || !nzchar(co$handle)) "*Handle to be issued by CGSpace*" else co$handle,
+                   "\n\nThis publication is licensed under a Creative Commons Attribution 4.0 International License (",
+                   if (is.null(co$licence)) "CC BY 4.0" else co$licence, "). The trial data it uses are released under CC0 1.0.\n\n",
+                   "**Use of artificial intelligence.** ", co$ai_statement, "\n")
+  }
+
+  src = file.path(report, "report-docx.md")
+  writeLines(paste0(front, if (annual) "" else page, md), src, useBytes = TRUE)
+  on.exit(unlink(src))
+  rmarkdown::pandoc_convert(normalizePath(src), to = "docx", output = normalizePath(out_docx, mustWork = FALSE), wd = normalizePath(report),
+                            options = c("--reference-doc", normalizePath(file.path("template", "reference.docx")),
+                                        "--resource-path", normalizePath(report)))
+  out_docx
 
 }

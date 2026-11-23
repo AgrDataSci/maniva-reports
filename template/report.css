@@ -87,29 +87,29 @@ figcaption .fignum { font-weight: 700; color: var(--primary-dark); }
    Components of the annual report type, after the CGIAR annual technical report.
    See docs/cgiar-reporting.md and docs/annual-report-standard.md. */
 
-/* annual cover */
+/* annual cover, after the CGIAR Portfolio Narrative: logos on white, title on a deep band, photograph below */
 .cover.annual { background: #fff; }
-.cover.annual .band { height: 118mm; background: var(--primary); position: relative; overflow: hidden; flex: 0 0 auto; }
-.cover.annual .band img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.cover.annual .band .label { position: absolute; left: 22mm; top: 20mm; font: 600 9pt var(--font-body), sans-serif;
-  letter-spacing: .16em; text-transform: uppercase; color: var(--highlight); }
-.cover.annual .band .rings { position: absolute; right: -40mm; top: -30mm; width: 170mm; height: 170mm; border-radius: 50%;
+.cover.annual .logobar { height: 34mm; padding: 0 22mm; display: flex; align-items: center; gap: 7mm; flex: 0 0 auto; }
+.cover.annual .logobar img { height: 15mm; width: auto; }
+.cover.annual .band { background: var(--deep); color: var(--cover-text); padding: 14mm 22mm 13mm 22mm; flex: 0 0 auto; }
+.cover.annual .band .kicker { font: 500 10.5pt var(--font-body), sans-serif; color: var(--cover-text); margin-bottom: 6mm; }
+.cover.annual h1 { font: 400 32pt/1.12 var(--font-display), var(--font-body), sans-serif; color: var(--highlight); margin: 0 0 5mm 0; max-width: 165mm; }
+.cover.annual .sub { font: 400 12.5pt/1.35 var(--font-body), sans-serif; color: var(--cover-subtext); }
+.cover.annual .programme { font: 600 8pt var(--font-body), sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 4mm; }
+.cover.annual .photo { flex: 1 1 auto; position: relative; overflow: hidden; background: var(--primary); min-height: 40mm; }
+.cover.annual .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cover.annual .photo .credit { position: absolute; right: 6mm; bottom: 4mm; font: italic 7pt var(--font-body), sans-serif; color: #fff;
+  background: rgba(2,33,26,.75); padding: 1.2mm 2.5mm; border-radius: 1.5mm; }
+.cover.annual .photo .rings { position: absolute; right: -40mm; top: -50mm; width: 170mm; height: 170mm; border-radius: 50%;
   border: 14mm solid rgba(255,255,255,.07); box-shadow: 0 0 0 22mm rgba(255,255,255,.04); }
-.cover.annual .band .rings2 { position: absolute; left: -30mm; bottom: -70mm; width: 120mm; height: 120mm; border-radius: 50%;
-  border: 9mm solid rgba(88,251,212,.12); }
-.cover.annual .band .credit { position: absolute; right: 6mm; bottom: 4mm; font: italic 7pt var(--font-body), sans-serif; color: #fff; }
-.cover.annual .titleblock { padding: 13mm 22mm 0 22mm; flex: 1 1 auto; }
-.cover.annual .programme { font: 600 9pt var(--font-body), sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 4mm; }
-.cover.annual h1 { font: 800 30pt/1.1 var(--font-display), var(--font-body), sans-serif; color: var(--primary); margin: 0 0 4mm 0; max-width: 165mm; letter-spacing: -.01em; }
-.cover.annual .sub { font: 400 13pt/1.35 var(--font-body), sans-serif; color: var(--primary-dark); margin-bottom: 6mm; }
-.cover.annual .kicker { display: inline-block; font: 700 11pt var(--font-body), sans-serif; color: var(--ink);
-  border-left: 1.6mm solid var(--accent); padding-left: 3mm; }
-.cover.annual .bottom { padding: 0 22mm 14mm 22mm; }
+.cover.annual .photo .rings2 { position: absolute; left: -30mm; bottom: -70mm; width: 120mm; height: 120mm; border-radius: 50%;
+  border: 9mm solid rgba(23,241,189,.14); }
+.cover.annual .bottom { padding: 9mm 22mm 12mm 22mm; flex: 0 0 auto; }
 .tilegroups { display: flex; gap: 6mm; margin-bottom: 8mm; }
 .tilegroup { flex: 1; }
 .tilegroup .gl { font: 700 7.5pt var(--font-body), sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 2mm; }
 .tilegroup .tiles { margin-bottom: 0; }
-.tilegroup.year .tile { background: var(--primary); }
+.tilegroup.year .tile { background: var(--primary-dark); }
 .tilegroup.cumulative .tile { background: var(--tint); }
 .tilegroup.cumulative .tile .n { color: var(--primary); }
 .tilegroup.cumulative .tile .l { color: var(--ink); }
@@ -143,13 +143,13 @@ table.factsheet td:first-child { width: 38mm; font-weight: 700; color: var(--pri
 /* year against cumulative */
 table.yearbox { border: 0; border-radius: 2.5mm; font-size: 9pt; }
 table.yearbox th { background: #fff; color: var(--muted); font-weight: 600; text-align: center; border-bottom: 0.3mm solid var(--rule); }
-table.yearbox th:nth-child(2), table.yearbox td:nth-child(2) { background: var(--tint) !important; color: var(--primary-dark); font-weight: 700; }
+table.yearbox th:nth-child(2), table.yearbox td:nth-child(2) { background: var(--year-tint) !important; color: var(--primary-dark); font-weight: 700; }
 table.yearbox td { background: #fff !important; text-align: center; font-variant-numeric: tabular-nums; }
 table.yearbox td:first-child, table.yearbox th:first-child { text-align: left; font-weight: 600; color: var(--ink); }
 
 /* status chips and definitions, values given by the authors only */
 .chip { display: inline-flex; align-items: center; gap: 1.3mm; font: 600 7.4pt var(--font-body), sans-serif; padding: 0.6mm 2.4mm 0.6mm 1.6mm;
-  border-radius: 3mm; background: #f1f1f1; color: var(--ink); white-space: nowrap; }
+  border-radius: 3mm; background: var(--ink); color: #fff; white-space: nowrap; }
 .chip::before { content: ""; width: 2.2mm; height: 2.2mm; border-radius: 50%; background: currentColor; }
 .chip.on-track::before { background: var(--status-on-track); }
 .chip.delayed::before { background: var(--status-delayed); }

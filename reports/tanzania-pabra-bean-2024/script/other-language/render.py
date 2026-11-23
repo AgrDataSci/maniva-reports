@@ -130,12 +130,13 @@ if cfg.get('cover_style') == 'annual':
               f'<div class="tiles">{tiles_html(yr)}</div></div><div class="tilegroup cumulative"><div class="gl">Since the start, '
               f'{esc(str(cfg.get("period_label", "")))}</div><div class="tiles">{tiles_html(cu)}</div></div></div>')
     photo = cfg.get('cover_photo')
-    band = (f'<img src="{esc(photo["file"])}" alt=""><div class="credit">{esc(photo.get("credit", ""))}</div>' if photo
-            else '<div class="rings"></div><div class="rings2"></div>')
-    cover = f'''<section class="cover annual"><div class="band">{band}<div class="label">{esc(cfg.get("corporate_author", ""))}</div></div>
-<div class="titleblock"><div class="programme">{esc(cfg.get("programme_label", ""))}</div><h1>{esc(cfg["title"])}</h1>
-<div class="sub">{esc(cfg.get("subtitle", ""))}</div><div class="kicker">{esc(cfg.get("kicker", ""))}</div></div>
-<div class="bottom">{groups}<div class="inst">{inst}</div>{f'<div class="logos">{logos}</div>' if logos else ''}
+    pic = (f'<img src="{esc(photo["file"])}" alt=""><div class="credit">{esc(photo.get("credit", ""))}</div>' if photo
+           else '<div class="rings"></div><div class="rings2"></div>')
+    cover = f'''<section class="cover annual"><div class="logobar">{logos}</div>
+<div class="band"><div class="programme">{esc(cfg.get("programme_label", ""))}</div><div class="kicker">{esc(cfg.get("kicker", ""))}</div>
+<h1>{esc(cfg["title"])}</h1><div class="sub">{esc(cfg.get("subtitle", ""))}</div></div>
+<div class="photo">{pic}</div>
+<div class="bottom">{groups}<div class="inst">{inst}</div>
 <div class="meta"><div>{esc(str(cfg.get("date", "")))}</div>{status}</div></div></section>'''
 else:
     cover = f'''<section class="cover"><div class="top"><div class="kicker">{esc(cfg.get("kicker", "Technical report"))}</div>
@@ -192,3 +193,81 @@ os.makedirs(os.path.dirname(out_pdf), exist_ok=True)
 subprocess.run([chrome, '--headless=new', '--no-sandbox', '--disable-gpu', '--no-pdf-header-footer',
                 f'--print-to-pdf={out_pdf}', 'file://' + out_html], check=True, capture_output=True, timeout=300)
 print(out_pdf)
+
+# 12. Word version, for comments and edits ------------------------------------
+# Same text as the PDF, with the styles of template/reference.docx. Figures and logos go in as
+# PNG. Layout markers become plain Word content, and status chips stay as their words.
+PAGE = '\n```{=openxml}\n<w:p><w:r><w:br w:type="page"/></w:r></w:p>\n```\n'
+md = text
+split_figs = set(re.findall(r'<!-- split -->\s*!\[[^\]]*\]\(([^)]+)\)', md))
+md = re.sub(r'<!--.*?-->\n?', '', md, flags=re.S)
+
+
+def docx_image(m):
+    alt, src, cap = m.group(1), m.group(2), m.group(3)
+    w = (60 if src in split_figs else widths.get(os.path.basename(src), 100)) * 16.5 / 100
+    return f'![]({src}){{width={w:.1f}cm}}\n\n*{cap}*'
+
+md = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)\s*\n\s*\n\*(Figure \d+\..*?)\*', docx_image, md, flags=re.S)
+if annual:
+    md = re.sub(r'(?m)^## (Section \d+: )', PAGE + r'# \1', md)
+    md = re.sub(r'(?m)^## ', '# ', md)
+    md = re.sub(r'(?m)^### ', '## ', md)
+    sc = cfg.get('story') or {}
+
+    def val(v):
+        v = [v] if isinstance(v, str) else (v or [])
+        v = [x for x in v if x]
+        return '; '.join(v) if v else '*To be set by the programme*'
+    panel = '\n'.join(f'- **{t}.** {val(sc.get(k))}' for t, k in [
+        ('Primary Impact Area', 'primary_impact_area'), ('Other Impact Areas', 'other_impact_areas'),
+        ('Geographic scope', 'geographic_scope'), ('Contributing programmes and funders', 'contributing'),
+        ('Contributing centres', 'centres'), ('Contributing partners', 'partners')])
+    md = re.sub(r'(# Section \d+: Key result story\n.*?)(?=\n# |\Z)', lambda m: m.group(1).rstrip() + '\n\n' + panel + '\n', md, count=1, flags=re.S)
+
+hl = cfg.get('highlights') or []
+tile_rows = '\n'.join(f'| {t["label"].capitalize()} | {t["value"]} | {"In " + str(cfg.get("reporting_year")) if t.get("period") == "year" else (cfg.get("period_label") or "")} |'
+                      for t in hl)
+logo_md = ' '.join(f'![]({re.sub(r"[.]svg$", ".png", p)}){{height=1.4cm}}' for p in cfg.get('logos') or [])
+co = cfg.get('colophon') or {}
+def styled(style, txt):
+    return f'::: {{custom-style="{style}"}}\n{txt}\n:::\n' if txt else ''
+
+byline = cfg.get('corporate_author') or ', '.join(cfg.get('authors') or [])
+front_md = f'''{logo_md}
+
+**{cfg.get("kicker", "")}**
+
+{styled("Title", cfg["title"])}
+{styled("Subtitle", cfg.get("subtitle", ""))}
+{styled("Author", byline)}
+{styled("Date", str(cfg.get("date", "")))}
+{"**" + cfg["status"] + "**" if cfg.get("status") else ""}
+
+| Highlight | Value | Period |
+|---|---:|---|
+{tile_rows}
+
+{" · ".join(cfg.get("institutions") or [])}
+'''
+if annual:
+    front_md += PAGE + f'''**Author.** {cfg.get("corporate_author", "")}
+
+**Title.** {co.get("title", cfg["title"])}
+
+**Suggested citation.** {co.get("citation", "")}
+
+{co.get("handle") or "*Handle to be issued by CGSpace*"}
+
+This publication is licensed under a Creative Commons Attribution 4.0 International License ({co.get("licence", "CC BY 4.0")}). The trial data it uses are released under CC0 1.0.
+
+**Use of artificial intelligence.** {co.get("ai_statement", "")}
+'''
+src_md = os.path.join(report, 'report-docx.md')
+# numbered sections of the annual type open a new page themselves
+open(src_md, 'w', encoding='utf-8').write(front_md + ('' if annual else PAGE) + md)
+out_docx = out_pdf[:-4] + '.docx'
+subprocess.run(['pandoc', src_md, '-f', 'markdown', '-o', out_docx, '--reference-doc', os.path.join(root, 'template', 'reference.docx'),
+                '--resource-path', report], check=True)
+os.remove(src_md)
+print(out_docx)

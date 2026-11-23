@@ -12,6 +12,7 @@ This repository holds the report standard, the page layout and the R workflow th
 
 ## Rules
 
+- Deliver every report as a PDF and a Word file. The PDF shows the layout, and the Word file takes comments and edits.
 - Every number in a report comes from a file in the report's `output/` folder, written by a script in the report folder or in `script/`. No number is typed from memory.
 - Report a computed result only when the code ran. If you cannot run R, follow step 4 of `SKILL.md`, and mark the report as draft until the R scripts have run.
 - Never show illustrative or hypothetical numbers as if they described the user's data.
@@ -20,7 +21,7 @@ This repository holds the report standard, the page layout and the R workflow th
 - Separate what the data show from what the authors conclude and from what you infer.
 - Keep the section on limitations in `content/report.md`. An author can leave it out of one rendered version through `exclude_sections` in `report.yml`.
 - Do not push a report on unpublished data to a public repository. Do not copy participant-level data into a report folder. Read the trial files from their source.
-- Use a logo only when the user supplies the file. Do not download logos.
+- Use logos only from `logos/` of this repository, or from files the user supplies. Do not download logos, and never redraw or recolour one.
 - Do not present a theme as the official brand of an organisation. A theme is a set of colours and fonts the team chose.
 - Never assign an outcome status, Impact Area, SDG, innovation readiness level, budget or trainee count. Print them only when the authors give them in `report.yml`.
 - Never count trial participants as people trained.
@@ -31,7 +32,7 @@ This repository holds the report standard, the page layout and the R workflow th
 - R is the language of the suite. Use `=` for assignment.
 - Use sf and ggplot2 for maps and figures.
 - Draw every map in the Equal Earth projection (EPSG:8857, `+proj=eqearth`). Keep coordinates in WGS84 (EPSG:4326) for storage and calculations, and project only to draw, with `coord_sf(crs = sf::st_crs("EPSG:8857"), default_crs = sf::st_crs(4326))`.
-- Charts use colour-blind-friendly ColorBrewer palettes, never a green and red scheme. YlGnBu for one series or a sequence, RdBu for two opposed series, Set1 for categories.
+- Charts take their colours from the theme, which follows the CGIAR reports the team supplied. Never a green and red pair for two opposed series.
 - Paths are relative to the repository root. A script takes the report folder as its first argument.
 - Comments explain intent, choices and limits, not only the mechanics.
 - Mark each script with a status label from tricot-analysis-workflows (historical, reviewed-not-executed, tested-on-synthetic-data, validated-against-original-results).
