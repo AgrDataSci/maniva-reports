@@ -60,7 +60,7 @@ Rscript script/02-figures.R  reports/<folder>
 Rscript script/03-render.R   reports/<folder>
 ```
 
-With an AI assistant, start from [maniva](https://github.com/AgrDataSci/maniva) and ask for a report of your trials. The assistant follows [SKILL.md](SKILL.md).
+With an AI assistant, start from [maniva](https://github.com/AgrDataSci/maniva) and ask for a report of your trials. The maniva router sends every report request here, and the assistant follows [SKILL.md](SKILL.md).
 
 ## What is in the repository
 
@@ -94,7 +94,6 @@ Planned next.
 
 - Run and test the R scripts, with synthetic data and tests as in tricot-analysis-workflows.
 - A GitHub Action that renders a report for a trial id, so partners get a report without installing R.
-- A route from the maniva router to this repository.
 - Themes for partner organisations.
 - Sections for climate and environment, with the environment-data layer.
 
