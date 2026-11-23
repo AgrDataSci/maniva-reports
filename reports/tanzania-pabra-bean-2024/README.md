@@ -1,10 +1,12 @@
 # Pan-Africa Bean Research Alliance in Tanzania. Annual technical report 2024
 
-*Test of the annual report type on the PABRA bean tricot trials*
+*Worked example of the annual report type, on the open data of the PABRA bean tricot trials*
 
-The first annual report built with maniva-reports, made to test the layout taken from CGIAR annual technical reports (`docs/cgiar-reporting.md`). It is not a report of the programme.
+**This is a worked example of the maniva-reports standard, not a report of the programme.** It shows agents and authors what an annual report looks like on real, open data, with its gaps and judgement calls. It does not speak for PABRA, CIAT or TARI. The team agreed on 23 November 2026 that it stays public as an example.
 
-**Status. Test draft.** The numbers and figures come from a Python draft, run where R was not available, and kept in `script/other-language/`. The R scripts of this repository have not been executed on these data. The programme has not reviewed the text, and it has not given its outcomes, Impact Areas or other judgements, so those parts are empty. Do not publish.
+**Status.** The numbers and figures come from a Python run, kept in `script/other-language/`, done where R was not available. The R scripts of this repository have not been executed on these data. The programme has not given its outcomes, budget or training records, so those fields are empty, and the suggested tags wait for its confirmation.
+
+To test code, use the synthetic example in `reports/synthetic-example-annual/`, whose true answers are known.
 
 ## The question
 

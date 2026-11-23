@@ -9,6 +9,8 @@
 - Annual cover after the Portfolio Narrative, with logos, a deep green band and the title in mint.
 - Reporting fields of the CGIAR results framework, all printed, with Impact Areas, SDGs (always SDG 17) and readiness level suggested from the data by fixed rules (`reporting-fields.csv`).
 - Machine-readable reports. The data of each figure in `output/figure-data/`, hidden in the PDF text layer and attached to the PDF with the result tables and `report-data.json`, and printed as an annex in the Word file.
+- India and Tanzania marked as worked examples of the standard on open data, not reports of the programmes, with the teams' agreement to keep them public.
+- Synthetic example programme in `tests/fixtures/` with known answers, the synthetic annual report `reports/synthetic-example-annual/`, the checks `tests/check-synthetic.py` (passing on the Python draft) and `tests/test-synthetic.R`, and a manual GitHub workflow.
 - Colophon states that the report was generated with AI through maniva, a CGIAR Digital Transformation Accelerator commons, and cites maniva (`template/colophon.yml`).
 - The maniva router sends every report request to this repository (maniva PR #45). The colophon cites maniva with its current authors, including Mathieu Rouard and Valentin Guignon.
 - Test annual report on the PABRA bean trials in Tanzania, 2024 with the record since 2021, from a Python run.

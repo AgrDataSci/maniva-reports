@@ -7,7 +7,7 @@ This repository holds the report standard, the page layout and the R workflow th
 1. Read `SKILL.md`, then `docs/report-standard.md`. For an annual report, a key result story or anything meant for CGIAR, PRMS or CGSpace, also read `docs/annual-report-standard.md` and `docs/cgiar-reporting.md`. Read `docs/style-guide.md` before you lay out a page or draw a figure.
 2. Take methods from [tricot-analysis-workflows](https://github.com/AgrDataSci/tricot-analysis-workflows). Read the decision record a section names before you analyse anything for it. This repository never defines a method of its own.
 3. Take data from [tricot-data](https://github.com/AgrDataSci/tricot-data), or from files the user supplies in the same format. The data are read-only.
-4. Work in one folder per report under `reports/`, copied from `reports/_template/`.
+4. Work in one folder per report under `reports/`, copied from `reports/_template/`. The India and Tanzania folders are worked examples on real open data, not reports of those programmes. `reports/synthetic-example-annual/` runs on synthetic data from `tests/fixtures/` with known answers. After any change to the analysis code, run it and `tests/check-synthetic.py` or `tests/test-synthetic.R`.
 5. Write maniva and tricot in lowercase, always, including headings, table cells and the start of a sentence. Never write "Maniva" or "Tricot". tricot stands for triadic comparison of technology options. Quote published titles exactly as printed.
 
 ## Rules
@@ -26,6 +26,7 @@ This repository holds the report standard, the page layout and the R workflow th
 - Print every reporting field, filled or empty. Suggest Impact Areas, SDGs (always with SDG 17) and the innovation readiness level only with the rules of `docs/annual-report-standard.md`, labelled as suggestions, never as a principal score. Never fill an outcome status, budget, trainee count, innovation use or policy change yourself.
 - Write the data of every figure to `output/figure-data/`. The PDF embeds them as hidden text and attachments, and the Word file prints them in an annex.
 - Never count trial participants as people trained.
+- Mark a report built on synthetic data with `synthetic: true` in `report.yml` and say so in its folder name, title and cover. Never mix synthetic and real data in one report.
 - The colophon of every annual report carries the statement of `template/colophon.yml`, generated with AI through maniva, a CGIAR Digital Transformation Accelerator commons, with the maniva citation, and adds that the authors reviewed it once `approved` is true in `report.yml`.
 
 ## Conventions for new code

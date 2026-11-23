@@ -13,6 +13,13 @@ maniva_citation: >-
   de Sousa K, Laporte M-A, Youngberg B, Cremaschi A, Chase R, Rouard M, Guignon V, van Etten J. 2026. maniva.
   An open commons of evidence, protocols, data and analysis for agricultural research.
   Version 1.0.0. Zenodo. https://doi.org/10.5281/zenodo.24011051
+example: >-
+  This document is a worked example of the maniva-reports standard, built on open data
+  published in tricot-data. It is not a report of the programme and does not speak for it.
+  The team that produced the data agreed that it can stay public as an example.
+synthetic: >-
+  This document is built on synthetic data. The programme, crop, districts, entries and
+  people are invented, and no number in it describes a real trial.
 machine_readable: >-
   The data behind every figure are embedded in this file as text and as attached CSV
   files, with a JSON summary of the reporting fields, so reporting tools can read them.

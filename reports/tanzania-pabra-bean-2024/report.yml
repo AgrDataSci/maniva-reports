@@ -7,7 +7,8 @@ subtitle: "On-farm testing of bean varieties with the tricot approach"
 kicker: "Annual technical report 2024"
 programme_label: "PABRA bean breeding, Tanzania"
 date: "November 2026"
-status: "Test draft. Not reviewed by the authors"
+status: "Worked example. Not a report of the programme"
+example: true       # worked example of the standard on open data, see template/colophon.yml
 language: en
 reporting_year: 2024
 period_label: "2021 to 2024"
@@ -26,6 +27,8 @@ logos:           # from logos/ of this repository, relative to this folder
   - ../../logos/alliance-bioversity-ciat.svg
   - ../../logos/pabra.svg
 cover_photo: null
+map_bbox: [28.5, 41.5, -12.2, -0.6]   # lon min, lon max, lat min, lat max
+map_labels: [["Indian Ocean", 40.6, -8.6]]
 boundaries: null
 
 # Headline numbers on the cover, from output/tables/overview.csv

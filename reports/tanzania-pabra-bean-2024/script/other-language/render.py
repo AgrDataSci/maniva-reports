@@ -219,11 +219,11 @@ if annual:
 <h4>Disclaimers</h4>
 <p>This report presents evidence from the trial data it names. Views and interpretations are those of the authors and do not necessarily represent those of their institutions or funders.</p>
 <p>Boundaries on the maps are indicative and do not imply any opinion on the legal status of any country, territory or area, or on the delimitation of its frontiers.</p>
+{f'<h4>About this document</h4><p>{esc(shared["synthetic"] if cfg.get("synthetic") else shared["example"])}</p>' if (cfg.get("example") or cfg.get("synthetic")) else ""}
 <h4>Use of artificial intelligence</h4><p>{esc(shared["generated_by"])} {esc(shared["reviewed"] if cfg.get("approved") else shared["not_reviewed"])} {esc(co.get("ai_statement") or "")}</p>
 <p><strong>Cite maniva as</strong> {esc(shared["maniva_citation"])}</p>
 <h4>Machine-readable content</h4><p>{esc(shared["machine_readable"])}</p>
-<div class="ack"><h4>Acknowledgements</h4><p>We thank the farmers who tested the varieties on their own farms and shared their assessments.
-The trials were funded by {fund_txt}.</p></div></section>'''
+<div class="ack"><h4>Acknowledgements</h4><p>{"No real farmer, trial or funder is behind this synthetic report." if cfg.get("synthetic") else "We thank the farmers who tested the varieties on their own farms and shared their assessments. The trials were funded by " + fund_txt + "."}</p></div></section>'''
     items = ''.join(f'<li><span class="lab">{esc(l) if l else ""}</span><span class="nm">{nm}</span></li>' for l, nm in heads)
     front += f'<section class="contents"><h2>Table of contents</h2><ol>{items}</ol></section>'
 
@@ -359,7 +359,7 @@ if annual:
 
 This publication is licensed under a Creative Commons Attribution 4.0 International License ({co.get("licence", "CC BY 4.0")}). The trial data it uses are released under CC0 1.0.
 
-**Use of artificial intelligence.** {shared["generated_by"]} {shared["reviewed"] if cfg.get("approved") else shared["not_reviewed"]} {co.get("ai_statement") or ""}
+{"**About this document.** " + (shared["synthetic"] if cfg.get("synthetic") else shared["example"]) + chr(10) + chr(10) if (cfg.get("example") or cfg.get("synthetic")) else ""}**Use of artificial intelligence.** {shared["generated_by"]} {shared["reviewed"] if cfg.get("approved") else shared["not_reviewed"]} {co.get("ai_statement") or ""}
 
 **Cite maniva as** {shared["maniva_citation"]}
 

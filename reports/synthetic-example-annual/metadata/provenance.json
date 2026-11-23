@@ -1,0 +1,12 @@
+{
+  "tricot_data_commit": "e2c9a74",
+  "script": "script/other-language/analysis.py",
+  "language": "Python",
+  "trials": [
+    "syn000000001",
+    "syn000000002",
+    "syn000000003",
+    "syn000000004"
+  ],
+  "reporting_year": 2024
+}

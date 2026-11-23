@@ -24,8 +24,9 @@ Once per conversation, before the first report, read the files you need from `ht
 | [docs/annual-report-standard.md](docs/annual-report-standard.md) | The report is an annual report, a key result story, or goes to CGIAR, PRMS or CGSpace |
 | [docs/cgiar-reporting.md](docs/cgiar-reporting.md) | Same, to see which parts of the CGIAR formats maniva fills from data and which stay with the programme |
 | [reports/_template/](reports/_template/) | You start a new report |
-| [reports/india-icar-bioversity-annual-workplan-2025/](reports/india-icar-bioversity-annual-workplan-2025/) | You want a worked example of a technical report |
-| [reports/tanzania-pabra-bean-2024/](reports/tanzania-pabra-bean-2024/) | You want a worked example of an annual report |
+| [reports/india-icar-bioversity-annual-workplan-2025/](reports/india-icar-bioversity-annual-workplan-2025/) | You want a worked example of a technical report, on real open data |
+| [reports/tanzania-pabra-bean-2024/](reports/tanzania-pabra-bean-2024/) | You want a worked example of an annual report, on real open data |
+| [reports/synthetic-example-annual/](reports/synthetic-example-annual/) | You change or test the code. Synthetic data with known answers, checked by `tests/check-synthetic.py` and `tests/test-synthetic.R` |
 
 ## How to work
 
@@ -49,6 +50,8 @@ Once per conversation, before the first report, read the files you need from `ht
 - Logos and brand colours belong to their organisations. Use the logos in `logos/`, or a file the user supplies, and only for organisations that took part in the work.
 - Draw every map in the Equal Earth projection (EPSG:8857). Keep coordinates in WGS84 for calculations and project only to draw. Check national boundaries against the official source of the country before a report is published there.
 - R is the language of the suite. Use `=` for assignment.
+- The worked examples show how the standard reads on real data. They are not reports of those programmes, so never cite their numbers as results of the programme, and never copy their text into a new report. Take the structure, not the content.
+- Never take a number from the synthetic example into a real report. It describes no real trial.
 - Show every reporting field of the CGIAR results framework, filled or empty, from `output/tables/reporting-fields.csv`. Suggest the Impact Areas, SDGs and innovation readiness level with the fixed rules of `docs/annual-report-standard.md`, label them as suggestions, and never suggest a principal score. SDG 17 is always suggested for tricot and maniva work. Outcome status, budget, trainee counts, innovation use and policy change come only from the programme. Trial participants are not people trained.
 - Make every report machine-readable. Each figure writes the numbers it draws to `output/figure-data/`. The PDF carries them as hidden text beside the figure and, with `output/report-data.json` and the result tables, as attached files. The Word file carries them as a visible annex.
 - The colophon states that the report was generated with AI through maniva, an open commons developed under the CGIAR Digital Transformation Accelerator, and cites maniva. The text lives in `template/colophon.yml`.

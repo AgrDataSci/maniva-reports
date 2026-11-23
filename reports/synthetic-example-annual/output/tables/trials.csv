@@ -1,0 +1,5 @@
+trial_id,code,title,start,end,year,pi,producer,partner,n_registered,women,men,not_stated,n_entries,period,overall_n,overall_moment,lr,p_value,indicator,vs_local_n,yield_sites,vs_local_better,interim_n,interim_moment
+syn000000001,SYN23A,Synthetic examplebean trial SYN23A,2023-03-01,2023-08-30,2023,Ada Example,Synthetic Research Institute,Synthetic National Partner,90,45,40,5,6,earlier,62,Post-harvest,11.4480,0.0432,overall_performance,186,62,134.0000,,
+syn000000002,SYN23B,Synthetic examplebean trial SYN23B,2023-09-15,2024-02-20,2023,Ada Example,Synthetic Research Institute,Synthetic National Partner,60,36,24,0,6,earlier,45,Post-harvest,7.9670,0.1581,overall_performance,135,45,99.0000,,
+syn000000003,SYN24A,Synthetic examplebean trial SYN24A,2024-03-05,2024-09-01,2024,Ada Example,Synthetic Research Institute,Synthetic National Partner,120,62,52,6,8,year,98,Post-harvest,81.8868,0.0000,overall_performance,294,98,200.0000,,
+syn000000004,SYN24B,Synthetic examplebean trial SYN24B,2024-09-20,2025-03-10,2024,Ada Example,Synthetic Research Institute,Synthetic National Partner,100,32,67,1,8,year,0,,8.5782,0.2844,drought_tolerance,0,0,0.0000,100.0000,Reproductive

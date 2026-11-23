@@ -262,15 +262,16 @@ pd.DataFrame([dict(funder=a, award=b, number=c, trials=n) for (a, b, c), n in fu
 
 # ---------------------------------------------------------------- PRMS result candidates
 doi = next(iter(meta.values()))['identifier']
-prms = [dict(type='Knowledge product', title='Open trial data of the PABRA bean tricot trials in Tanzania, 2021 to %d' % YEAR,
+countries = '; '.join(sorted({m['study']['country_name'].replace('United Republic of Tanzania', 'Tanzania') for m in meta.values()}))
+prms = [dict(type='Knowledge product', title='Open trial data, %s, %s' % (cfg['title'], cfg.get('period_label', '')),
              description='%d tricot trials with %d registered participants, published under CC0 1.0 in tricot-data' % (cum['trials'], cum['participants']),
-             evidence='datasets.csv of tricot-data, programme %s' % flt['program'], countries='Tanzania', doi=doi,
+             evidence='datasets.csv of tricot-data, programme %s' % flt['program'], countries=countries, doi=doi,
              readiness_level='', impact_areas='')]
 for _, e in REC[(REC.trials_ranked >= 3) & (REC.share_top3 >= 0.5)].iterrows():
     prms.append(dict(type='Innovation development', title='Bean entry %s, evaluated on-farm' % e.genotype,
                      description='Ranked in the top three for overall preference in %d of %d trials (seasons %s)'
                                  % (e.top3, e.trials_ranked, e.years_tested.replace(';', ', ')),
-                     evidence='output/tables/entries-record.csv, output/tables/pl-estimates.csv', countries='Tanzania', doi=doi,
+                     evidence='output/tables/entries-record.csv, output/tables/pl-estimates.csv', countries=countries, doi=doi,
                      readiness_level='', impact_areas=''))
 PRMS = pd.DataFrame(prms)
 PRMS.to_csv(os.path.join(OUT, 'prms-results.csv'), index=False)

@@ -2,9 +2,9 @@
 
 *Results from the 2025 ICAR-Bioversity Annual Workplan trials*
 
-The first report built with maniva-reports, and the worked example of the report standard.
+**This is a worked example of the maniva-reports standard for the technical report type, not a report of the programme.** It shows agents and authors what a technical report looks like on real, open data. It does not speak for ICAR, ICAR-NBPGR, BAIF or Bioversity International. The team agreed on 23 November 2026 that it stays public as an example.
 
-**Status. Draft.** The numbers and figures come from a Python draft, run where R was not available and kept in `script/other-language/`. The R scripts of this repository have not been executed on these data yet. Do not publish before the R run and the authors' review.
+**Status.** The numbers and figures come from a Python draft, run where R was not available and kept in `script/other-language/`. The R scripts of this repository have not been executed on these data yet. Do not publish before the R run and the authors' review.
 
 ## The question
 
