@@ -1,6 +1,6 @@
 # maniva-reports
 
-> A report standard, a page layout and an R workflow that turn on-farm trial data in the tricot-data format into a technical report.
+> A report standard, a page layout and an R workflow that turn on-farm trial data in the tricot-data format into a technical report, an annual report for CGIAR and PRMS, or a key result story.
 
 Write maniva and tricot in lowercase, always, including at the start of a sentence. tricot stands for triadic comparison of technology options.
 
@@ -11,6 +11,8 @@ Read SKILL.md before writing a report. It gives the procedure, and docs/report-s
 - [SKILL.md](https://raw.githubusercontent.com/AgrDataSci/maniva-reports/main/SKILL.md): procedure and boundaries
 - [AGENTS.md](https://raw.githubusercontent.com/AgrDataSci/maniva-reports/main/AGENTS.md): rules for AI agents
 - [docs/report-standard.md](https://raw.githubusercontent.com/AgrDataSci/maniva-reports/main/docs/report-standard.md): sections, method defaults, wording and checks
+- [docs/annual-report-standard.md](https://raw.githubusercontent.com/AgrDataSci/maniva-reports/main/docs/annual-report-standard.md): annual report and key result story
+- [docs/cgiar-reporting.md](https://raw.githubusercontent.com/AgrDataSci/maniva-reports/main/docs/cgiar-reporting.md): CGIAR reporting formats and what maniva fills from data
 - [docs/style-guide.md](https://raw.githubusercontent.com/AgrDataSci/maniva-reports/main/docs/style-guide.md): layout, themes, charts and maps
 - [README.md](https://raw.githubusercontent.com/AgrDataSci/maniva-reports/main/README.md): overview and status
 

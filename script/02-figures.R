@@ -72,3 +72,17 @@ if (!is.null(ta)) {
 if (!is.null(rt)) {
   save_figure(figure_reasons(rt, theme), file.path(fig, name("reasons")), height = 9)
 }
+
+# Annual report, year against cumulative (docs/annual-report-standard.md)
+if (identical(cfg$type, "annual")) {
+  tab = file.path(report, "output", "tables")
+  by = read.csv(file.path(tab, "by-year.csv"))
+  save_figure(figure_participants_year(by, cfg, theme), file.path(fig, "annual-participants.png"), height = 5.5)
+  save_figure(figure_entries_year(by, theme), file.path(fig, "annual-entries.png"), width = 10, height = 5)
+  if (file.exists(file.path(tab, "vs-local-year.csv"))) {
+    save_figure(figure_vs_local_year(read.csv(file.path(tab, "vs-local-year.csv"), colClasses = c(year = "character")), cfg, theme),
+                file.path(fig, "annual-vs-local.png"), width = 10, height = 5.5)
+  }
+  save_figure(figure_entry_record(read.csv(file.path(tab, "entries-record.csv")), theme),
+              file.path(fig, "annual-entry-record.png"), width = 12, height = 7.5)
+}

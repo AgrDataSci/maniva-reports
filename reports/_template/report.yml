@@ -1,7 +1,11 @@
 # Report configuration. Copy this folder to reports/<country>-<programme>-<year>/ and fill it.
 # Leave a field empty when you do not know it. Never invent an author, funder or DOI.
+type: technical      # technical, annual or story (docs/report-standard.md)
+cover_style: band    # band or annual, event planned (docs/style-guide.md)
 title: ""
-subtitle: ""
+subtype: technical      # technical, annual or story (docs/report-standard.md)
+cover_style: band    # band or annual, event planned (docs/style-guide.md)
+title: ""
 kicker: "Technical report"
 date: ""
 status: "Draft for review"   # remove when the authors approve and the R scripts have run
@@ -14,11 +18,40 @@ theme: cgiar
 logos: []        # paths to logo files supplied by the authors, relative to this folder
 boundaries: null # path to an official boundary file for the map, when one is required
 
-# Three to five headline numbers for the cover, from output/overview.csv
+# Three to five headline numbers for the cover, from output/overview.csv.
+# An annual report gives two for the year and two cumulative, with period: year or cumulative.
 highlights:
   - {value: "", label: "farmers"}
   - {value: "", label: "trials"}
   - {value: "", label: "crops"}
+
+# ---- annual and story types only (docs/annual-report-standard.md) ----
+reporting_year: null        # trials that started this year are the reporting year
+period_label: ""            # for example "2021 to 2024"
+corporate_author: ""        # the programme as author, as CGSpace lists it
+programme_label: ""         # short line above the title on the cover
+cover_photo: null           # {file: "photo.jpg", credit: "Photo by ..."}, only from the authors
+colophon:
+  title: ""
+  citation: ""
+  handle: ""                # CGSpace handle, empty until issued
+  licence: "CC BY 4.0"
+  ai_statement: ""          # which steps an AI assistant did, and that the authors reviewed it
+
+# Judgements of the programme. Leave empty and the report prints none of them.
+outcomes: []                # list of {name, status: on track | delayed | off track, narrative}
+impact_areas: {}            # {principal: [], significant: []}
+budget: {}                  # {previous_year: "", reporting_year: ""}
+trainees: {}                # people trained, by gender and year, only when the programme recorded them
+linkages: []                # CGIAR programmes and accelerators the authors name
+
+story:                      # side panel of the key result story
+  primary_impact_area: ""
+  other_impact_areas: []
+  geographic_scope: ""
+  contributing: []          # programmes and funders, from the metadata
+  centres: []
+  partners: []
 
 # Which trials the report covers. Use trial_ids, or a filter on datasets.csv
 data:
@@ -36,6 +69,8 @@ analysis:
   yield_trait: null
   group: farmer_gender
   min_group_n: 20
+  min_rankings: 15                     # annual, trials with fewer overall rankings are not modelled
+  interim_traits: []                   # annual, traits shown for trials without an overall ranking yet
   alpha: 0.05
   reasons:
     most: reason_most_preferred

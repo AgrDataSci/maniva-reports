@@ -4,6 +4,18 @@ What a maniva technical report contains, what each section must show, and how it
 
 Status: first version by Kauê de Sousa (Bioversity International), 2026-11-19. It records how the team writes reports. It is guidance, and authors adapt it to their reader.
 
+## Report types
+
+Set the type in `report.yml`. This standard covers the technical report. The other types add their own sections and keep the method defaults, wording and checks below.
+
+| Type | Use it for | Standard |
+|---|---|---|
+| `technical` | Results of a set of trials, for partners and CGSpace. The default | This file |
+| `annual` | One year of a programme and its cumulative record, in the structure of the CGIAR annual technical report, with PRMS result candidates | [annual-report-standard.md](annual-report-standard.md) |
+| `story` | One key result on one or two pages, for a Type 1 report, a newsletter or a donor | Key result story in [annual-report-standard.md](annual-report-standard.md) |
+
+How CGIAR reports are built, and which parts maniva fills from data, is in [cgiar-reporting.md](cgiar-reporting.md).
+
 ## Who the report is for
 
 A report serves the people who ran the trials and the people who fund or use them. Programme leaders, national partners, breeders, seed system actors and donors read it to decide what to test again, multiply or release. Write so that a reader outside statistics follows every section, and a statistician finds the n and the uncertainty behind every claim.

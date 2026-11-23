@@ -23,16 +23,22 @@ fonts:
   display: "Inter Display"
   mono: "DejaVu Sans Mono"
 
+# Status chips, Set1. Always printed with the word.
+status:
+  on_track: "#4DAF4A"
+  delayed: "#FF7F00"
+  off_track: "#E41A1C"
+
 # ColorBrewer colours for charts
 charts:
-  single: "#238B45"        # Greens, one series
-  single_light: "#A1D99B"  # Greens, intervals and secondary bars
+  single: "#225EA8"        # YlGnBu, one series and the reporting year
+  single_light: "#7FCDBB"  # YlGnBu, intervals, secondary bars and earlier years
   not_different: "#8A8A8A" # trials where entries do not differ
-  positive: "#01665E"      # BrBG, for example most preferred
-  negative: "#8C510A"      # BrBG, for example least preferred
-  sequential: "Greens"
-  diverging: "BrBG"
-  qualitative: "Paired"
+  positive: "#2166AC"      # RdBu, for example most preferred or women
+  negative: "#B2182B"      # RdBu, for example least preferred or men
+  sequential: "YlGnBu"
+  diverging: "RdBu"
+  qualitative: "Set1"
   map_fill: "#F7F7F7"
-  map_focus: "#E5F5E0"
+  map_focus: "#EDF8B1"
   map_line: "#9A9A9A"

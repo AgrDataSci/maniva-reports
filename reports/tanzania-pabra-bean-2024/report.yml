@@ -1,0 +1,82 @@
+# Report configuration. Every field the renderer reads is here.
+# Test of the annual report type on published data (tricot-data, CC0 1.0).
+type: annual
+cover_style: annual
+title: "Pan-Africa Bean Research Alliance in Tanzania"
+subtitle: "On-farm testing of bean varieties with the tricot approach"
+kicker: "Annual technical report 2024"
+programme_label: "PABRA bean breeding, Tanzania"
+date: "November 2026"
+status: "Test draft. Not reviewed by the authors"
+language: en
+reporting_year: 2024
+period_label: "2021 to 2024"
+
+# Corporate author and people, from the trial metadata. Order to be confirmed by the programme.
+corporate_author: "Pan-Africa Bean Research Alliance (PABRA)"
+authors: []
+institutions:
+  - International Center for Tropical Agriculture (CIAT)
+  - Tanzania Agricultural Research Institute (TARI)
+  - Bioversity International
+
+theme: cgiar
+logos: []        # paths to logo files supplied by the authors, relative to this folder
+cover_photo: null
+boundaries: null
+
+# Headline numbers on the cover, from output/tables/overview.csv
+highlights:
+  - {value: "715", label: "participants", period: year}
+  - {value: "4", label: "trials", period: year}
+  - {value: "2,866", label: "participants", period: cumulative}
+  - {value: "25", label: "trials", period: cumulative}
+
+colophon:
+  title: "Annual Technical Report 2024. Pan-Africa Bean Research Alliance in Tanzania. On-farm testing of bean varieties with the tricot approach"
+  citation: "Pan-Africa Bean Research Alliance (PABRA). 2026. Annual Technical Report 2024. Pan-Africa Bean Research Alliance in Tanzania. On-farm testing of bean varieties with the tricot approach. Test draft produced with maniva-reports."
+  handle: ""      # CGSpace handle, empty until issued
+  licence: "CC BY 4.0"
+  ai_statement: "This draft was produced with an AI assistant (Claude, Anthropic) following the maniva-reports standard. The assistant ran the analysis code, drew the figures and wrote the text from the result tables. The authors have not reviewed it yet."
+
+# Judgements that belong to the programme. Left empty, so the report prints none of them.
+outcomes: []        # list of {name, status: on track | delayed | off track, narrative}
+impact_areas: {}    # {principal: [], significant: []}
+budget: {}          # {2023: "", 2024: ""}
+trainees: {}        # people trained, by gender and year, only when recorded by the programme
+linkages: []        # CGIAR programmes the authors name
+
+story:
+  primary_impact_area: ""
+  other_impact_areas: []
+  geographic_scope: "Tanzania"
+  contributing: ["Pan-Africa Bean Research Alliance (PABRA)", "AVISA (Gates Foundation, INV-009649)", "1000FARMS (Gates Foundation, INV-031561)"]
+  centres: ["International Center for Tropical Agriculture (CIAT)", "Bioversity International"]
+  partners: ["Tanzania Agricultural Research Institute (TARI)"]
+
+data:
+  source: "https://raw.githubusercontent.com/AgrDataSci/tricot-data/main/"
+  filter:
+    country_iso3: TZA
+    crop_name: commonbean
+    program: "Pan-Africa Bean Research Alliance (PABRA)"
+  trial_ids: []
+
+analysis:
+  overall_trait: overall_performance
+  vs_local_trait: overall_performance_vs_local
+  interim_traits: [vigor, plant_survival, disease_resistance]
+  min_rankings: 15
+  group: farmer_gender
+  min_group_n: 20
+  alpha: 0.05
+
+figure_widths:
+  fig02-participants.png: 92
+  fig03-entries.png: 64
+  fig05-vs-local.png: 92
+  fig04-year-results.png: 92
+  fig06-entry-record.png: 80
+page_break_before: []
+exclude_sections: []
+output_name: "tanzania-pabra-bean-annual-report-2024"

@@ -3,7 +3,8 @@ message: "If you use this report standard, layout or workflow, please cite it as
 title: "maniva-reports. Technical reports from on-farm trial data in the maniva commons"
 abstract: >-
   A report standard, a page layout and an R workflow that turn trial data in
-  the tricot-data format into a technical report. The standard sets the
+  the tricot-data format into a technical report, an annual report in the
+  structure of CGIAR annual technical reports, or a key result story. The standard sets the
   sections, what each must show and how it is worded. The methods come from
   tricot-analysis-workflows. The repository works as a Claude skill and is
   readable by people and other AI tools.
@@ -15,12 +16,14 @@ authors:
     orcid: "https://orcid.org/0000-0002-7571-7845"
 license: MIT
 repository-code: "https://github.com/AgrDataSci/maniva-reports"
-version: "0.1.0"
-date-released: "2026-11-19"
+version: "0.2.0"
+date-released: "2026-11-23"
 keywords:
   - maniva
   - tricot
   - on-farm testing
   - citizen science
   - technical report
+  - annual report
+  - CGIAR
   - reproducible research

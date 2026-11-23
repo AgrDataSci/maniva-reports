@@ -1,7 +1,7 @@
 # Lay out a report, from content/report.md to HTML and PDF
-# Status: not executed yet (written 2026-11-19). The same steps run in Python in
-#   reports/india-icar-bioversity-annual-workplan-2025/script/other-language/render.py,
-#   which produced the first PDF.
+# Status: not executed yet (written 2026-11-19, annual type added 2026-11-23). The same steps
+#   run in Python in reports/tanzania-pabra-bean-2024/script/other-language/render.py, which
+#   produced the first annual PDF.
 #
 # Intent
 #   The authors write plain markdown. The renderer adds the cover from
@@ -46,14 +46,16 @@ render_report = function(report) {
   }
 
   # 4. summary, a lead paragraph and finding cards
-  s0 = regexpr("<h2>Summary</h2>", body, fixed = TRUE)
+  annual = identical(cfg$type, "annual")
+  sm = regexpr("<h2>(Section [0-9]+: )?(Summary|Fact sheet and executive summary)</h2>", body, perl = TRUE)
+  s0 = as.integer(sm)
   if (s0 > 0) {
-    rest = substr(body, s0 + nchar("<h2>Summary</h2>"), nchar(body))
+    rest = substr(body, s0 + attr(sm, "match.length"), nchar(body))
     s1 = regexpr("<h2>", rest, fixed = TRUE)
     s = if (s1 > 0) substr(rest, 1, s1 - 1) else rest
     new = sub("<p>", "<p class=\"lead\">", s, fixed = TRUE)
     ul = regmatches(new, regexpr("(?s)<ul>.*?</ul>", new, perl = TRUE))
-    if (length(ul) == 1) {
+    if (length(ul) == 1 && grepl("<strong>", ul, fixed = TRUE)) {
       cards = gsub("(?s)<li>\\s*(?:<p>)?(.*?)(?:</p>)?\\s*</li>", "<div class=\"card\">\\1</div>", ul, perl = TRUE)
       cards = sub("<ul>", "<div class=\"cards\">", cards, fixed = TRUE)
       cards = sub("</ul>", "</div>", cards, fixed = TRUE)
@@ -62,7 +64,23 @@ render_report = function(report) {
     body = sub(s, new, body, fixed = TRUE)
   }
 
-  # 5. page breaks and wide tables
+  # 5. layout markers written in the markdown as HTML comments
+  body = gsub("<!-- class: ([A-Za-z0-9_-]+) -->\\s*<table>", "<table class=\"\\1\">", body, perl = TRUE)
+  body = gsub("(?s)<!-- split -->\\s*(<figure>.*?</figure>)\\s*(<table.*?</table>)", "<div class=\"split\">\\1\\2</div>", body, perl = TRUE)
+  for (word in c("on track", "delayed", "off track")) {
+    chip = paste0("<span class=\"chip ", gsub(" ", "-", word), "\">", tools::toTitleCase(word), "</span>")
+    body = gsub(paste0("[", word, "]"), chip, body, fixed = TRUE)
+  }
+
+  # 6. page breaks, numbered sections and wide tables
+  hs = regmatches(body, gregexpr("<h2>(Section [0-9]+: )?[^<]*</h2>", body, perl = TRUE))[[1]]
+  heads = data.frame(lab = sub("^<h2>(Section [0-9]+): .*$", "\\1", hs), nm = sub("^<h2>(Section [0-9]+: )?(.*)</h2>$", "\\2", hs))
+  heads$lab[!grepl("^Section", heads$lab)] = ""
+  for (i in seq_along(hs)) {
+    new = if (nzchar(heads$lab[i])) paste0("<h2 class=\"section\"><span class=\"lab\">", heads$lab[i], ":</span> ", heads$nm[i], "</h2>")
+          else if (annual) paste0("<h2 class=\"unnumbered\">", heads$nm[i], "</h2>") else hs[i]
+    body = sub(hs[i], new, body, fixed = TRUE)
+  }
   for (h in unlist(cfg$page_break_before)) {
     body = sub(paste0("<h2>", esc(h), "</h2>"), paste0("<h2 class=\"newpage\">", esc(h), "</h2>"), body, fixed = TRUE)
   }
@@ -74,7 +92,32 @@ render_report = function(report) {
     }
   }
 
-  # 6. cover from report.yml
+  # 7. key result story, headline, standfirst, two columns and the side panel
+  st = regmatches(body, regexpr("(?s)<h2 class=\"section\"><span class=\"lab\">Section [0-9]+:</span> Key result story</h2>.*?(?=<h2|$)", body, perl = TRUE))
+  if (length(st) == 1) {
+    h2 = sub("(?s)^(<h2.*?</h2>).*$", "\\1", st, perl = TRUE)
+    inner = substr(st, nchar(h2) + 1, nchar(st))
+    inner = sub("<h3>", "<h3 class=\"headline\">", inner, fixed = TRUE)
+    inner = sub("(?s)(</h3>\\s*)<p>", "\\1<p class=\"standfirst\">", inner, perl = TRUE)
+    sc = cfg$story
+    item = function(title, v) {
+      v = unlist(v); v = v[nzchar(v)]
+      val = if (length(v) > 0) paste(esc(v), collapse = " &middot; ") else "<span class=\"empty\">To be set by the programme</span>"
+      paste0("<div><h4>", title, "</h4>", val, "</div>")
+    }
+    panel = paste0("<aside class=\"panel\">", item("Primary Impact Area", sc$primary_impact_area),
+                   item("Other Impact Areas", sc$other_impact_areas), item("Geographic scope", sc$geographic_scope),
+                   item("Contributing programmes and funders", sc$contributing), item("Contributing centres", sc$centres),
+                   item("Contributing partners", sc$partners), "</aside>")
+    head_part = sub("(?s)^(.*?<p class=\"standfirst\">.*?</p>).*$", "\\1", inner, perl = TRUE)
+    rest = substr(inner, nchar(head_part) + 1, nchar(inner))
+    fig = regmatches(rest, regexpr("(?s)<figure>.*?</figure>", rest, perl = TRUE))
+    if (length(fig) == 1) rest = sub(fig, "", rest, fixed = TRUE) else fig = ""
+    inner = paste0(head_part, "<div class=\"storygrid\"><div><div class=\"storytext\">", rest, "</div>", fig, "</div>", panel, "</div>")
+    body = sub(st, paste0("<section class=\"story\">", h2, inner, "</section>"), body, fixed = TRUE)
+  }
+
+  # 8. cover from report.yml
   tiles = paste(vapply(cfg$highlights, function(t) {
     paste0("<div class=\"tile\"><div class=\"n\">", esc(as.character(t$value)), "</div><div class=\"l\">", esc(t$label), "</div></div>")
   }, character(1)), collapse = "")
@@ -83,6 +126,9 @@ render_report = function(report) {
   inst = paste(esc(unlist(cfg$institutions)), collapse = " &middot; ")
   logos = paste(vapply(unlist(cfg$logos), function(p) paste0("<img src=\"", p, "\" alt=\"\">"), character(1)), collapse = "")
   kicker = if (is.null(cfg$kicker)) "Technical report" else cfg$kicker
+  tiles_of = function(ts) paste(vapply(ts, function(t) {
+    paste0("<div class=\"tile\"><div class=\"n\">", esc(as.character(t$value)), "</div><div class=\"l\">", esc(t$label), "</div></div>")
+  }, character(1)), collapse = "")
   cover = paste0("<section class=\"cover\"><div class=\"top\"><div class=\"kicker\">", esc(kicker), "</div>",
                  "<h1>", esc(cfg$title), "</h1><div class=\"sub\">", esc(cfg$subtitle), "</div></div>",
                  "<div class=\"bottom\"><div class=\"tiles\">", tiles, "</div>",
@@ -91,22 +137,65 @@ render_report = function(report) {
                  "<div class=\"meta\"><div>", esc(as.character(cfg$date)), "</div>",
                  if (!is.null(cfg$status)) paste0("<div class=\"status\">", esc(cfg$status), "</div>") else "",
                  "</div></div></section>")
+  if (identical(cfg$cover_style, "annual")) {
+    per = vapply(cfg$highlights, function(t) if (is.null(t$period)) "" else t$period, character(1))
+    groups = paste0("<div class=\"tilegroups\"><div class=\"tilegroup year\"><div class=\"gl\">In ", esc(as.character(cfg$reporting_year)),
+                    "</div><div class=\"tiles\">", tiles_of(cfg$highlights[per == "year"]), "</div></div>",
+                    "<div class=\"tilegroup cumulative\"><div class=\"gl\">Since the start, ", esc(as.character(cfg$period_label)),
+                    "</div><div class=\"tiles\">", tiles_of(cfg$highlights[per == "cumulative"]), "</div></div></div>")
+    band = if (!is.null(cfg$cover_photo)) paste0("<img src=\"", esc(cfg$cover_photo$file), "\" alt=\"\"><div class=\"credit\">", esc(cfg$cover_photo$credit), "</div>")
+           else "<div class=\"rings\"></div><div class=\"rings2\"></div>"
+    cover = paste0("<section class=\"cover annual\"><div class=\"band\">", band, "<div class=\"label\">", esc(cfg$corporate_author), "</div></div>",
+                   "<div class=\"titleblock\"><div class=\"programme\">", esc(cfg$programme_label), "</div><h1>", esc(cfg$title), "</h1>",
+                   "<div class=\"sub\">", esc(cfg$subtitle), "</div><div class=\"kicker\">", esc(kicker), "</div></div>",
+                   "<div class=\"bottom\">", groups, "<div class=\"inst\">", inst, "</div>",
+                   if (nzchar(logos)) paste0("<div class=\"logos\">", logos, "</div>") else "",
+                   "<div class=\"meta\"><div>", esc(as.character(cfg$date)), "</div>",
+                   if (!is.null(cfg$status)) paste0("<div class=\"status\">", esc(cfg$status), "</div>") else "",
+                   "</div></div></section>")
+  }
 
-  # 7. theme variables and stylesheet
+  # 9. colophon and contents, annual type only
+  front = ""
+  if (annual) {
+    co = cfg$colophon
+    ff = file.path(report, "output", "tables", "funders.csv")
+    fund = if (file.exists(ff)) utils::read.csv(ff) else NULL
+    fund_txt = if (is.null(fund)) "" else paste(paste0(esc(fund$funder), ", ", esc(fund$award), " (", esc(fund$number), ")"), collapse = "; ")
+    handle = if (is.null(co$handle) || !nzchar(co$handle)) "<em>Handle to be issued by CGSpace</em>" else esc(co$handle)
+    lic = if (is.null(co$licence)) "CC BY 4.0" else co$licence
+    front = paste0("<section class=\"colophon\"><div class=\"cite\">",
+                   "<p><strong>Author.</strong> ", esc(cfg$corporate_author), "</p>",
+                   "<p><strong>Title.</strong> ", esc(if (is.null(co$title)) cfg$title else co$title), "</p>",
+                   "<p><strong>Suggested citation.</strong> ", esc(co$citation), "</p><p>", handle, "</p>",
+                   "<p>This publication is licensed under a Creative Commons Attribution 4.0 International License (", esc(lic),
+                   "). The trial data it uses are released under CC0 1.0.</p></div>",
+                   "<h4>Disclaimers</h4><p>This report presents evidence from the trial data it names. Views and interpretations are those of the authors and do not necessarily represent those of their institutions or funders.</p>",
+                   "<p>Boundaries on the maps are indicative and do not imply any opinion on the legal status of any country, territory or area, or on the delimitation of its frontiers.</p>",
+                   "<h4>Use of artificial intelligence</h4><p>", esc(co$ai_statement), "</p>",
+                   "<div class=\"ack\"><h4>Acknowledgements</h4><p>We thank the farmers who tested the varieties on their own farms and shared their assessments. The trials were funded by ",
+                   fund_txt, ".</p></div></section>")
+    items = paste0("<li><span class=\"lab\">", heads$lab, "</span><span class=\"nm\">", heads$nm, "</span></li>", collapse = "")
+    front = paste0(front, "<section class=\"contents\"><h2>Table of contents</h2><ol>", items, "</ol></section>")
+  }
+
+  # 10. theme variables and stylesheet
   co = theme$colours
   vars = paste0(" --", gsub("_", "-", names(co)), ": ", unlist(co), ";", collapse = "")
+  if (!is.null(theme$status)) vars = paste0(vars, paste0(" --status-", gsub("_", "-", names(theme$status)), ": ", unlist(theme$status), ";", collapse = ""))
+  footer = if (annual) paste0(kicker, ". ", cfg$title) else cfg$title
   vars = paste0(":root {", vars,
                 " --font-body: \"", theme$fonts$body, "\"; --font-display: \"", theme$fonts$display,
-                "\"; --font-mono: \"", theme$fonts$mono, "\"; --footer-title: \"", gsub("\"", "'", cfg$title), "\"; }")
+                "\"; --font-mono: \"", theme$fonts$mono, "\"; --footer-title: \"", gsub("\"", "'", footer), "\"; }")
   css = paste(readLines(file.path("template", "report.css"), encoding = "UTF-8"), collapse = "\n")
   lang = if (is.null(cfg$language)) "en" else cfg$language
   doc = paste0("<!DOCTYPE html><html lang=\"", lang, "\"><head><meta charset=\"utf-8\"><title>", esc(cfg$title), ". ",
-               esc(cfg$subtitle), "</title><style>", vars, "\n", css, "</style></head><body>\n", cover, "\n", body, "\n</body></html>")
+               esc(cfg$subtitle), "</title><style>", vars, "\n", css, "</style></head><body>\n", cover, "\n", front, "\n", body, "\n</body></html>")
 
   out_html = file.path(report, "report.html")
   writeLines(doc, out_html, useBytes = TRUE)
 
-  # 8. PDF with headless Chrome
+  # 11. PDF with headless Chrome
   name = if (is.null(cfg$output_name)) basename(normalizePath(report)) else cfg$output_name
   out_pdf = file.path(report, "output", paste0(name, ".pdf"))
   dir.create(dirname(out_pdf), showWarnings = FALSE, recursive = TRUE)

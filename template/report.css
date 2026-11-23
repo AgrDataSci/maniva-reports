@@ -82,3 +82,93 @@ figure img { max-width: 100%; }
 figcaption { text-align: left; font-size: 8.2pt; line-height: 1.4; color: var(--muted); margin-top: 1.5mm; padding-left: 3mm;
   border-left: 0.8mm solid var(--accent); }
 figcaption .fignum { font-weight: 700; color: var(--primary-dark); }
+
+/* ------------------------------------------------------------------ annual report
+   Components of the annual report type, after the CGIAR annual technical report.
+   See docs/cgiar-reporting.md and docs/annual-report-standard.md. */
+
+/* annual cover */
+.cover.annual { background: #fff; }
+.cover.annual .band { height: 118mm; background: var(--primary); position: relative; overflow: hidden; flex: 0 0 auto; }
+.cover.annual .band img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cover.annual .band .label { position: absolute; left: 22mm; top: 20mm; font: 600 9pt var(--font-body), sans-serif;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--highlight); }
+.cover.annual .band .rings { position: absolute; right: -40mm; top: -30mm; width: 170mm; height: 170mm; border-radius: 50%;
+  border: 14mm solid rgba(255,255,255,.07); box-shadow: 0 0 0 22mm rgba(255,255,255,.04); }
+.cover.annual .band .rings2 { position: absolute; left: -30mm; bottom: -70mm; width: 120mm; height: 120mm; border-radius: 50%;
+  border: 9mm solid rgba(88,251,212,.12); }
+.cover.annual .band .credit { position: absolute; right: 6mm; bottom: 4mm; font: italic 7pt var(--font-body), sans-serif; color: #fff; }
+.cover.annual .titleblock { padding: 13mm 22mm 0 22mm; flex: 1 1 auto; }
+.cover.annual .programme { font: 600 9pt var(--font-body), sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 4mm; }
+.cover.annual h1 { font: 800 30pt/1.1 var(--font-display), var(--font-body), sans-serif; color: var(--primary); margin: 0 0 4mm 0; max-width: 165mm; letter-spacing: -.01em; }
+.cover.annual .sub { font: 400 13pt/1.35 var(--font-body), sans-serif; color: var(--primary-dark); margin-bottom: 6mm; }
+.cover.annual .kicker { display: inline-block; font: 700 11pt var(--font-body), sans-serif; color: var(--ink);
+  border-left: 1.6mm solid var(--accent); padding-left: 3mm; }
+.cover.annual .bottom { padding: 0 22mm 14mm 22mm; }
+.tilegroups { display: flex; gap: 6mm; margin-bottom: 8mm; }
+.tilegroup { flex: 1; }
+.tilegroup .gl { font: 700 7.5pt var(--font-body), sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 2mm; }
+.tilegroup .tiles { margin-bottom: 0; }
+.tilegroup.year .tile { background: var(--primary); }
+.tilegroup.cumulative .tile { background: var(--tint); }
+.tilegroup.cumulative .tile .n { color: var(--primary); }
+.tilegroup.cumulative .tile .l { color: var(--ink); }
+
+/* colophon and contents */
+.colophon { break-after: page; display: flex; flex-direction: column; min-height: 252mm; font-size: 8.2pt; line-height: 1.5; }
+.colophon .cite { padding-bottom: 4mm; border-bottom: 0.3mm solid var(--rule); margin-bottom: 4mm; }
+.colophon .cite p { margin: 0 0 1.6mm 0; }
+.colophon h4 { font: 700 8.6pt var(--font-body), sans-serif; color: var(--primary); margin: 4mm 0 1.2mm 0; }
+.colophon .ack { margin-top: auto; background: var(--tint); border-radius: 3mm; padding: 5mm 6mm; }
+.contents { break-after: page; }
+.contents h2 { margin-top: 0; }
+.contents ol { list-style: none; padding: 0; margin: 6mm 0 0 0; }
+.contents li { display: flex; gap: 4mm; padding: 3.2mm 0; border-bottom: 0.25mm solid var(--rule); font-size: 10.5pt; }
+.contents li .lab { color: var(--muted); font-weight: 300; min-width: 22mm; }
+.contents li .nm { font-weight: 700; color: var(--ink); }
+
+/* numbered sections */
+h2.section { break-before: page; margin-top: 0; padding-top: 0; padding-bottom: 2.5mm; border-bottom: 0.4mm solid var(--accent); font-size: 18pt; }
+h2.section::before { content: none; }
+h2.section .lab { font-weight: 300; color: var(--primary); }
+h2.unnumbered { margin-top: 9mm; }
+section.story + h2.unnumbered { margin-top: 0; }
+
+/* fact sheet */
+table.factsheet { border: 0; border-radius: 0; font-size: 8.6pt; }
+table.factsheet thead { display: none; }
+table.factsheet td { border-top: 0.25mm solid var(--rule); padding: 2.2mm 2mm; background: #fff !important; }
+table.factsheet td:first-child { width: 38mm; font-weight: 700; color: var(--primary-dark); }
+
+/* year against cumulative */
+table.yearbox { border: 0; border-radius: 2.5mm; font-size: 9pt; }
+table.yearbox th { background: #fff; color: var(--muted); font-weight: 600; text-align: center; border-bottom: 0.3mm solid var(--rule); }
+table.yearbox th:nth-child(2), table.yearbox td:nth-child(2) { background: var(--tint) !important; color: var(--primary-dark); font-weight: 700; }
+table.yearbox td { background: #fff !important; text-align: center; font-variant-numeric: tabular-nums; }
+table.yearbox td:first-child, table.yearbox th:first-child { text-align: left; font-weight: 600; color: var(--ink); }
+
+/* status chips and definitions, values given by the authors only */
+.chip { display: inline-flex; align-items: center; gap: 1.3mm; font: 600 7.4pt var(--font-body), sans-serif; padding: 0.6mm 2.4mm 0.6mm 1.6mm;
+  border-radius: 3mm; background: #f1f1f1; color: var(--ink); white-space: nowrap; }
+.chip::before { content: ""; width: 2.2mm; height: 2.2mm; border-radius: 50%; background: currentColor; }
+.chip.on-track::before { background: var(--status-on-track); }
+.chip.delayed::before { background: var(--status-delayed); }
+.chip.off-track::before { background: var(--status-off-track); }
+
+/* figure beside a table */
+.split { display: grid; grid-template-columns: 1.35fr 1fr; gap: 6mm; align-items: start; break-inside: avoid; }
+.split figure { margin-top: 0; }
+.split table { margin-top: 0; font-size: 7.8pt; }
+
+/* key result story */
+section.story { break-before: page; break-after: page; }
+section.story h3.headline { font: 800 17pt/1.18 var(--font-display), var(--font-body), sans-serif; color: var(--primary); margin: 2mm 0 3mm 0; }
+section.story p.standfirst { font: 600 11pt/1.45 var(--font-body), sans-serif; color: var(--accent-dark); margin-bottom: 5mm; }
+section.story .storygrid { display: grid; grid-template-columns: 1fr 52mm; gap: 7mm; }
+section.story .storytext { column-count: 2; column-gap: 6mm; }
+section.story .storytext p { break-inside: avoid-column; }
+section.story aside.panel { background: var(--tint); border-radius: 3mm; padding: 5mm; font-size: 8pt; line-height: 1.4; align-self: start; }
+section.story aside.panel h4 { font: 700 7.6pt var(--font-body), sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--primary);
+  margin: 0 0 1.2mm 0; }
+section.story aside.panel div { margin-bottom: 3.6mm; }
+section.story aside.panel .empty { color: var(--muted); font-style: italic; }

@@ -1,6 +1,6 @@
 ---
 name: maniva-reports
-description: Use when asked to write, lay out or update a technical report, trial report, season report, donor or PRMS report, or CGSpace knowledge product from on-farm trial data, such as tricot trials in tricot-data or a partner's own trial files in the same format. Covers the report structure, the analysis each section needs, the wording rules, the page layout and the colour themes.
+description: Use whenever a user asks for a report from on-farm trial data, such as a technical report, trial or season report, annual report for CGIAR (Type 1), PRMS results, key result story, donor report or CGSpace knowledge product, from tricot trials in tricot-data or a partner's own files in the same format. Covers the report types, structure, analysis per section, wording, page layout and colour themes.
 ---
 
 # maniva-reports
@@ -21,12 +21,15 @@ Once per conversation, before the first report, read the files you need from `ht
 |---|---|
 | [docs/report-standard.md](docs/report-standard.md) | Always. Sections, what each must show, wording rules, checks before delivery |
 | [docs/style-guide.md](docs/style-guide.md) | You lay out the report or draw a figure |
+| [docs/annual-report-standard.md](docs/annual-report-standard.md) | The report is an annual report, a key result story, or goes to CGIAR, PRMS or CGSpace |
+| [docs/cgiar-reporting.md](docs/cgiar-reporting.md) | Same, to see which parts of the CGIAR formats maniva fills from data and which stay with the programme |
 | [reports/_template/](reports/_template/) | You start a new report |
-| [reports/india-icar-bioversity-annual-workplan-2025/](reports/india-icar-bioversity-annual-workplan-2025/) | You want a worked example |
+| [reports/india-icar-bioversity-annual-workplan-2025/](reports/india-icar-bioversity-annual-workplan-2025/) | You want a worked example of a technical report |
+| [reports/tanzania-pabra-bean-2024/](reports/tanzania-pabra-bean-2024/) | You want a worked example of an annual report |
 
 ## How to work
 
-1. **Settle the scope in one question.** Which trials, and who reads the report. Take the trials from `datasets.csv` in tricot-data, or from files the user gives in the tricot-data format. If the data are in another format, help the user convert them first and say that the report needs the tricot-data format.
+1. **Settle the scope in one question.** Which trials, who reads the report, and which type it is. A technical report for partners and CGSpace (`technical`), an annual report of a programme for CGIAR and PRMS (`annual`), or one key result (`story`). When the user names CGIAR, PRMS, Type 1, annual reporting or a funder report, the type is `annual`. Take the trials from `datasets.csv` in tricot-data, or from files the user gives in the tricot-data format. If the data are in another format, help the user convert them first and say that the report needs the tricot-data format.
 2. **Copy `reports/_template/`** to `reports/<country>-<programme>-<year>/`, all lowercase, and fill `report.yml`. Never invent an author, affiliation, funder, DOI or ORCID. Leave the field empty and tell the user.
 3. **Read the decision records** in tricot-analysis-workflows that the report standard names for each section, before any analysis.
 4. **Run the analysis in R.** `Rscript script/01-analysis.R reports/<folder>` writes the result tables to `output/`, and `script/02-figures.R` draws the figures. If you cannot run R, follow "Deliver a reproducible project", step 6, in the tricot-analysis-workflows skill. Run the analysis in a language you can execute, keep that code in `script/other-language/` of the report folder, mark the report as draft, and never approximate a method with no faithful equivalent.
@@ -46,6 +49,8 @@ Once per conversation, before the first report, read the files you need from `ht
 - Logos and brand colours belong to their organisations. Use a logo only when the user supplies the file and has the right to use it.
 - Draw every map in the Equal Earth projection (EPSG:8857). Keep coordinates in WGS84 for calculations and project only to draw. Check national boundaries against the official source of the country before a report is published there.
 - R is the language of the suite. Use `=` for assignment.
+- An outcome status, Impact Area, SDG contribution, innovation readiness level, budget and trainee count belong to the programme. Print them only when the authors give them in `report.yml`. Trial participants are not people trained.
+- The colophon of an annual report states that an AI assistant drafted it and which steps it did.
 
 ## Credit
 

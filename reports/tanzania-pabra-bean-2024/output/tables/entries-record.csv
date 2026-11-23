@@ -1,0 +1,38 @@
+genotype,role,trials_ranked,seasons_ranked,years_tested,top3,share_top3,median_rank,median_k,median_logworth,participants_ranked
+ADP-640,release candidate,1,1,2024,1,1.000,2.000,12.000,0.596,7
+ECAPAN 021,historical check,1,1,2024,1,1.000,1.000,12.000,1.088,9
+IZO 201560,historical check,1,1,2024,1,1.000,3.000,12.000,0.176,6
+TARIBEAN 1,release candidate,10,3,2021;2022;2023,4,0.400,6.000,16.000,0.289,110
+TARIBEAN11,release candidate,8,3,2021;2022;2023,3,0.375,8.500,16.000,0.064,50
+Selian 12,release candidate,9,3,2021;2022;2023,3,0.333,8.000,16.000,0.066,90
+TARIBEAN 8,release candidate,9,3,2021;2022;2023,3,0.333,13.000,16.000,-0.312,81
+CALIMA UYOLE,comparative check,10,3,2021;2022;2023;2024,3,0.300,9.000,16.000,-0.089,115
+TARIBEAN 3,release candidate,10,3,2021;2022;2023,3,0.300,5.000,16.000,0.310,98
+TARIBEAN 4,release candidate,10,3,2021;2022;2023,3,0.300,6.000,16.000,0.243,113
+VTT923/23-10 (Uyole),evaluation entry,9,3,2021;2022;2023,2,0.222,12.000,16.000,-0.329,68
+TARIBEAN6,release candidate,10,3,2021;2022;2023,2,0.200,7.500,16.000,0.060,110
+TARIBEAN9,release candidate,7,2,2021;2022,1,0.143,11.000,16.000,-0.358,63
+TARIBEAN 10,release candidate,8,3,2021;2022;2023,1,0.125,11.000,16.000,-0.270,67
+Uyole 03,historical check,9,3,2021;2022;2023,1,0.111,9.000,16.000,-0.067,81
+Uyole 18,release candidate,9,3,2021;2022;2023,1,0.111,8.000,16.000,0.028,85
+TARIBEAN 5,release candidate,10,3,2021;2022;2023,0,0.000,9.000,16.000,-0.364,117
+TARIBEAN 2,release candidate,8,3,2021;2022;2023,0,0.000,5.500,16.000,0.035,53
+Boroto,farmer check,7,2,2022;2023,0,0.000,9.000,16.000,0.026,74
+Lyamungo 90,historical check,2,1,2023,0,0.000,9.000,21.000,0.008,7
+NUA 49,evaluation entry,2,1,2022;2023,0,0.000,12.000,21.000,-0.321,8
+Njano Gololi,farmer check,2,1,2023,0,0.000,10.000,21.000,0.268,7
+Nyeupe Uyole,historical check,2,1,2021,0,0.000,14.000,15.500,-0.708,22
+Rosecoco,farmer check,2,1,2023,0,0.000,18.000,21.000,-0.701,7
+Selian 13,release candidate,2,1,2023,0,0.000,8.000,21.000,0.312,9
+Soya Kijivu,farmer check,2,1,2023,0,0.000,11.500,21.000,-0.194,9
+TARIBEAN7,release candidate,2,1,2022;2023,0,0.000,9.000,21.000,0.244,7
+ADP-610,release candidate,1,1,2024,0,0.000,11.000,12.000,-0.512,7
+DAB41,release candidate,1,1,2024,0,0.000,8.000,12.000,-0.207,12
+EMBEAN 118,historical check,1,1,2024,0,0.000,10.000,12.000,-0.363,9
+MASINDI YELLOW,release candidate,1,1,2024,0,0.000,7.000,12.000,-0.013,7
+MSOLE,historical check,1,1,2024,0,0.000,4.000,12.000,0.088,7
+NABE 14,release candidate,1,1,2024,0,0.000,6.000,12.000,-0.000,11
+Njano Uyole,historical check,1,1,2024,0,0.000,9.000,12.000,-0.286,7
+SELIAN 12,,1,1,2024,0,0.000,12.000,12.000,-0.607,10
+SELIAN 13,,1,1,2024,0,0.000,5.000,12.000,0.039,10
+Uyole 17,release candidate,1,1,2021,0,0.000,11.000,16.000,-0.561,10

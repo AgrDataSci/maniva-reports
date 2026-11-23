@@ -65,7 +65,28 @@ if (!is.null(cfg$analysis$group)) {
   if (!is.null(gd)) write.csv(gd, file.path(out, "groups.csv"), row.names = FALSE)
 }
 
-# 8. Provenance -----------------------------------------------------------
+# 8. Annual report, year against cumulative (docs/annual-report-standard.md)
+if (identical(cfg$type, "annual")) {
+  source("script/helper/annual.R")
+  tab = file.path(out, "tables")
+  dir.create(tab, showWarnings = FALSE)
+  ao = annual_overview(trials, cfg)
+  write.csv(ao, file.path(tab, "overview.csv"), row.names = FALSE)
+  write.csv(annual_by_year(trials), file.path(tab, "by-year.csv"), row.names = FALSE)
+  write.csv(annual_districts(trials, cfg), file.path(tab, "districts.csv"), row.names = FALSE)
+  avl = annual_vs_local(trials, cfg$analysis$vs_local_trait)
+  if (!is.null(avl)) write.csv(avl, file.path(tab, "vs-local-year.csv"), row.names = FALSE)
+  mr = if (is.null(cfg$analysis$min_rankings)) 15 else cfg$analysis$min_rankings
+  rec = annual_entry_record(w, trials, mr)
+  write.csv(rec, file.path(tab, "entries-record.csv"), row.names = FALSE)
+  pt = annual_partners(trials)
+  write.csv(pt$partners, file.path(tab, "partners.csv"), row.names = FALSE)
+  write.csv(pt$contributors, file.path(tab, "contributors.csv"), row.names = FALSE)
+  write.csv(pt$funders, file.path(tab, "funders.csv"), row.names = FALSE)
+  write.csv(annual_prms(trials, ao, rec, cfg), file.path(tab, "prms-results.csv"), row.names = FALSE)
+}
+
+# 9. Provenance -----------------------------------------------------------
 prov = list(report = basename(normalizePath(report)),
             run = format(Sys.time(), "%Y-%m-%dT%H:%M:%S%z"),
             data_source = cfg$data$source,

@@ -23,6 +23,16 @@ This repository belongs to the analysis layer of [maniva](https://github.com/Agr
 | National partners and programme teams who ran the trials, and the scientists and data managers who support them | Which entries to test again, multiply or release, and what to report to funders | Reports published on CGSpace and in PRMS that cite the data |
 | Partners deciding whether to publish their trial data | Whether sharing data in maniva is worth the effort | New trial sets contributed to tricot-data |
 
+## Report types
+
+| Type | For | Example |
+|---|---|---|
+| Technical report | Results of a set of trials, for partners and CGSpace | India 2025 |
+| Annual report | One year of a programme and its record since the start, in the seven sections of the CGIAR annual technical report, with candidate results for PRMS and a key result story | PABRA bean Tanzania 2024, a test |
+| Key result story | One result on one or two pages | Section 7 of the annual report |
+
+How CGIAR reports are built, and which parts maniva fills from the data, is in [docs/cgiar-reporting.md](docs/cgiar-reporting.md).
+
 ## See it
 
 The first report covers the 2025 tricot trials of the ICAR-Bioversity Annual Workplan in India, with 646 farmers, 13 trials and eight crops.
@@ -31,6 +41,11 @@ The first report covers the 2025 tricot trials of the ICAR-Bioversity Annual Wor
 - [The report folder](reports/india-icar-bioversity-annual-workplan-2025/), with the text, the settings, the result tables and the code
 
 It is a draft. See its README for what is still to confirm.
+
+The first annual report is a test on the PABRA bean trials in Tanzania, 2024 with the record since 2021, 25 trials and 2,866 farmers.
+
+- [The PDF](reports/tanzania-pabra-bean-2024/output/tanzania-pabra-bean-annual-report-2024.pdf)
+- [The report folder](reports/tanzania-pabra-bean-2024/)
 
 ## How it works
 
@@ -54,6 +69,8 @@ With an AI assistant, start from [maniva](https://github.com/AgrDataSci/maniva) 
 | [SKILL.md](SKILL.md) | Procedure for AI assistants |
 | [AGENTS.md](AGENTS.md) | Rules for AI agents |
 | [docs/report-standard.md](docs/report-standard.md) | Sections, what each must show, method defaults, wording and checks |
+| [docs/annual-report-standard.md](docs/annual-report-standard.md) | Sections and checks of the annual report and the key result story |
+| [docs/cgiar-reporting.md](docs/cgiar-reporting.md) | How CGIAR annual reports are built and what maniva fills from data |
 | [docs/style-guide.md](docs/style-guide.md) | Page layout, themes, charts and maps |
 | [themes/](themes/) | Colours and fonts, one file per theme |
 | [template/report.css](template/report.css) | The page layout |
@@ -84,7 +101,7 @@ Planned next.
 - Write maniva and tricot in lowercase, always. tricot stands for triadic comparison of technology options.
 - R is the language of the suite, with `=` for assignment.
 - Every map uses the Equal Earth projection (EPSG:8857).
-- Charts use colour-blind-friendly ColorBrewer palettes.
+- Charts use colour-blind-friendly ColorBrewer palettes, YlGnBu, RdBu and Set1.
 - Trial data are read from their source and never copied into a report folder. Reports on unpublished data stay out of this public repository.
 
 ## Guidance, not prescription

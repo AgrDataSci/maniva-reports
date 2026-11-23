@@ -4,7 +4,7 @@ This repository holds the report standard, the page layout and the R workflow th
 
 ## How to work with this repository
 
-1. Read `SKILL.md`, then `docs/report-standard.md`. Read `docs/style-guide.md` before you lay out a page or draw a figure.
+1. Read `SKILL.md`, then `docs/report-standard.md`. For an annual report, a key result story or anything meant for CGIAR, PRMS or CGSpace, also read `docs/annual-report-standard.md` and `docs/cgiar-reporting.md`. Read `docs/style-guide.md` before you lay out a page or draw a figure.
 2. Take methods from [tricot-analysis-workflows](https://github.com/AgrDataSci/tricot-analysis-workflows). Read the decision record a section names before you analyse anything for it. This repository never defines a method of its own.
 3. Take data from [tricot-data](https://github.com/AgrDataSci/tricot-data), or from files the user supplies in the same format. The data are read-only.
 4. Work in one folder per report under `reports/`, copied from `reports/_template/`.
@@ -22,13 +22,16 @@ This repository holds the report standard, the page layout and the R workflow th
 - Do not push a report on unpublished data to a public repository. Do not copy participant-level data into a report folder. Read the trial files from their source.
 - Use a logo only when the user supplies the file. Do not download logos.
 - Do not present a theme as the official brand of an organisation. A theme is a set of colours and fonts the team chose.
+- Never assign an outcome status, Impact Area, SDG, innovation readiness level, budget or trainee count. Print them only when the authors give them in `report.yml`.
+- Never count trial participants as people trained.
+- State in the colophon of every annual report that it was drafted with an AI assistant and reviewed by the authors.
 
 ## Conventions for new code
 
 - R is the language of the suite. Use `=` for assignment.
 - Use sf and ggplot2 for maps and figures.
 - Draw every map in the Equal Earth projection (EPSG:8857, `+proj=eqearth`). Keep coordinates in WGS84 (EPSG:4326) for storage and calculations, and project only to draw, with `coord_sf(crs = sf::st_crs("EPSG:8857"), default_crs = sf::st_crs(4326))`.
-- Charts use colour-blind-friendly ColorBrewer palettes, never a green and red scheme. Greens for one series or a sequence, BrBG for two opposed series, Paired for categories.
+- Charts use colour-blind-friendly ColorBrewer palettes, never a green and red scheme. YlGnBu for one series or a sequence, RdBu for two opposed series, Set1 for categories.
 - Paths are relative to the repository root. A script takes the report folder as its first argument.
 - Comments explain intent, choices and limits, not only the mechanics.
 - Mark each script with a status label from tricot-analysis-workflows (historical, reviewed-not-executed, tested-on-synthetic-data, validated-against-original-results).
