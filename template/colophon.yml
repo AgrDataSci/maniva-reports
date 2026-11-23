@@ -3,9 +3,9 @@
 generated_by: >-
   This report was generated with artificial intelligence through maniva, an open commons
   of evidence, protocols, data and analysis for agricultural research, developed under the
-  CGIAR Digital Transformation Accelerator. An AI assistant read the published trial data,
-  ran the analysis code of the maniva analysis layer, drew the figures and drafted the text
-  from the result tables, following the maniva-reports standard. Every number comes from
+  CGIAR Digital Transformation Accelerator. An AI assistant read the data and documents
+  named in this report, ran the analysis code, drew the figures and drafted the text from
+  the result tables, following the maniva-reports standard. Every number comes from
   a result table that is published with the report, and the code that produced it is open.
 reviewed: "The authors reviewed and approved the text."
 not_reviewed: ""  # left empty on purpose, the colophon says nothing until the authors approve

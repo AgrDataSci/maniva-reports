@@ -21,7 +21,9 @@ import markdown
 import yaml
 
 report = os.path.abspath(sys.argv[1])
-root = os.path.abspath(os.path.join(report, '..', '..'))
+root = report
+while not os.path.isdir(os.path.join(root, 'themes')):  # repository root, however deep the report folder is
+    root = os.path.dirname(root)
 cfg = yaml.safe_load(open(os.path.join(report, 'report.yml'), encoding='utf-8'))
 theme = yaml.safe_load(open(os.path.join(root, 'themes', cfg.get('theme', 'cgiar') + '.yml'), encoding='utf-8'))
 esc = html.escape
@@ -145,6 +147,9 @@ if st:
     sug_ia = [r['field'] for r in rf if r['group'] == 'Impact Areas' and r['suggested'] == '1']
     sug_sdg = next((r['suggested'] for r in rf if r['group'] == 'SDGs'), '')
     sug_rl = next((r['suggested'] for r in rf if r['field'].startswith('Innovation readiness')), '')
+    # a story about one result can carry its own suggestions, when the portfolio values do not fit it
+    sg = sc.get('suggested') or {}
+    sug_ia = sg.get('impact_areas', sug_ia); sug_sdg = sg.get('sdgs', sug_sdg); sug_rl = sg.get('readiness_level', sug_rl)
 
     def item(title, v, suggestion=None):
         v = [v] if isinstance(v, str) else (v or [])
@@ -183,8 +188,8 @@ hl = cfg.get('highlights') or []
 if cfg.get('cover_style') == 'annual':
     yr = [t for t in hl if t.get('period') == 'year']; cu = [t for t in hl if t.get('period') == 'cumulative']
     groups = (f'<div class="tilegroups"><div class="tilegroup year"><div class="gl">In {esc(str(cfg.get("reporting_year", "")))}</div>'
-              f'<div class="tiles">{tiles_html(yr)}</div></div><div class="tilegroup cumulative"><div class="gl">Since the start, '
-              f'{esc(str(cfg.get("period_label", "")))}</div><div class="tiles">{tiles_html(cu)}</div></div></div>')
+              f'<div class="tiles">{tiles_html(yr)}</div></div>' + (f'<div class="tilegroup cumulative"><div class="gl">Since the start, '
+              f'{esc(str(cfg.get("period_label", "")))}</div><div class="tiles">{tiles_html(cu)}</div></div>' if cu else '') + '</div>')
     photo = cfg.get('cover_photo')
     pic = (f'<img src="{esc(photo["file"])}" alt=""><div class="credit">{esc(photo.get("credit", ""))}</div>' if photo
            else '<div class="rings"></div><div class="rings2"></div>')
@@ -210,20 +215,26 @@ if annual:
     funders = list(csv.DictReader(open(fund_path, encoding='utf-8'))) if os.path.exists(fund_path) else []
     fund_txt = '; '.join(f'{esc(f["funder"])}, {esc(f["award"])} ({esc(f["number"])})' for f in funders)
     handle = esc(co.get('handle') or '') or '<em>Handle to be issued by CGSpace</em>'
+    # texts that depend on the data module, overridable in report.yml colophon
+    data_licence = co.get('data_licence', 'The trial data it uses are released under CC0 1.0.')
+    evidence = co.get('evidence', 'This report presents evidence from the trial data it names.')
+    ack = co.get('acknowledgements') or ('No real farmer, trial or funder is behind this synthetic report.' if cfg.get('synthetic') else
+          'We thank the farmers who tested the varieties on their own farms and shared their assessments. The trials were funded by ' + fund_txt + '.')
+    maps_note = '' if co.get('no_maps') else '<p>Boundaries on the maps are indicative and do not imply any opinion on the legal status of any country, territory or area, or on the delimitation of its frontiers.</p>'
     front = f'''<section class="colophon"><div class="cite">
 <p><strong>Author.</strong> {esc(cfg.get("corporate_author", ""))}</p>
 <p><strong>Title.</strong> {esc(co.get("title", cfg["title"]))}</p>
 <p><strong>Suggested citation.</strong> {esc(co.get("citation", ""))}</p>
 <p>{handle}</p>
-<p>This publication is licensed under a Creative Commons Attribution 4.0 International License ({esc(co.get("licence", "CC BY 4.0"))}). The trial data it uses are released under CC0 1.0.</p></div>
+<p>This publication is licensed under a Creative Commons Attribution 4.0 International License ({esc(co.get("licence", "CC BY 4.0"))}). {esc(data_licence)}</p></div>
 <h4>Disclaimers</h4>
-<p>This report presents evidence from the trial data it names. Views and interpretations are those of the authors and do not necessarily represent those of their institutions or funders.</p>
-<p>Boundaries on the maps are indicative and do not imply any opinion on the legal status of any country, territory or area, or on the delimitation of its frontiers.</p>
+<p>{esc(evidence)} Views and interpretations are those of the authors and do not necessarily represent those of their institutions or funders.</p>
+{maps_note}
 {f'<h4>About this document</h4><p>{esc(shared["synthetic"] if cfg.get("synthetic") else shared["example"])}</p>' if (cfg.get("example") or cfg.get("synthetic")) else ""}
 <h4>Use of artificial intelligence</h4><p>{esc(shared["generated_by"])} {esc(shared["reviewed"] if cfg.get("approved") else shared["not_reviewed"])} {esc(co.get("ai_statement") or "")}</p>
 <p><strong>Cite maniva as</strong> {esc(shared["maniva_citation"])}</p>
 <h4>Machine-readable content</h4><p>{esc(shared["machine_readable"])}</p>
-<div class="ack"><h4>Acknowledgements</h4><p>{"No real farmer, trial or funder is behind this synthetic report." if cfg.get("synthetic") else "We thank the farmers who tested the varieties on their own farms and shared their assessments. The trials were funded by " + fund_txt + "."}</p></div></section>'''
+<div class="ack"><h4>Acknowledgements</h4><p>{esc(ack)}</p></div></section>'''
     items = ''.join(f'<li><span class="lab">{esc(l) if l else ""}</span><span class="nm">{nm}</span></li>' for l, nm in heads)
     front += f'<section class="contents"><h2>Table of contents</h2><ol>{items}</ol></section>'
 
@@ -357,7 +368,7 @@ if annual:
 
 {co.get("handle") or "*Handle to be issued by CGSpace*"}
 
-This publication is licensed under a Creative Commons Attribution 4.0 International License ({co.get("licence", "CC BY 4.0")}). The trial data it uses are released under CC0 1.0.
+This publication is licensed under a Creative Commons Attribution 4.0 International License ({co.get("licence", "CC BY 4.0")}). {co.get("data_licence", "The trial data it uses are released under CC0 1.0.")}
 
 {"**About this document.** " + (shared["synthetic"] if cfg.get("synthetic") else shared["example"]) + chr(10) + chr(10) if (cfg.get("example") or cfg.get("synthetic")) else ""}**Use of artificial intelligence.** {shared["generated_by"]} {shared["reviewed"] if cfg.get("approved") else shared["not_reviewed"]} {co.get("ai_statement") or ""}
 

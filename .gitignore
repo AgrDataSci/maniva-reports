@@ -7,3 +7,6 @@ __pycache__/
 *.pyc
 renv/library/
 reports/*/report.html
+
+# Reports on unpublished or internal data stay local, never in this public repository
+reports/private/

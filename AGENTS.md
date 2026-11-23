@@ -1,12 +1,12 @@
 # Instructions for AI agents
 
-This repository holds the report standard, the page layout and the R workflow that the maniva suite uses to turn trial data into technical reports. Use it to produce a report the way the team would. `SKILL.md` has the procedure. This file has the rules.
+This repository holds the report standard, the page layout and the R workflow that the maniva suite uses to turn trial data, and any programme's own results, into technical and annual reports. Use it to produce a report the way the team would. `SKILL.md` has the procedure. This file has the rules.
 
 ## How to work with this repository
 
 1. Read `SKILL.md`, then `docs/report-standard.md`. For an annual report, a key result story or anything meant for CGIAR, PRMS or CGSpace, also read `docs/annual-report-standard.md` and `docs/cgiar-reporting.md`. Read `docs/style-guide.md` before you lay out a page or draw a figure.
 2. Take methods from [tricot-analysis-workflows](https://github.com/AgrDataSci/tricot-analysis-workflows). Read the decision record a section names before you analyse anything for it. This repository never defines a method of its own.
-3. Take data from [tricot-data](https://github.com/AgrDataSci/tricot-data), or from files the user supplies in the same format. The data are read-only.
+3. Take data from [tricot-data](https://github.com/AgrDataSci/tricot-data), or from files the user supplies in the same format. For any other data, such as result lists, forms or indicators, use a module of `docs/inputs.md`. The data are read-only.
 4. Work in one folder per report under `reports/`, copied from `reports/_template/`. The India and Tanzania folders are worked examples on real open data, not reports of those programmes. `reports/synthetic-example-annual/` runs on synthetic data from `tests/fixtures/` with known answers. After any change to the analysis code, run it and `tests/check-synthetic.py` or `tests/test-synthetic.R`.
 5. Write maniva and tricot in lowercase, always, including headings, table cells and the start of a sentence. Never write "Maniva" or "Tricot". tricot stands for triadic comparison of technology options. Quote published titles exactly as printed.
 
@@ -20,7 +20,7 @@ This repository holds the report standard, the page layout and the R workflow th
 - State the n behind each estimate and its uncertainty, in the text or in the table beside it.
 - Separate what the data show from what the authors conclude and from what you infer.
 - Keep the section on limitations in `content/report.md`. An author can leave it out of one rendered version through `exclude_sections` in `report.yml`.
-- Do not push a report on unpublished data to a public repository. Do not copy participant-level data into a report folder. Read the trial files from their source.
+- Put a report on internal or unpublished data in `reports/private/`, which git ignores, and never push it to a public repository. Do not copy participant-level data into a report folder. Read the trial files from their source.
 - Use logos only from `logos/` of this repository, or from files the user supplies. Do not download logos, and never redraw or recolour one.
 - Do not present a theme as the official brand of an organisation. A theme is a set of colours and fonts the team chose.
 - Print every reporting field, filled or empty. Suggest Impact Areas, SDGs (always with SDG 17) and the innovation readiness level only with the rules of `docs/annual-report-standard.md`, labelled as suggestions, never as a principal score. Never fill an outcome status, budget, trainee count, innovation use or policy change yourself.
