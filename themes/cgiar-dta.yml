@@ -1,0 +1,69 @@
+# cgiar-dta theme, for working papers of the CGIAR Accelerator for Digital Transformation.
+# The cgiar theme plus the colours of the DTA working paper the team supplied (November 2026),
+# sampled from its pages. DTA  Guidelines for ethical and inclusive AI-ready data pipelines,
+# working paper, October 2026 (pink and magenta of the pattern, deep green band, mint title).
+# Fonts follow that paper, Arial for the text and a serif for the cover title.
+# The pattern is drawn by the renderer from these two colours. It is not the paper's artwork.
+#
+# Based on the cgiar theme, the default of maniva-reports.
+# Every colour is taken from two CGIAR reports the team supplied, read from their vector fills.
+#   PN  CGIAR Portfolio Narrative 2025 (greens, mint and greys)
+#   RTB Roots, Tubers and Banana Breeding, Annual Technical Report 2024 (yellow, status chips,
+#       the muted qualitative palette of its charts)
+# This is the team's choice of colours, not an official brand template.
+name: cgiar-dta
+
+colours:
+  primary: "#065F4A"         # PN, headings, table headers, bars
+  primary_dark: "#033529"    # PN and DTA, tiles, bold text, cover band
+  deep: "#02211A"            # PN, cover band and back cover
+  highlight: "#17F1BD"       # PN, title on the dark cover band
+  accent: "#FCC72E"          # RTB, bars above headings, numbers on tiles, caption rules
+  accent_dark: "#494D5A"     # RTB, subheadings, standfirst, status tag
+  tint: "#F0F0F0"            # RTB, even table rows, panels
+  year_tint: "#FEF1CB"       # RTB, the reporting year in the year box
+  ink: "#010D09"             # PN, body text
+  muted: "#545454"           # RTB, captions and footer
+  rule: "#E2E0DF"            # PN, table lines and dividers
+  cover_text: "#FFFFFF"
+  cover_subtext: "#A9FAE7"   # PN, light mint
+  link_underline: "#67C4AA"  # PN, mint
+  pattern: "#FF8DDF"         # DTA, pink ground of the pattern and the page strip
+  pattern_mark: "#93216D"    # DTA, magenta strokes of the pattern
+
+fonts:
+  body: "Arial"              # DTA, falls back to Liberation Sans
+  display: "Times New Roman" # DTA cover title, falls back to Liberation Serif
+  mono: "DejaVu Sans Mono"
+  docx: "Arial"              # Word version, a font every reader has
+
+# Status chips, RTB. Always printed with the word.
+status:
+  on_track: "#88C445"
+  delayed: "#F1D71B"
+  off_track: "#EA4636"
+
+# Chart colours, from the charts and maps of both reports
+charts:
+  single: "#065F4A"          # PN, one series and the reporting year
+  single_light: "#67C4AA"    # PN, intervals, secondary bars, earlier years, "significant" in PN
+  not_different: "#A0A0A0"   # RTB grey, trials where entries do not differ
+  positive: "#065F4A"        # two opposed series, for example women or most preferred
+  negative: "#FCC72E"        # two opposed series, for example men or least preferred
+  missing: "#E2E0DF"         # not stated, no data
+  sequential: ["#A9FAE7", "#67C4AA", "#065F4A", "#033529"]   # PN map gradient, light to dark
+  qualitative: ["#332288", "#117733", "#44AA99", "#88CCEE", "#DDCC77", "#CC6677", "#882255"]  # RTB charts, Tol muted
+  map_fill: "#E0E0E0"        # PN, countries outside the focus
+  map_focus: "#F0F0F0"
+  map_line: "#A0A0A0"
+
+# text about the unit that publishes the paper, printed on the inside cover
+unit:
+  name: "CGIAR Accelerator for Digital Transformation"
+  about: >-
+    The CGIAR Accelerator for Digital Transformation co-creates inclusive digital solutions
+    leveraging advances in artificial intelligence, machine learning, big data modeling and
+    analytics. It supports improved decision-making, policy development and strategic investments,
+    while accelerating the adoption of digital tools to drive impactful transformation on food,
+    land and water systems.
+  logo_lockup: "logos/cgiar-digital-transformation.svg"

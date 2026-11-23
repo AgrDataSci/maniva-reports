@@ -58,6 +58,7 @@ To add a theme, copy `themes/cgiar.yml`, rename it, change the values and name i
 |---|---|---|
 | `band` | Technical reports. The default | Full-width band in the primary colour with the title, headline tiles below |
 | `annual` | Annual reports | After the Portfolio Narrative. Logos on white at the top, then a deep green band with the programme label, "Annual technical report" and the year, and the title in mint. A photograph below when the authors supply one, headline tiles for the year and since the start at the foot |
+| `working_paper` | Working papers, with the `cgiar-dta` theme for the Digital Transformation Accelerator | After the DTA working paper of October 2026. CGIAR logo and \"Working Paper\" on white with a patterned strip at the left, the title in a serif in mint on a deep green band with authors and date, and a patterned field below that holds the cover photograph. A patterned strip runs down the right edge of every text page. The back cover has the pattern, a deep green band with the CGIAR statement and the contacts, and the CGIAR and DTA logo lockup. The pattern is drawn by the renderer from the theme colours `pattern` and `pattern_mark`, never copied from the paper's artwork |
 | `event` | Reports made for a workshop or event. Planned, not built yet | Dark green band with partner logos at top right, a two-tone title, a black-and-white photograph when supplied, date and place in bold |
 
 A cover photograph comes only from the authors, with its credit, and the report states the credit in the caption or the colophon.

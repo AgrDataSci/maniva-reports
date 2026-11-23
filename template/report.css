@@ -180,3 +180,51 @@ figure { position: relative; }
   color: #fff; text-align: left; pointer-events: none; }
 .machine-data table, .machine-data td, .machine-data p { border: 0; padding: 0; margin: 0; background: none !important; font-size: 1pt;
   color: #fff; border-radius: 0; break-inside: auto; }
+
+/* working paper, after the DTA working paper of October 2026. Title on a deep band between a white
+   logo strip and a patterned field, a patterned strip down the right edge of every text page, and
+   a back cover with the CGIAR statement and the contacts. --pattern and --strip are drawn by the
+   renderer from the theme colours pattern and pattern_mark. */
+body.wp { font: 10pt/1.42 var(--font-body), "Liberation Sans", sans-serif; }
+body.wp { padding-right: 10mm; }  /* the right page margin is the 9 mm strip, drawn in the page margin boxes by the renderer */
+body.wp h2 { font: 700 15pt/1.25 var(--font-body), "Liberation Sans", sans-serif; color: var(--primary); border: 0; margin: 9mm 0 3mm 0; padding: 0; }
+body.wp h2::before { content: none; }
+body.wp h3 { font: 700 11pt var(--font-body), "Liberation Sans", sans-serif; color: var(--primary); margin: 5mm 0 2mm 0; }
+body.wp p { text-align: justify; }
+body.wp h2.newpage { break-before: page; margin-top: 0; }
+.cover.wp { position: relative; z-index: 1; background: #fff; margin-right: -10mm; }
+.cover.wp .head { height: 74mm; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 20mm 13mm 30mm; position: relative; flex: 0 0 auto; }
+.cover.wp .head::before { content: ""; position: absolute; left: 0; top: 0; width: 15mm; height: 100%; background: var(--strip); }
+.cover.wp .head img { height: 18mm; width: auto; margin-bottom: 9mm; }
+.cover.wp .head .label { font: 700 9pt var(--font-body), "Liberation Sans", sans-serif; color: var(--ink); }
+.cover.wp .band { background: var(--primary-dark); color: #fff; padding: 22mm 20mm 10mm 30mm; flex: 0 0 auto; }
+.cover.wp h1 { font: 400 19pt/1.3 var(--font-display), "Liberation Serif", serif; color: var(--highlight); margin: 0 0 3mm 0; max-width: 150mm; }
+.cover.wp .sub { font: 400 12pt/1.35 var(--font-body), "Liberation Sans", sans-serif; color: var(--cover-subtext); margin-bottom: 3mm; }
+.cover.wp .by { font: 400 14pt/1.35 var(--font-body), "Liberation Sans", sans-serif; margin-bottom: 3mm; }
+.cover.wp .date { font: 400 12pt var(--font-body), "Liberation Sans", sans-serif; }
+.cover.wp .status { display: inline-block; margin-top: 4mm; font: 600 7.5pt var(--font-body), sans-serif; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--highlight); border: 0.3mm solid var(--highlight); padding: 0.8mm 2.5mm; border-radius: 1mm; }
+.cover.wp .field { flex: 1 1 auto; background: var(--pattern); position: relative; display: flex; align-items: center; justify-content: center; }
+.cover.wp .field img { max-width: 120mm; max-height: 105mm; box-shadow: 0 1mm 4mm rgba(0,0,0,.25); }
+.cover.wp .field .credit { position: absolute; right: 6mm; bottom: 4mm; font: italic 7pt var(--font-body), sans-serif; color: #fff; }
+section.inside { break-after: page; font-size: 8.8pt; line-height: 1.45; }
+section.inside h4 { font: 700 10.5pt var(--font-body), "Liberation Sans", sans-serif; color: var(--ink); margin: 7mm 0 1.5mm 0; }
+section.inside h4:first-child { margin-top: 0; }
+section.inside p { margin: 0 0 1.2mm 0; text-align: left; }
+section.inside .photo-credits { margin-top: 12mm; color: var(--ink); }
+body.wp .contents h2 { font-size: 15pt; }
+body.wp .contents li { border: 0; padding: 1.6mm 0; font-size: 10pt; }
+body.wp .contents li .nm { font-weight: 400; }
+body.wp .contents li.h3 { padding-left: 4mm; font-size: 9.4pt; }
+body.wp .contents li.h3 .nm { font-style: italic; }
+@page full { margin: 0; @bottom-left { content: none; } @bottom-right { content: none; } }
+section.back { page: full; break-before: page; height: 296.5mm; margin-right: -10mm; display: flex; flex-direction: column; position: relative; z-index: 1; background: #fff; }
+section.back .field { height: 84mm; background: var(--pattern); flex: 0 0 auto; display: flex; align-items: center; justify-content: center; }
+section.back .field img { max-width: 150mm; max-height: 70mm; }
+section.back .band { background: var(--primary-dark); color: #fff; padding: 22mm 20mm 12mm 20mm; font: 8.6pt/1.45 var(--font-body), "Liberation Sans", sans-serif; flex: 0 0 auto; min-height: 82mm; }
+section.back .band p { margin: 0 0 2mm 0; text-align: left; }
+section.back .band a, section.back .band .link { color: var(--highlight); }
+section.back .band h4 { font: 700 8.8pt var(--font-body), sans-serif; margin: 4mm 0 1mm 0; color: #fff; }
+section.back .foot { flex: 1 1 auto; position: relative; display: flex; align-items: flex-end; padding: 0 20mm 22mm 20mm; }
+section.back .foot::after { content: ""; position: absolute; right: 0; top: 18mm; bottom: 0; width: 9mm; background: var(--strip); }
+section.back .foot img { height: 15mm; width: auto; }

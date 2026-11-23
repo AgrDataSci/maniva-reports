@@ -23,3 +23,14 @@ synthetic: >-
 machine_readable: >-
   The data behind every figure are embedded in this file as text and as attached CSV
   files, with a JSON summary of the reporting fields, so reporting tools can read them.
+
+# back cover of a working paper, the CGIAR partnership statement
+cgiar_about: >-
+  CGIAR is a global research partnership for a food-secure future. CGIAR science is dedicated to
+  transforming food, land, and water systems in a climate crisis. Its research is carried out by 13
+  CGIAR Centers and Alliances in close collaboration with hundreds of partners, including national and
+  regional research institutes, civil society organizations, academia, development organizations and
+  the private sector. www.cgiar.org
+trust_fund: >-
+  We thank all funders who supported this research through their contributions to the CGIAR Trust
+  Fund (www.cgiar.org/funders).

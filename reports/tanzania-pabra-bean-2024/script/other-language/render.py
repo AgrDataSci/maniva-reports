@@ -5,7 +5,7 @@ available. It follows the same steps and reads the same report.yml, theme and st
 Use the R script when R is available.
 
 Usage, from the repository root
-    python3 reports/<folder>/script/other-language/render.py reports/<folder>
+    python3 reports/<folder>/script/other-language/render.py reports/<folder> [settings.yml]
 Needs the Python packages markdown and pyyaml, and Google Chrome or Chromium.
 """
 import csv
@@ -24,13 +24,18 @@ report = os.path.abspath(sys.argv[1])
 root = report
 while not os.path.isdir(os.path.join(root, 'themes')):  # repository root, however deep the report folder is
     root = os.path.dirname(root)
-cfg = yaml.safe_load(open(os.path.join(report, 'report.yml'), encoding='utf-8'))
+# an optional second argument names another settings file in the report folder, such as a
+# working-paper version of the same content
+cfg = yaml.safe_load(open(os.path.join(report, sys.argv[2] if len(sys.argv) > 2 else 'report.yml'), encoding='utf-8'))
 theme = yaml.safe_load(open(os.path.join(root, 'themes', cfg.get('theme', 'cgiar') + '.yml'), encoding='utf-8'))
 esc = html.escape
 annual = cfg.get('type') == 'annual'
+wp = cfg.get('type') == 'working_paper'  # working paper, after the DTA working paper of October 2026
+# authors are names, or entries with name, role and institution
+people = [a if isinstance(a, dict) else {'name': a} for a in (cfg.get('authors') or [])]
 
 # 1. content, without the sections the authors hold back --------------------
-text = open(os.path.join(report, 'content', 'report.md'), encoding='utf-8').read()
+text = open(os.path.join(report, cfg.get('content') or 'content/report.md'), encoding='utf-8').read()
 exclude = set(cfg.get('exclude_sections') or [])
 parts = re.split(r'(?m)^(?=## )', text)
 parts = [p for p in parts if not (p.startswith('## ') and p.splitlines()[0][3:].strip() in exclude)]
@@ -126,7 +131,15 @@ def section(m):
         return f'<h2 class="section"><span class="lab">{lab}:</span> {nm}</h2>'
     return f'<h2 class="unnumbered">{nm}</h2>' if annual else m.group(0)
 
-body = re.sub(r'<h2>(?:(Section \d+): )?(.*?)</h2>', section, body)
+if wp:
+    # a working paper has unnumbered sections, and its contents list the subsections too
+    def wp_head(m):
+        lvl, nm = m.group(1), re.sub(r'^Section \d+: ', '', m.group(3))
+        heads.append(('h' + lvl, nm))
+        return f'<h{lvl}{m.group(2)}>{nm}</h{lvl}>'
+    body = re.sub(r'<h([23])((?: class="[^"]*")?)>(.*?)</h\1>', wp_head, body)
+else:
+    body = re.sub(r'<h2>(?:(Section \d+): )?(.*?)</h2>', section, body)
 
 
 def wide(m):
@@ -179,13 +192,21 @@ if st:
 def tiles_html(ts):
     return ''.join(f'<div class="tile"><div class="n">{esc(str(t["value"]))}</div><div class="l">{esc(t["label"])}</div></div>' for t in ts)
 
-authors = cfg.get('authors') or []
+authors = [a['name'] for a in people]
 author_line = ', '.join(authors[:-1]) + (' and ' if len(authors) > 1 else '') + (authors[-1] if authors else '')
 inst = ' &middot; '.join(esc(i) for i in cfg.get('institutions') or [])
 logos = ''.join(f'<img src="{esc(p)}" alt="">' for p in cfg.get('logos') or [])
 status = f'<div class="status">{esc(cfg["status"])}</div>' if cfg.get('status') else ''
 hl = cfg.get('highlights') or []
-if cfg.get('cover_style') == 'annual':
+if wp:
+    photo = cfg.get('cover_photo')
+    pic = f'<img src="{esc(photo["file"])}" alt="">' if photo else ''
+    cover = f'''<section class="cover wp"><div class="head">{f'<img src="{esc(cfg["logos"][0])}" alt="">' if cfg.get("logos") else '<span></span>'}
+<div class="label">{esc(cfg.get("kicker", "Working Paper"))}</div></div>
+<div class="band"><h1>{esc(cfg["title"])}</h1>{f'<div class="sub">{esc(cfg["subtitle"])}</div>' if cfg.get("subtitle") else ""}
+<div class="by">{esc(author_line or cfg.get("corporate_author", ""))}</div><div class="date">{esc(str(cfg.get("date", "")))}</div>{status}</div>
+<div class="field">{pic}</div></section>'''
+elif cfg.get('cover_style') == 'annual':
     yr = [t for t in hl if t.get('period') == 'year']; cu = [t for t in hl if t.get('period') == 'cumulative']
     groups = (f'<div class="tilegroups"><div class="tilegroup year"><div class="gl">In {esc(str(cfg.get("reporting_year", "")))}</div>'
               f'<div class="tiles">{tiles_html(yr)}</div></div>' + (f'<div class="tilegroup cumulative"><div class="gl">Since the start, '
@@ -208,7 +229,36 @@ else:
 
 # 9. colophon and contents, annual type only -----------------------------------
 front = ''
+back = ''
 shared = yaml.safe_load(open(os.path.join(root, 'template', 'colophon.yml'), encoding='utf-8'))
+if wp:
+    co = cfg.get('colophon') or {}
+    unit = theme.get('unit') or {}
+    who = ''.join(f'<p>{esc(a["name"])}' + ''.join(f', {esc(a[k])}' for k in ('role', 'institution') if a.get(k)) + '</p>' for a in people) \
+        or f'<p>{esc(cfg.get("corporate_author", ""))}</p>'
+    credits = ''.join(f'<p>{esc(t)}</p>' for t in [
+        ('Cover photograph. ' + cfg['cover_photo']['credit']) if (cfg.get('cover_photo') or {}).get('credit') else '',
+        ('Back cover. ' + cfg['back_figure']['credit']) if (cfg.get('back_figure') or {}).get('credit') else ''] if t)
+    front = f'''<section class="inside"><h4>Authors</h4>{who}
+<h4>Acknowledgements</h4><p>{esc(co.get("acknowledgements") or "")} {esc(shared["trust_fund"]) if co.get("trust_fund", True) else ""}</p>
+{f'<h4>{esc(unit["name"])}</h4><p>{esc(unit["about"])}</p>' if unit else ""}
+<h4>Citation</h4><p>{esc(co.get("citation", ""))}</p>
+{f'<p>{esc(co["handle"])}</p>' if co.get("handle") else ""}
+<h4>Use of artificial intelligence</h4><p>{esc(shared["generated_by"])} {esc(shared["reviewed"] if cfg.get("approved") else shared["not_reviewed"])} {esc(co.get("ai_statement") or "")}</p>
+<p>Cite maniva as {esc(shared["maniva_citation"])}</p>
+{f'<h4>About this document</h4><p>{esc(shared["synthetic"] if cfg.get("synthetic") else shared["example"])}</p>' if (cfg.get("example") or cfg.get("synthetic")) else ""}
+<h4>Machine-readable content</h4><p>{esc(shared["machine_readable"])}</p>
+<p>This publication is licensed under a Creative Commons Attribution 4.0 International License ({esc(co.get("licence", "CC BY 4.0"))}).</p>
+<div class="photo-credits">{credits}</div></section>'''
+    items = ''.join(f'<li class="{l}"><span class="nm">{nm}</span></li>' for l, nm in heads)
+    front += f'<section class="contents"><h2>Contents</h2><ol>{items}</ol></section>'
+    bf = cfg.get('back_figure')
+    contacts = ''.join(f'<p><strong>{esc(x["name"])}</strong>' + ''.join(f', {esc(x[k])}' for k in ('role', 'institution') if x.get(k)) +
+                       (f'. <span class="link">{esc(x["email"])}</span>' if x.get('email') else '') + '</p>' for x in cfg.get('contacts') or [])
+    lockup = unit.get('logo_lockup')
+    back = f'''<section class="back"><div class="field">{f'<img src="{esc(bf["file"])}" alt="">' if bf else ""}</div>
+<div class="band"><p>{esc(shared["cgiar_about"])}</p>{f'<h4>Contact</h4>{contacts}' if contacts else ""}</div>
+<div class="foot">{f'<img src="{esc(os.path.relpath(os.path.join(root, lockup), report))}" alt="">' if lockup else ""}</div></section>'''
 if annual:
     co = cfg.get('colophon') or {}
     fund_path = os.path.join(report, 'output', 'tables', 'funders.csv')
@@ -242,16 +292,55 @@ if annual:
 c, f = theme['colours'], theme['fonts']
 st_cols = {f'status-{k.replace("_", "-")}': v for k, v in (theme.get('status') or {}).items()}
 footer = (cfg.get('kicker', '') + '. ' + cfg['title']).replace('"', "'") if annual else cfg['title'].replace('"', "'")
+if wp:
+    footer = ''
+
+
+def pattern_svg(w, h, n, seed, ground, mark, stroke=2.2):
+    """Pattern of short curved strokes in two theme colours, drawn here, not copied from any artwork."""
+    import base64, math, random
+    rnd = random.Random(seed); paths = []
+    for _ in range(n):
+        x, y, a = rnd.uniform(0, w), rnd.uniform(0, h), rnd.uniform(0.6, 1.2)
+        dx, dy = 7 * math.cos(a), -7 * math.sin(a)
+        paths.append(f'<path d="M{x:.1f} {y:.1f} q{dx * .6 - 2:.1f} {dy * .6:.1f} {dx:.1f} {dy:.1f}"/>')
+    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}"><rect width="{w}" height="{h}" fill="{ground}"/>'
+           f'<g fill="none" stroke="{mark}" stroke-width="{stroke}" stroke-linecap="round">{"".join(paths)}</g></svg>')
+    return 'url("data:image/svg+xml;base64,' + base64.b64encode(svg.encode()).decode() + '")'
+
+
+def strip_svg(ground, mark):
+    """Thin wavy lines for the page strip."""
+    import base64, math
+    lines = ''.join(f'<path d="M{x} 0 ' + ' '.join(f'L{x + 2.2 * math.sin(y / 9 + x):.1f} {y}' for y in range(0, 300, 6)) + '"/>' for x in (6, 14, 22))
+    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="30" height="300"><rect width="30" height="300" fill="{ground}"/>'
+           f'<g fill="none" stroke="{mark}" stroke-width="0.7" opacity=".55">{lines}</g></svg>')
+    return 'url("data:image/svg+xml;base64,' + base64.b64encode(svg.encode()).decode() + '")'
+
+extra = ''
+page_css = ''
+if wp and 'pattern' in c:
+    # the strip down the right edge of every text page lives in the page margin boxes, the only place
+    # Chrome prints outside the page area. The cover and back cover pages switch it off.
+    strip = f'content: ""; background: {strip_svg(c["pattern"], c["pattern_mark"])} 0 0 / 9mm 90mm repeat-y;'
+    boxes = ('right-top', 'right-middle', 'right-bottom', 'top-right-corner', 'bottom-right-corner')
+    page_css = ('@page { margin: 21mm 9mm 20mm 19mm; ' + ' '.join(f'@{b} {{ {strip} }}' for b in boxes) + ' }\n' +
+                '@page :first { ' + ' '.join(f'@{b} {{ content: none; background: none; }}' for b in boxes) + ' }\n' +
+                '@page full { ' + ' '.join(f'@{b} {{ content: none; background: none; }}' for b in boxes) + ' }\n')
+if 'pattern' in c:
+    extra = f' --pattern: {pattern_svg(120, 120, 34, 7, c["pattern"], c["pattern_mark"])} 0 0 / 34mm 34mm; --strip: {strip_svg(c["pattern"], c["pattern_mark"])} 0 0 / 100% 100%;'
 variables = ':root {' + ''.join(f' --{k.replace("_", "-")}: {v};' for k, v in c.items()) + \
     ''.join(f' --{k}: {v};' for k, v in st_cols.items()) + \
-    f' --font-body: "{f["body"]}"; --font-display: "{f["display"]}"; --font-mono: "{f["mono"]}"; --footer-title: "{footer}"; }}'
+    f' --font-body: "{f["body"]}"; --font-display: "{f["display"]}"; --font-mono: "{f["mono"]}"; --footer-title: "{footer}";{extra} }}'
 css = open(os.path.join(root, 'template', 'report.css'), encoding='utf-8').read()
 doc = f'''<!DOCTYPE html><html lang="{cfg.get("language", "en")}"><head><meta charset="utf-8">
 <title>{esc(cfg["title"])}. {esc(cfg.get("subtitle", ""))}</title><style>{variables}
-{css}</style></head><body>
+{css}
+{page_css}</style></head><body{' class="wp"' if wp else ''}>
 {cover}
 {front}
 {body}
+{back}
 </body></html>'''
 out_html = os.path.join(report, 'report.html')
 open(out_html, 'w', encoding='utf-8').write(doc)
@@ -342,7 +431,9 @@ co = cfg.get('colophon') or {}
 def styled(style, txt):
     return f'::: {{custom-style="{style}"}}\n{txt}\n:::\n' if txt else ''
 
-byline = cfg.get('corporate_author') or ', '.join(cfg.get('authors') or [])
+byline = cfg.get('corporate_author') or ', '.join(a['name'] for a in people)
+if wp:
+    byline = ', '.join(a['name'] for a in people) or cfg.get('corporate_author', '')
 front_md = f'''{logo_md}
 
 **{cfg.get("kicker", "")}**
@@ -359,6 +450,37 @@ front_md = f'''{logo_md}
 
 {" · ".join(cfg.get("institutions") or [])}
 '''
+if wp:
+    unit = theme.get('unit') or {}
+    front_md = f'''{logo_md}
+
+**{cfg.get("kicker", "Working Paper")}**
+
+{styled("Title", cfg["title"])}
+{styled("Subtitle", cfg.get("subtitle", ""))}
+{styled("Author", byline)}
+{styled("Date", str(cfg.get("date", "")))}
+{"**" + cfg["status"] + "**" if cfg.get("status") else ""}
+''' + PAGE + '**Authors**\n\n' + '\n\n'.join(a['name'] + ''.join(', ' + a[k] for k in ('role', 'institution') if a.get(k)) for a in people) + \
+        f'''
+
+**Acknowledgements**
+
+{co.get("acknowledgements") or ""} {shared["trust_fund"] if co.get("trust_fund", True) else ""}
+
+{"**" + unit["name"] + "**" + chr(10) + chr(10) + unit["about"] if unit else ""}
+
+**Citation**
+
+{co.get("citation", "")}
+
+**Use of artificial intelligence.** {shared["generated_by"]} {shared["reviewed"] if cfg.get("approved") else shared["not_reviewed"]} {co.get("ai_statement") or ""}
+
+**Cite maniva as** {shared["maniva_citation"]}
+
+**Machine-readable content.** {shared["machine_readable"]} In this Word file the figure data are in the annex.
+'''
+    md = re.sub(r'(?m)^## Section \d+: ', '## ', md)
 if annual:
     front_md += PAGE + f'''**Author.** {cfg.get("corporate_author", "")}
 

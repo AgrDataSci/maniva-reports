@@ -12,9 +12,25 @@ Set the type in `report.yml`. This standard covers the technical report. The oth
 |---|---|---|
 | `technical` | Results of a set of trials, for partners and CGSpace. The default | This file |
 | `annual` | One year of a programme and its cumulative record, in the structure of the CGIAR annual technical report, with PRMS result candidates | [annual-report-standard.md](annual-report-standard.md) |
+| `working_paper` | A paper of a unit or accelerator, such as guidelines, lessons or a portfolio review, after the DTA working paper of October 2026 | Working paper below |
 | `story` | One key result on one or two pages, for a Type 1 report, a newsletter or a donor | Key result story in [annual-report-standard.md](annual-report-standard.md) |
 
 How CGIAR reports are built, and which parts maniva fills from data, is in [cgiar-reporting.md](cgiar-reporting.md).
+
+### Working paper
+
+A working paper argues one thing from evidence, for colleagues and partners, and is shorter and freer than an annual report. Its sections are unnumbered. Start from `reports/_template/content/working-paper.md`.
+
+1. **Key highlights.** Four to six bullets, each a finding with its number.
+2. **Background.** Why the topic matters and what the paper reads.
+3. **Objective.** One paragraph, one sentence where possible.
+4. **The body**, in sections the topic needs, with subsections that the contents list.
+5. **Lessons**, when the paper reviews several pieces of work.
+6. **Reporting tags**, when the paper feeds PRMS, with the suggestion rules of the annual standard.
+7. **Limitations and next steps.**
+8. **References.**
+
+The inside cover carries the authors with their roles, the acknowledgements with the CGIAR Trust Fund line, the text about the publishing unit from the theme, the citation, the AI statement with the maniva citation, and the credits of the photographs. The back cover carries the CGIAR statement and the contacts. The Python renderer builds the type. The R renderer does not yet.
 
 ## Who the report is for
 

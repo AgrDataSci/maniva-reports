@@ -1,11 +1,10 @@
 # Report configuration. Copy this folder to reports/<country>-<programme>-<year>/ and fill it.
 # Leave a field empty when you do not know it. Never invent an author, funder or DOI.
-type: technical      # technical, annual or story (docs/report-standard.md)
-cover_style: band    # band or annual, event planned (docs/style-guide.md)
+type: technical      # technical, annual, working_paper or story (docs/report-standard.md)
+cover_style: band    # band, annual or working_paper, event planned (docs/style-guide.md)
+theme: cgiar         # cgiar, or cgiar-dta for working papers of the Digital Transformation Accelerator
 title: ""
-subtype: technical      # technical, annual or story (docs/report-standard.md)
-cover_style: band    # band or annual, event planned (docs/style-guide.md)
-title: ""
+subtitle: ""
 kicker: "Technical report"
 date: ""
 status: "Draft for review"   # remove when the authors approve and the R scripts have run
@@ -90,3 +89,13 @@ figure_widths: {}         # figure file name and its width in percent of the tex
 page_break_before: []     # section headings that start a new page
 exclude_sections: []      # sections kept in content/report.md and left out of this version
 output_name: null         # file name of the PDF, the folder name when null
+
+# working paper only (type: working_paper). Authors may be plain names or entries with role and
+# institution. Contacts go on the back cover, with an email only when the person agreed to print it.
+# authors:
+#   - {name: "", role: "", institution: ""}
+# contacts:
+#   - {name: "", role: "", institution: "", email: ""}
+# cover_photo: {file: "", credit: ""}     # photograph or screenshot from the authors, on the patterned field
+# back_figure: {file: "", credit: ""}     # optional diagram on the back cover
+# content: content/working-paper.md       # another content file, when one folder holds two versions
