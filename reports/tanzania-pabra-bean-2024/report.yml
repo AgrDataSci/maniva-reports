@@ -24,6 +24,7 @@ theme: cgiar
 logos:           # from logos/ of this repository, relative to this folder
   - ../../logos/cgiar.svg
   - ../../logos/alliance-bioversity-ciat.svg
+  - ../../logos/pabra.svg
 cover_photo: null
 boundaries: null
 
