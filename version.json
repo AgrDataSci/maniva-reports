@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.2.0",
   "commit": null,
   "committed": null,
   "note": "commit and committed are to be stamped on every push to main, as in maniva. Bump version by hand at each release."

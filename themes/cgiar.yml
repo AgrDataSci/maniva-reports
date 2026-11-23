@@ -1,38 +1,49 @@
 # cgiar theme, the default of maniva-reports.
-# Green and mint from the colour themes shown on cgiar.org (November 2026).
-# Dark green, amber and pale green from the ICAR-NBPGR deck that inspired the first report.
+# Every colour is taken from two CGIAR reports the team supplied, read from their vector fills.
+#   PN  CGIAR Portfolio Narrative 2025 (greens, mint and greys)
+#   RTB Roots, Tubers and Banana Breeding, Annual Technical Report 2024 (yellow, status chips,
+#       the muted qualitative palette of its charts)
 # This is the team's choice of colours, not an official brand template.
 name: cgiar
 
 colours:
-  primary: "#06604B"
-  primary_dark: "#0F533F"
-  highlight: "#58FBD4"
-  accent: "#F6A93B"
-  accent_dark: "#B45F00"
-  tint: "#F3F8EE"
-  ink: "#22332A"
-  muted: "#4A5A52"
-  rule: "#CFE1D8"
+  primary: "#065F4A"         # PN, headings, table headers, bars
+  primary_dark: "#033529"    # PN, tiles, bold text
+  deep: "#02211A"            # PN, cover band and back cover
+  highlight: "#17F1BD"       # PN, title on the dark cover band
+  accent: "#FCC72E"          # RTB, bars above headings, numbers on tiles, caption rules
+  accent_dark: "#494D5A"     # RTB, subheadings, standfirst, status tag
+  tint: "#F0F0F0"            # RTB, even table rows, panels
+  year_tint: "#FEF1CB"       # RTB, the reporting year in the year box
+  ink: "#010D09"             # PN, body text
+  muted: "#545454"           # RTB, captions and footer
+  rule: "#E2E0DF"            # PN, table lines and dividers
   cover_text: "#FFFFFF"
-  cover_subtext: "#D9EFE8"
-  link_underline: "#9CC9B9"
+  cover_subtext: "#A9FAE7"   # PN, light mint
+  link_underline: "#67C4AA"  # PN, mint
 
 fonts:
   body: "Inter"
   display: "Inter Display"
   mono: "DejaVu Sans Mono"
+  docx: "Arial"              # Word version, a font every reader has
 
-# ColorBrewer colours for charts
+# Status chips, RTB. Always printed with the word.
+status:
+  on_track: "#88C445"
+  delayed: "#F1D71B"
+  off_track: "#EA4636"
+
+# Chart colours, from the charts and maps of both reports
 charts:
-  single: "#238B45"        # Greens, one series
-  single_light: "#A1D99B"  # Greens, intervals and secondary bars
-  not_different: "#8A8A8A" # trials where entries do not differ
-  positive: "#01665E"      # BrBG, for example most preferred
-  negative: "#8C510A"      # BrBG, for example least preferred
-  sequential: "Greens"
-  diverging: "BrBG"
-  qualitative: "Paired"
-  map_fill: "#F7F7F7"
-  map_focus: "#E5F5E0"
-  map_line: "#9A9A9A"
+  single: "#065F4A"          # PN, one series and the reporting year
+  single_light: "#67C4AA"    # PN, intervals, secondary bars, earlier years, "significant" in PN
+  not_different: "#A0A0A0"   # RTB grey, trials where entries do not differ
+  positive: "#065F4A"        # two opposed series, for example women or most preferred
+  negative: "#FCC72E"        # two opposed series, for example men or least preferred
+  missing: "#E2E0DF"         # not stated, no data
+  sequential: ["#A9FAE7", "#67C4AA", "#065F4A", "#033529"]   # PN map gradient, light to dark
+  qualitative: ["#332288", "#117733", "#44AA99", "#88CCEE", "#DDCC77", "#CC6677", "#882255"]  # RTB charts, Tol muted
+  map_fill: "#E0E0E0"        # PN, countries outside the focus
+  map_focus: "#F0F0F0"
+  map_line: "#A0A0A0"

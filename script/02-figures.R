@@ -72,3 +72,27 @@ if (!is.null(ta)) {
 if (!is.null(rt)) {
   save_figure(figure_reasons(rt, theme), file.path(fig, name("reasons")), height = 9)
 }
+
+# Annual report, year against cumulative (docs/annual-report-standard.md)
+# Beside each figure, output/figure-data/ holds the exact numbers it draws. The renderer embeds
+# them in the PDF and the Word file for reporting tools.
+if (identical(cfg$type, "annual")) {
+  tab = file.path(report, "output", "tables")
+  dat = file.path(report, "output", "figure-data")
+  dir.create(dat, showWarnings = FALSE)
+  keep = function(file, d) write.csv(d, file.path(dat, file), row.names = FALSE)
+  by = read.csv(file.path(tab, "by-year.csv"))
+  save_figure(figure_participants_year(by, cfg, theme), file.path(fig, "annual-participants.png"), height = 5.5)
+  keep("annual-participants.csv", by[, c("year", "women", "men", "not_stated", "participants")])
+  keep("annual-entries.csv", data.frame(year = by$year, entries = by$entries, new_entries = by$new_entries,
+                                        tested_before = by$entries - by$new_entries))
+  save_figure(figure_entries_year(by, theme), file.path(fig, "annual-entries.png"), width = 10, height = 5)
+  if (file.exists(file.path(tab, "vs-local-year.csv"))) {
+    keep("annual-vs-local.csv", utils::read.csv(file.path(tab, "vs-local-year.csv")))
+    save_figure(figure_vs_local_year(read.csv(file.path(tab, "vs-local-year.csv"), colClasses = c(year = "character")), cfg, theme),
+                file.path(fig, "annual-vs-local.png"), width = 10, height = 5.5)
+  }
+  rec = read.csv(file.path(tab, "entries-record.csv"))
+  save_figure(figure_entry_record(rec, theme), file.path(fig, "annual-entry-record.png"), width = 12, height = 7.5)
+  keep("annual-entry-record.csv", rec[rec$trials_ranked >= 3, c("genotype", "trials_ranked", "top3", "share_top3", "median_rank", "years")])
+}

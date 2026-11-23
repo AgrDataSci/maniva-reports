@@ -1,0 +1,33 @@
+{
+  "tricot_data_commit": "edbf1f6",
+  "script": "script/other-language/analysis.py",
+  "language": "Python",
+  "trials": [
+    "82cc41bf05f1",
+    "50e4d181da22",
+    "5ca791dab050",
+    "7b153881fd9d",
+    "1efd5fa72e1d",
+    "7a1f8c327dc4",
+    "da70574012e2",
+    "0295f2c94fe1",
+    "5013a9591a71",
+    "66908577c955",
+    "f18a9f58be94",
+    "5ec7c6394af9",
+    "27565e02973a",
+    "2976151e9650",
+    "5e2b156be7a5",
+    "cffdd4067295",
+    "2416f83194e5",
+    "f41aa2802320",
+    "e0f6f1da3d57",
+    "52c171cf9718",
+    "959322effc95",
+    "5f0ddca8eedd",
+    "5587eb79283d",
+    "94bfde0f9213",
+    "2848259a8c19"
+  ],
+  "reporting_year": 2024
+}

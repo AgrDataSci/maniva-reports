@@ -1,0 +1,19 @@
+group,field,given,suggested,rule,evidence
+Impact Areas,"Nutrition, health and food security",,1,Variety evaluation of a food crop with farmers,"crop commonbean, 25 trials"
+Impact Areas,"Poverty reduction, livelihoods and jobs",,1,Market or yield traits ranked by farmers,"cooking_time, grain_color, grain_size, marketability, taste, yield_rank"
+Impact Areas,"Gender equality, youth and social inclusion",,1,Gender recorded for at least 80% of participants and women at least 30% of them,"gender recorded for 97%, women 48%"
+Impact Areas,Climate adaptation and mitigation,,1,A climate-stress or earliness trait ranked by farmers,"drought_tolerance, flood_tolerance, maturity"
+Impact Areas,Environmental health and biodiversity,,0,Landraces or genebank accessions among the entries,"entry roles: comparative check, evaluation entry, farmer check, historical check, release candidate"
+SDGs,Sustainable Development Goals,,SDG 1 No poverty; SDG 2 Zero hunger; SDG 5 Gender equality; SDG 13 Climate action; SDG 17 Partnerships for the goals,"One SDG per Impact Area scored 1 or 2, and SDG 17 always for tricot and maniva work","Impact Areas above; trials run with farmers, national partners and CGIAR"
+Innovation,Innovation readiness level of the entries under evaluation,,8 Uncontrolled testing,"Entries tested by farmers on their own farms, under their own management. 9 needs evidence of validated impact, such as a release and its use",51 entries in 25 farmer-managed trials
+Innovation,Innovation use,,,"Set by the programme, for example a release or seed multiplication that used the trial evidence",
+Policy,Policy change,,,Set by the programme,
+Capacity sharing for development,"Short-term trainees, women",,,Recorded by the programme. Trial participants are not trainees,
+Capacity sharing for development,"Short-term trainees, men",,,Recorded by the programme. Trial participants are not trainees,
+Capacity sharing for development,"Long-term trainees, women",,,Recorded by the programme. Trial participants are not trainees,
+Capacity sharing for development,"Long-term trainees, men",,,Recorded by the programme. Trial participants are not trainees,
+Capacity sharing for development,Students supervised for a degree,,,Recorded by the programme. Trial participants are not trainees,
+Budget,"Approved budget, previous year",,,Set by the programme,
+Budget,"Approved budget, reporting year",,,Set by the programme,
+Outcomes,End-of-project outcomes and their status,,,"Set by the programme, status on track, delayed or off track",
+Linkages,CGIAR programmes and accelerators,,,Named by the programme,

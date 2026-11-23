@@ -191,3 +191,86 @@ figure_reasons = function(rt, theme) {
     theme_report()
 
 }
+
+
+# ---------------------------------------------------------------- annual report
+# Status: reviewed-not-executed (written 2026-11-23). Mirrors
+#   reports/tanzania-pabra-bean-2024/script/other-language/figs.py.
+# The reporting year takes the primary green of the theme and earlier years its mint,
+# as year against cumulative.
+
+year_colours = function(years, reporting_year, theme) {
+
+  stats::setNames(ifelse(years == reporting_year, theme$charts$single, theme$charts$single_light), years)
+
+}
+
+
+#' Participants by year and gender, stacked bars
+figure_participants_year = function(by, cfg, theme) {
+
+  d = rbind(data.frame(year = by$year, group = "Women", n = by$women),
+            data.frame(year = by$year, group = "Men", n = by$men),
+            data.frame(year = by$year, group = "Not stated", n = by$not_stated))
+  d$group = factor(d$group, c("Not stated", "Men", "Women"))
+  d$year = factor(d$year, rev(sort(unique(d$year))))
+  tot = data.frame(year = factor(by$year, levels(d$year)), n = by$participants)
+  ggplot2::ggplot(d, ggplot2::aes(n, year, fill = group)) +
+    ggplot2::geom_col(width = 0.62) +
+    ggplot2::geom_text(data = tot, ggplot2::aes(n, year, label = format(n, big.mark = ",")), inherit.aes = FALSE,
+                       hjust = -0.15, size = 2.6) +
+    ggplot2::scale_fill_manual(values = c("Women" = theme$charts$positive, "Men" = theme$charts$negative,
+                                          "Not stated" = theme$charts$missing), breaks = c("Women", "Men", "Not stated"), name = NULL) +
+    ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.1))) +
+    ggplot2::labs(x = "Participants registered", y = NULL) +
+    theme_report()
+
+}
+
+
+#' Entries tested by year, new to the programme or tested before
+figure_entries_year = function(by, theme) {
+
+  d = rbind(data.frame(year = by$year, group = "Tested in an earlier season", n = by$entries - by$new_entries),
+            data.frame(year = by$year, group = "New this season", n = by$new_entries))
+  ggplot2::ggplot(d, ggplot2::aes(factor(year), n, fill = group)) +
+    ggplot2::geom_col(width = 0.6) +
+    ggplot2::scale_fill_manual(values = c("Tested in an earlier season" = theme$charts$single_light,
+                                          "New this season" = theme$charts$single), name = NULL) +
+    ggplot2::labs(x = NULL, y = "Entries tested") +
+    theme_report()
+
+}
+
+
+#' Share of plots rated better than the local variety, by year, with the farm bootstrap interval
+figure_vs_local_year = function(vl, cfg, theme) {
+
+  vl = vl[vl$year != "all", ]
+  cols = year_colours(as.integer(vl$year), cfg$reporting_year, theme)
+  ggplot2::ggplot(vl, ggplot2::aes(year, 100 * share, fill = year)) +
+    ggplot2::geom_col(width = 0.6) +
+    ggplot2::geom_errorbar(ggplot2::aes(ymin = 100 * lower, ymax = 100 * upper), width = 0.15, linewidth = 0.3) +
+    ggplot2::geom_text(ggplot2::aes(y = 100 * upper + 4, label = paste0(round(100 * share), "%")), fontface = "bold", size = 2.8) +
+    ggplot2::geom_hline(yintercept = 50, linetype = "dashed", colour = "#888888", linewidth = 0.3) +
+    ggplot2::scale_fill_manual(values = cols, guide = "none") +
+    ggplot2::scale_y_continuous(limits = c(0, 100)) +
+    ggplot2::labs(x = NULL, y = "Plots rated better than\nthe local variety (%)") +
+    theme_report()
+
+}
+
+
+#' Entries ranked in three or more trials, share of those trials with a top-three place
+figure_entry_record = function(rec, theme) {
+
+  rec = rec[rec$trials_ranked >= 3, ]
+  rec$genotype = stats::reorder(rec$genotype, rec$share_top3)
+  ggplot2::ggplot(rec, ggplot2::aes(100 * share_top3, genotype)) +
+    ggplot2::geom_col(fill = theme$charts$single, width = 0.62) +
+    ggplot2::geom_text(ggplot2::aes(label = paste(top3, "of", trials_ranked, "trials")), hjust = -0.1, size = 2.4) +
+    ggplot2::scale_x_continuous(limits = c(0, 100)) +
+    ggplot2::labs(x = "Trials where the entry ranked in the top three for overall preference (%)", y = NULL) +
+    theme_report()
+
+}

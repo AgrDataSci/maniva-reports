@@ -1,3 +1,17 @@
+# maniva-reports 0.2.0 (2026-11-23)
+
+- Annual report type after the CGIAR annual technical report, in `docs/annual-report-standard.md`, with the CGIAR formats described in `docs/cgiar-reporting.md`. Seven numbered sections, colophon with a statement on the use of AI, fact sheet, year against cumulative, status chips, PRMS result candidates and a key result story page.
+- Cover styles `band`, `annual` and `event`. Layout components in `template/report.css`, annual skeleton in `reports/_template/content/annual-report.md`.
+- R workflow extended for the annual type (`script/helper/annual.R`, figures and renderer), not executed yet.
+- Colours of the `cgiar` theme and of the charts taken from the CGIAR Portfolio Narrative 2025 and the RTB Breeding Annual Technical Report 2024.
+- Logos of CGIAR, its centres, the Alliance of Bioversity International and CIAT and the Crop Trust in `logos/`, as SVG and PNG.
+- Every report also comes as a Word file for comments and edits, styled by `template/reference.docx`.
+- Annual cover after the Portfolio Narrative, with logos, a deep green band and the title in mint.
+- Reporting fields of the CGIAR results framework, all printed, with Impact Areas, SDGs (always SDG 17) and readiness level suggested from the data by fixed rules (`reporting-fields.csv`).
+- Machine-readable reports. The data of each figure in `output/figure-data/`, hidden in the PDF text layer and attached to the PDF with the result tables and `report-data.json`, and printed as an annex in the Word file.
+- Colophon states that the report was generated with AI through maniva, a CGIAR Digital Transformation Accelerator commons, and cites maniva (`template/colophon.yml`).
+- Test annual report on the PABRA bean trials in Tanzania, 2024 with the record since 2021, from a Python run.
+
 # maniva-reports 0.1.0 (2026-11-19)
 
 First content, on branch `claude-kauedesousa`.
