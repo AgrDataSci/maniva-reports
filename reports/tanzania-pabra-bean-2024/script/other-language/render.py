@@ -31,6 +31,13 @@ theme = yaml.safe_load(open(os.path.join(root, 'themes', cfg.get('theme', 'cgiar
 esc = html.escape
 annual = cfg.get('type') == 'annual'
 wp = cfg.get('type') == 'working_paper'  # working paper, after the DTA working paper of October 2026
+# analysis level, from report.yml or from output/preflight.json written by tests/preflight.py
+_pf = os.path.join(report, 'output', 'preflight.json')
+level = cfg.get('analysis_level') or (json.load(open(_pf)).get('analysis_level') if os.path.exists(_pf) else 'draft')
+_co = yaml.safe_load(open(os.path.join(root, 'template', 'colophon.yml'), encoding='utf-8'))
+level_text = (_co.get('analysis_levels') or {}).get(level, '')
+if level != 'r-workflow' and not cfg.get('status') and not cfg.get('synthetic'):
+    cfg['status'] = _co['draft_status']  # a report the R workflow did not compute is never presented as final
 # authors are names, or entries with name, role and institution
 people = [a if isinstance(a, dict) else {'name': a} for a in (cfg.get('authors') or [])]
 
@@ -244,7 +251,7 @@ if wp:
 {f'<h4>{esc(unit["name"])}</h4><p>{esc(unit["about"])}</p>' if unit else ""}
 <h4>Citation</h4><p>{esc(co.get("citation", ""))}</p>
 {f'<p>{esc(co["handle"])}</p>' if co.get("handle") else ""}
-<h4>Use of artificial intelligence</h4><p>{esc(shared["generated_by"])} {esc(shared["reviewed"] if cfg.get("approved") else shared["not_reviewed"])} {esc(co.get("ai_statement") or "")}</p>
+<h4>Use of artificial intelligence</h4><p>{esc(shared["generated_by"])} {esc(shared["reviewed"] if cfg.get("approved") else shared["not_reviewed"])} {esc(co.get("ai_statement") or "")} {esc(level_text)}</p>
 <p>Cite maniva as {esc(shared["maniva_citation"])}</p>
 {f'<h4>About this document</h4><p>{esc(shared["synthetic"] if cfg.get("synthetic") else shared["example"])}</p>' if (cfg.get("example") or cfg.get("synthetic")) else ""}
 <h4>Machine-readable content</h4><p>{esc(shared["machine_readable"])}</p>
@@ -281,7 +288,7 @@ if annual:
 <p>{esc(evidence)} Views and interpretations are those of the authors and do not necessarily represent those of their institutions or funders.</p>
 {maps_note}
 {f'<h4>About this document</h4><p>{esc(shared["synthetic"] if cfg.get("synthetic") else shared["example"])}</p>' if (cfg.get("example") or cfg.get("synthetic")) else ""}
-<h4>Use of artificial intelligence</h4><p>{esc(shared["generated_by"])} {esc(shared["reviewed"] if cfg.get("approved") else shared["not_reviewed"])} {esc(co.get("ai_statement") or "")}</p>
+<h4>Use of artificial intelligence</h4><p>{esc(shared["generated_by"])} {esc(shared["reviewed"] if cfg.get("approved") else shared["not_reviewed"])} {esc(co.get("ai_statement") or "")} {esc(level_text)}</p>
 <p><strong>Cite maniva as</strong> {esc(shared["maniva_citation"])}</p>
 <h4>Machine-readable content</h4><p>{esc(shared["machine_readable"])}</p>
 <div class="ack"><h4>Acknowledgements</h4><p>{esc(ack)}</p></div></section>'''
@@ -474,7 +481,7 @@ if wp:
 
 {co.get("citation", "")}
 
-**Use of artificial intelligence.** {shared["generated_by"]} {shared["reviewed"] if cfg.get("approved") else shared["not_reviewed"]} {co.get("ai_statement") or ""}
+**Use of artificial intelligence.** {shared["generated_by"]} {shared["reviewed"] if cfg.get("approved") else shared["not_reviewed"]} {co.get("ai_statement") or ""} {level_text}
 
 **Cite maniva as** {shared["maniva_citation"]}
 
@@ -492,7 +499,7 @@ if annual:
 
 This publication is licensed under a Creative Commons Attribution 4.0 International License ({co.get("licence", "CC BY 4.0")}). {co.get("data_licence", "The trial data it uses are released under CC0 1.0.")}
 
-{"**About this document.** " + (shared["synthetic"] if cfg.get("synthetic") else shared["example"]) + chr(10) + chr(10) if (cfg.get("example") or cfg.get("synthetic")) else ""}**Use of artificial intelligence.** {shared["generated_by"]} {shared["reviewed"] if cfg.get("approved") else shared["not_reviewed"]} {co.get("ai_statement") or ""}
+{"**About this document.** " + (shared["synthetic"] if cfg.get("synthetic") else shared["example"]) + chr(10) + chr(10) if (cfg.get("example") or cfg.get("synthetic")) else ""}**Use of artificial intelligence.** {shared["generated_by"]} {shared["reviewed"] if cfg.get("approved") else shared["not_reviewed"]} {co.get("ai_statement") or ""} {level_text}
 
 **Cite maniva as** {shared["maniva_citation"]}
 

@@ -1,6 +1,9 @@
 """Figures for the India 2025 tricot report. ColorBrewer palettes, Equal Earth map."""
 import json, csv, os
 import numpy as np, pandas as pd
+import os as _os, tempfile as _tf
+# matplotlib needs a writable configuration folder, which some sandboxes lack
+_os.environ.setdefault('MPLCONFIGDIR', _os.path.join(_tf.gettempdir(), 'matplotlib-maniva'))
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt

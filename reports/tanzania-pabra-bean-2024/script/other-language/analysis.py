@@ -34,12 +34,19 @@ for _, r in idx.iterrows():
     m = d['metadata']
     if m['data_producer'].get('program') != flt['program']:
         continue
+    # dates from the metadata, else datasets.csv (day/month/year), as in tests/preflight.py
+    dt = m.get('date') if isinstance(m.get('date'), dict) and m['date'].get('start') else None
+    if dt is None:
+        iso = lambda v: '-'.join(reversed(v.split('/'))) if isinstance(v, str) else None
+        dt = dict(start=iso(r.get('start_date')), end=iso(r.get('end_date')))
+    if not dt['start']:
+        print(f'{r.trial_id} has no date, left out of the yearly counts'); continue
     meta[r.trial_id] = m
     s = pd.DataFrame(d['site_data']); s['trial_id'] = r.trial_id
     p = pd.DataFrame(d['plot_data']); p['trial_id'] = r.trial_id
     sites.append(s); plots.append(p)
     trials.append(dict(trial_id=r.trial_id, code=m['study']['code'], title=m['study']['title'],
-                       start=m['date']['start'], end=m['date']['end'], year=int(m['date']['start'][:4]),
+                       start=dt['start'], end=dt['end'], year=int(dt['start'][:4]),
                        pi=m['data_producer'].get('principal_investigator'), producer=m['data_producer']['name'],
                        partner=m['data_producer'].get('partner'), n_registered=len(s),
                        women=m['participants']['women'], men=m['participants']['men'],

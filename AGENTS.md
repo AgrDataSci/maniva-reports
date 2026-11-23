@@ -12,9 +12,10 @@ This repository holds the report standard, the page layout and the R workflow th
 
 ## Rules
 
+- Run `tests/preflight.py` before any analysis and `tests/check-report.py` before delivery. Offer only the files the check lists. Say the analysis level when you deliver, and call a report computed outside the R workflow a draft.
 - Deliver every report as a PDF and a Word file. The PDF shows the layout, and the Word file takes comments and edits.
 - Every number in a report comes from a file in the report's `output/` folder, written by a script in the report folder or in `script/`. No number is typed from memory.
-- Report a computed result only when the code ran. If you cannot run R, follow step 4 of `SKILL.md`, and mark the report as draft until the R scripts have run.
+- Report a computed result only when the code ran. If you cannot run R, follow step 5 of `SKILL.md`, and mark the report as draft until the R scripts have run.
 - Never show illustrative or hypothetical numbers as if they described the user's data.
 - Never invent an author, affiliation, funder, grant number, DOI or ORCID. Leave it empty and tell the user.
 - State the n behind each estimate and its uncertainty, in the text or in the table beside it.

@@ -12,6 +12,7 @@ render_report = function(report) {
 
   cfg = read_config(report)
   theme = read_theme(cfg)
+  cfg = with_analysis_level(cfg, report)
   esc = function(x) {
     x = gsub("&", "&amp;", x, fixed = TRUE)
     x = gsub("<", "&lt;", x, fixed = TRUE)
@@ -206,7 +207,7 @@ render_report = function(report) {
                    if (isTRUE(cfg$example) || isTRUE(cfg$synthetic)) paste0("<h4>About this document</h4><p>",
                      esc(if (isTRUE(cfg$synthetic)) shared$synthetic else shared$example), "</p>") else "",
                    "<h4>Use of artificial intelligence</h4><p>", esc(shared$generated_by), " ",
-                   esc(if (isTRUE(cfg$approved)) shared$reviewed else shared$not_reviewed), " ", esc(if (is.null(co$ai_statement)) "" else co$ai_statement), "</p>",
+                   esc(if (isTRUE(cfg$approved)) shared$reviewed else shared$not_reviewed), " ", esc(if (is.null(co$ai_statement)) "" else co$ai_statement), " ", esc(cfg$level_text), "</p>",
                    "<p><strong>Cite maniva as</strong> ", esc(shared$maniva_citation), "</p>",
                    "<h4>Machine-readable content</h4><p>", esc(shared$machine_readable), "</p>",
                    "<div class=\"ack\"><h4>Acknowledgements</h4><p>", esc(ack), "</p></div></section>")
@@ -245,6 +246,24 @@ render_report = function(report) {
   out_docx = render_docx(report, cfg, lines, sub("[.]pdf$", ".docx", out_pdf))
 
   c(out_pdf, out_docx)
+
+}
+
+
+#' Analysis level of a report and its colophon text
+#'
+#' From analysis_level in report.yml, else output/preflight.json written by tests/preflight.py,
+#' else draft. A report the R workflow did not compute keeps a draft status on its cover.
+with_analysis_level = function(cfg, report) {
+
+  pf = file.path(report, "output", "preflight.json")
+  level = cfg$analysis_level
+  if (is.null(level)) level = if (file.exists(pf)) jsonlite::fromJSON(pf)$analysis_level else "draft"
+  co = yaml::read_yaml(file.path("template", "colophon.yml"))
+  cfg$analysis_level = level
+  cfg$level_text = if (is.null(co$analysis_levels[[level]])) "" else co$analysis_levels[[level]]
+  if (level != "r-workflow" && is.null(cfg$status) && !isTRUE(cfg$synthetic)) cfg$status = co$draft_status
+  cfg
 
 }
 
@@ -323,7 +342,7 @@ render_docx = function(report, cfg, lines, out_docx) {
                    if (isTRUE(cfg$example) || isTRUE(cfg$synthetic)) paste0("**About this document.** ",
                      if (isTRUE(cfg$synthetic)) shared$synthetic else shared$example, "\n\n") else "",
                    "**Use of artificial intelligence.** ", shared$generated_by, " ",
-                   if (isTRUE(cfg$approved)) shared$reviewed else shared$not_reviewed, " ", if (is.null(co$ai_statement)) "" else co$ai_statement,
+                   if (isTRUE(cfg$approved)) shared$reviewed else shared$not_reviewed, " ", if (is.null(co$ai_statement)) "" else co$ai_statement, " ", cfg$level_text,
                    "\n\n**Cite maniva as** ", shared$maniva_citation,
                    "\n\n**Machine-readable content.** ", shared$machine_readable, " In this Word file the figure data are in the annex.\n")
   }

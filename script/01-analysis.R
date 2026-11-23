@@ -101,3 +101,10 @@ write_json(prov, file.path(report, "metadata", "provenance.json"), pretty = TRUE
 
 dir.create(file.path(report, "script", "session-info"), showWarnings = FALSE, recursive = TRUE)
 writeLines(capture.output(sessionInfo()), file.path(report, "script", "session-info", "01-analysis.txt"))
+
+# the analysis ran in R, so the report can leave draft status once the authors approve it
+pf = file.path(report, "output", "preflight.json")
+pre = if (file.exists(pf)) jsonlite::fromJSON(pf, simplifyVector = FALSE) else list()
+pre$analysis_level = "r-workflow"
+pre$r_session = paste(R.version$version.string, format(Sys.time(), "%Y-%m-%d"))
+jsonlite::write_json(pre, pf, auto_unbox = TRUE, pretty = TRUE)

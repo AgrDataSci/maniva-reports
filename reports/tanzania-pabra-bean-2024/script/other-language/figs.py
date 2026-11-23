@@ -9,6 +9,9 @@ Usage, from the repository root
 """
 import json, os, sys
 import numpy as np, pandas as pd, yaml
+import os as _os, tempfile as _tf
+# matplotlib needs a writable configuration folder, which some sandboxes lack
+_os.environ.setdefault('MPLCONFIGDIR', _os.path.join(_tf.gettempdir(), 'matplotlib-maniva'))
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt

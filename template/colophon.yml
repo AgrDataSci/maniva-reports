@@ -34,3 +34,17 @@ cgiar_about: >-
 trust_fund: >-
   We thank all funders who supported this research through their contributions to the CGIAR Trust
   Fund (www.cgiar.org/funders).
+
+# how the numbers were computed, from output/preflight.json (tests/preflight.py) or analysis_level in report.yml
+analysis_levels:
+  r-workflow: >-
+    The analysis ran with the R workflow of maniva-reports and the methods of tricot-analysis-workflows.
+  draft: >-
+    The R workflow of maniva-reports could not run in the session that drafted this report. The
+    analysis ran in another language, with the code kept in script/other-language/ of the report
+    folder, and methods with no faithful equivalent were left out. The report stays a draft until
+    the R scripts have run.
+  descriptive: >-
+    The data hold no rankings or trial records, so the analysis counts what the sources report and
+    applies no statistical model.
+draft_status: "Draft. The maniva R workflow has not run on these data"

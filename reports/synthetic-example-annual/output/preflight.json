@@ -1,0 +1,72 @@
+{
+ "report": "reports/synthetic-example-annual",
+ "checks": [
+  "4 tricot trials match the data section of report.yml",
+  "Read fields through tests/preflight.py rules. Never guess a field name. Check docs/schema of tricot-data."
+ ],
+ "warnings": [
+  "Rscript not found. The R workflow cannot run in this session."
+ ],
+ "errors": [],
+ "r": {
+  "rscript": null,
+  "missing_packages": [
+   "PlackettLuce",
+   "gosset",
+   "qvcalc",
+   "ggplot2",
+   "patchwork",
+   "sf",
+   "jsonlite",
+   "yaml",
+   "commonmark",
+   "pagedown",
+   "rmarkdown"
+  ]
+ },
+ "tools": {
+  "pandoc": "/usr/bin/pandoc",
+  "google-chrome": "/usr/bin/google-chrome",
+  "chromium": null,
+  "qpdf": "/usr/bin/qpdf"
+ },
+ "trials": [
+  {
+   "trial_id": "syn000000001",
+   "path": "data/examplebean/examplebean-XXX-syn000000001.json",
+   "start": "2023-03-01",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {},
+   "traits": 7
+  },
+  {
+   "trial_id": "syn000000002",
+   "path": "data/examplebean/examplebean-XXX-syn000000002.json",
+   "start": "2023-09-15",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {},
+   "traits": 7
+  },
+  {
+   "trial_id": "syn000000003",
+   "path": "data/examplebean/examplebean-XXX-syn000000003.json",
+   "start": "2024-03-05",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {},
+   "traits": 7
+  },
+  {
+   "trial_id": "syn000000004",
+   "path": "data/examplebean/examplebean-XXX-syn000000004.json",
+   "start": "2024-09-20",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {},
+   "traits": 2
+  }
+ ],
+ "analysis_level": "draft"
+}
