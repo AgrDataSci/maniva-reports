@@ -8,7 +8,7 @@ generated_by: >-
   from the result tables, following the maniva-reports standard. Every number comes from
   a result table that is published with the report, and the code that produced it is open.
 reviewed: "The authors reviewed and approved the text."
-not_reviewed: "The authors have not reviewed this version yet."
+not_reviewed: ""  # left empty on purpose, the colophon says nothing until the authors approve
 maniva_citation: >-
   de Sousa K, Laporte M-A, Youngberg B, Cremaschi A, Chase R, van Etten J. 2026. maniva.
   An open commons of evidence, protocols, data and analysis for agricultural research.

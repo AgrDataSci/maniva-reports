@@ -26,7 +26,7 @@ This repository holds the report standard, the page layout and the R workflow th
 - Print every reporting field, filled or empty. Suggest Impact Areas, SDGs (always with SDG 17) and the innovation readiness level only with the rules of `docs/annual-report-standard.md`, labelled as suggestions, never as a principal score. Never fill an outcome status, budget, trainee count, innovation use or policy change yourself.
 - Write the data of every figure to `output/figure-data/`. The PDF embeds them as hidden text and attachments, and the Word file prints them in an annex.
 - Never count trial participants as people trained.
-- The colophon of every annual report carries the statement of `template/colophon.yml`, generated with AI through maniva, a CGIAR Digital Transformation Accelerator commons, with the maniva citation, and says whether the authors reviewed it (`approved` in `report.yml`).
+- The colophon of every annual report carries the statement of `template/colophon.yml`, generated with AI through maniva, a CGIAR Digital Transformation Accelerator commons, with the maniva citation, and adds that the authors reviewed it once `approved` is true in `report.yml`.
 
 ## Conventions for new code
 

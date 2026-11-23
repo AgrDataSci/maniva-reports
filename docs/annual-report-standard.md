@@ -76,7 +76,7 @@ Run the checklist of `docs/report-standard.md`, and also these.
 1. Every number shows whether it is for the reporting year or cumulative.
 2. The year and cumulative totals on the cover, the fact sheet and section 4 agree.
 3. Every reporting field is printed. Suggested tags are labelled as suggestions and follow the rules above. No status, budget, trainee count, innovation use or policy change appears unless the authors gave it.
-4. The colophon carries the statement of `template/colophon.yml` with the maniva citation, and says whether the authors reviewed the report.
+4. The colophon carries the statement of `template/colophon.yml` with the maniva citation, and adds that the authors reviewed it once `approved` is true.
 7. Every figure has its data in `output/figure-data/`, the PDF lists them as attachments (`qpdf --list-attachments`), and the Word file has the annex.
 5. The suggested citation names the corporate author and leaves the handle empty until CGSpace issues one.
 6. The PDF and the Word file were both rendered and opened. The Word file holds every table and figure of the PDF.
