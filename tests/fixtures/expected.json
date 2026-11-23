@@ -1,0 +1,92 @@
+{
+  "programme": "Synthetic Example Programme",
+  "true_logworth_overall": {
+    "SYN-01": 1.2,
+    "SYN-02": 0.8,
+    "SYN-03": 0.5,
+    "SYN-04": 0.2,
+    "SYN-05": 0.0,
+    "SYN-06": -0.4,
+    "SYN-07": -0.9,
+    "SYN-08": -1.4
+  },
+  "check": "SYN-05",
+  "trials": {
+    "syn000000001": {
+      "code": "SYN23A",
+      "year": 2023,
+      "participants": 90,
+      "women": 45,
+      "men": 40,
+      "not_stated": 5,
+      "entries": 6,
+      "overall_rankings": 62,
+      "true_order": [
+        "SYN-01",
+        "SYN-02",
+        "SYN-03",
+        "SYN-04",
+        "SYN-05",
+        "SYN-06"
+      ]
+    },
+    "syn000000002": {
+      "code": "SYN23B",
+      "year": 2023,
+      "participants": 60,
+      "women": 36,
+      "men": 24,
+      "not_stated": 0,
+      "entries": 6,
+      "overall_rankings": 45,
+      "true_order": [
+        "SYN-01",
+        "SYN-02",
+        "SYN-03",
+        "SYN-04",
+        "SYN-05",
+        "SYN-06"
+      ]
+    },
+    "syn000000003": {
+      "code": "SYN24A",
+      "year": 2024,
+      "participants": 120,
+      "women": 62,
+      "men": 52,
+      "not_stated": 6,
+      "entries": 8,
+      "overall_rankings": 98,
+      "true_order": [
+        "SYN-01",
+        "SYN-02",
+        "SYN-03",
+        "SYN-04",
+        "SYN-05",
+        "SYN-06",
+        "SYN-07",
+        "SYN-08"
+      ]
+    },
+    "syn000000004": {
+      "code": "SYN24B",
+      "year": 2024,
+      "participants": 100,
+      "women": 32,
+      "men": 67,
+      "not_stated": 1,
+      "entries": 8,
+      "overall_rankings": 0,
+      "true_order": [
+        "SYN-01",
+        "SYN-02",
+        "SYN-03",
+        "SYN-04",
+        "SYN-05",
+        "SYN-06",
+        "SYN-07",
+        "SYN-08"
+      ]
+    }
+  }
+}

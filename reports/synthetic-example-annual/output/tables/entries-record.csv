@@ -1,0 +1,9 @@
+genotype,role,trials_ranked,seasons_ranked,years_tested,top3,share_top3,median_rank,median_k,median_logworth,participants_ranked
+SYN-01,release candidate,3,2,2023;2024,3,1.000,1.000,6.000,0.682,89
+SYN-02,release candidate,3,2,2023;2024,3,1.000,2.000,6.000,0.313,97
+SYN-03,release candidate,3,2,2023;2024,1,0.333,4.000,6.000,-0.055,92
+SYN-04,release candidate,3,2,2023;2024,1,0.333,4.000,6.000,-0.043,85
+SYN-05,comparative check,3,2,2023;2024,1,0.333,5.000,6.000,-0.024,92
+SYN-06,release candidate,3,2,2023;2024,0,0.000,6.000,6.000,-0.432,90
+SYN-07,release candidate,1,1,2024,0,0.000,7.000,8.000,-1.030,36
+SYN-08,release candidate,1,1,2024,0,0.000,8.000,8.000,-1.942,34

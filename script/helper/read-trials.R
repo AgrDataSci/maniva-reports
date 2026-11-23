@@ -47,7 +47,8 @@ read_trials = function(cfg) {
   } else {
     if (!is.null(f$country_iso3)) idx = idx[idx$country_iso3 %in% f$country_iso3, ]
     if (!is.null(f$crop_name)) idx = idx[idx$crop_name %in% f$crop_name, ]
-    if (!is.null(f$start_year)) idx = idx[substr(idx$start_date, 1, 4) %in% as.character(f$start_year), ]
+    # start_date in datasets.csv is day/month/year
+    if (!is.null(f$start_year)) idx = idx[substr(idx$start_date, 7, 10) %in% as.character(f$start_year), ]
   }
 
   # the report standard covers farmer-managed tricot trials
@@ -74,6 +75,7 @@ read_trials = function(cfg) {
     trials[[i]]$place = first_place(s)
     trials[[i]]$label = paste(trials[[i]]$crop, trials[[i]]$place, sep = ", ")
     trials[[i]]$index = idx[i, ]
+    trials[[i]]$metadata$date = trial_dates(trials[[i]], idx[i, ])
   }
 
   names(trials) = vapply(trials, function(x) x$label, character(1))
@@ -86,6 +88,32 @@ read_trials = function(cfg) {
   }
 
   trials[order(names(trials))]
+
+}
+
+
+#' Start and end of a trial
+#'
+#' 34 files of the November 2026 release have no metadata$date. The dates then come from
+#' datasets.csv (day/month/year), else from the moments recorded in plot_data, else stay NA.
+#' tests/preflight.py applies the same rules and reports which one each trial used.
+trial_dates = function(x, row) {
+
+  d = x$metadata$date
+  if (is.list(d) && !is.null(d$start) && nzchar(d$start)) return(d)
+
+  dmy = function(v) if (is.null(v) || is.na(v) || !nzchar(v)) NA_character_ else
+    format(as.Date(v, format = "%d/%m/%Y"), "%Y-%m-%d")
+  start = dmy(row$start_date)
+  end = dmy(row$end_date)
+
+  if (is.na(start) && "moment_date" %in% names(x$plot_data)) {
+    md = sort(stats::na.omit(x$plot_data$moment_date))
+    md = md[nzchar(md)]
+    if (length(md) > 0) { start = md[1]; end = md[length(md)] }
+  }
+
+  list(start = start, end = end)
 
 }
 

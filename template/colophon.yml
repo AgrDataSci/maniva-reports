@@ -3,9 +3,9 @@
 generated_by: >-
   This report was generated with artificial intelligence through maniva, an open commons
   of evidence, protocols, data and analysis for agricultural research, developed under the
-  CGIAR Digital Transformation Accelerator. An AI assistant read the published trial data,
-  ran the analysis code of the maniva analysis layer, drew the figures and drafted the text
-  from the result tables, following the maniva-reports standard. Every number comes from
+  CGIAR Digital Transformation Accelerator. An AI assistant read the data and documents
+  named in this report, ran the analysis code, drew the figures and drafted the text from
+  the result tables, following the maniva-reports standard. Every number comes from
   a result table that is published with the report, and the code that produced it is open.
 reviewed: "The authors reviewed and approved the text."
 not_reviewed: ""  # left empty on purpose, the colophon says nothing until the authors approve
@@ -13,6 +13,38 @@ maniva_citation: >-
   de Sousa K, Laporte M-A, Youngberg B, Cremaschi A, Chase R, Rouard M, Guignon V, van Etten J. 2026. maniva.
   An open commons of evidence, protocols, data and analysis for agricultural research.
   Version 1.0.0. Zenodo. https://doi.org/10.5281/zenodo.24011051
+example: >-
+  This document is a worked example of the maniva-reports standard, built on open data
+  published in tricot-data. It is not a report of the programme and does not speak for it.
+  The team that produced the data agreed that it can stay public as an example.
+synthetic: >-
+  This document is built on synthetic data. The programme, crop, districts, entries and
+  people are invented, and no number in it describes a real trial.
 machine_readable: >-
   The data behind every figure are embedded in this file as text and as attached CSV
   files, with a JSON summary of the reporting fields, so reporting tools can read them.
+
+# back cover of a working paper, the CGIAR partnership statement
+cgiar_about: >-
+  CGIAR is a global research partnership for a food-secure future. CGIAR science is dedicated to
+  transforming food, land, and water systems in a climate crisis. Its research is carried out by 13
+  CGIAR Centers and Alliances in close collaboration with hundreds of partners, including national and
+  regional research institutes, civil society organizations, academia, development organizations and
+  the private sector. www.cgiar.org
+trust_fund: >-
+  We thank all funders who supported this research through their contributions to the CGIAR Trust
+  Fund (www.cgiar.org/funders).
+
+# how the numbers were computed, from output/preflight.json (tests/preflight.py) or analysis_level in report.yml
+analysis_levels:
+  r-workflow: >-
+    The analysis ran with the R workflow of maniva-reports and the methods of tricot-analysis-workflows.
+  draft: >-
+    The R workflow of maniva-reports could not run in the session that drafted this report. The
+    analysis ran in another language, with the code kept in script/other-language/ of the report
+    folder, and methods with no faithful equivalent were left out. The report stays a draft until
+    the R scripts have run.
+  descriptive: >-
+    The data hold no rankings or trial records, so the analysis counts what the sources report and
+    applies no statistical model.
+draft_status: "Draft. The maniva R workflow has not run on these data"

@@ -1,0 +1,4 @@
+type,title,description,evidence,countries,doi,readiness_level,impact_areas
+Knowledge product,"Open trial data, Synthetic Example Programme, 2023 to 2024","4 tricot trials with 370 registered participants, published under CC0 1.0 in tricot-data","datasets.csv of tricot-data, programme Synthetic Example Programme",Synthetic country,synthetic-fixture-no-doi,,
+Innovation development,"Bean entry SYN-01, evaluated on-farm","Ranked in the top three for overall preference in 3 of 3 trials (seasons 2023, 2024)","output/tables/entries-record.csv, output/tables/pl-estimates.csv",Synthetic country,synthetic-fixture-no-doi,,
+Innovation development,"Bean entry SYN-02, evaluated on-farm","Ranked in the top three for overall preference in 3 of 3 trials (seasons 2023, 2024)","output/tables/entries-record.csv, output/tables/pl-estimates.csv",Synthetic country,synthetic-fixture-no-doi,,

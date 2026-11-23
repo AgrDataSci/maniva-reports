@@ -178,7 +178,7 @@ The comparison is with each farmer's own variety, so the entries changed between
 - Yield was recorded in part of the trials, with units flagged as unclear for some sites. It is not used here.
 - Entries are counted by the name recorded in the data. Some names may refer to the same line, which the programme should confirm.
 - The programme has not given its outcomes, budget or training records, so those fields are empty. The Impact Areas, SDGs and readiness level are suggestions from fixed rules and wait for the programme to confirm them.
-- This is a test draft computed in Python where R was not available. It is not reviewed by the authors.
+- This worked example was computed in Python where R was not available.
 
 ## Data availability
 

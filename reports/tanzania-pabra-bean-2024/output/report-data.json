@@ -12,12 +12,12 @@
     "Tanzania Agricultural Research Institute (TARI)",
     "Bioversity International"
   ],
-  "status": "Test draft. Not reviewed by the authors",
+  "status": "Worked example. Not a report of the programme",
   "licence": "CC BY 4.0",
   "handle": null,
   "data_source": "https://raw.githubusercontent.com/AgrDataSci/tricot-data/main/",
   "generated_with": "maniva-reports",
-  "maniva_citation": "de Sousa K, Laporte M-A, Youngberg B, Cremaschi A, Chase R, van Etten J. 2026. maniva. An open commons of evidence, protocols, data and analysis for agricultural research. Version 1.0.0. Zenodo. https://doi.org/10.5281/zenodo.24011051",
+  "maniva_citation": "de Sousa K, Laporte M-A, Youngberg B, Cremaschi A, Chase R, Rouard M, Guignon V, van Etten J. 2026. maniva. An open commons of evidence, protocols, data and analysis for agricultural research. Version 1.0.0. Zenodo. https://doi.org/10.5281/zenodo.24011051",
   "overview": [
     {
       "metric": "trials",

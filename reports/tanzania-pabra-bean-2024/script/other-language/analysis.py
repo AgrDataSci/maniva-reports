@@ -34,12 +34,19 @@ for _, r in idx.iterrows():
     m = d['metadata']
     if m['data_producer'].get('program') != flt['program']:
         continue
+    # dates from the metadata, else datasets.csv (day/month/year), as in tests/preflight.py
+    dt = m.get('date') if isinstance(m.get('date'), dict) and m['date'].get('start') else None
+    if dt is None:
+        iso = lambda v: '-'.join(reversed(v.split('/'))) if isinstance(v, str) else None
+        dt = dict(start=iso(r.get('start_date')), end=iso(r.get('end_date')))
+    if not dt['start']:
+        print(f'{r.trial_id} has no date, left out of the yearly counts'); continue
     meta[r.trial_id] = m
     s = pd.DataFrame(d['site_data']); s['trial_id'] = r.trial_id
     p = pd.DataFrame(d['plot_data']); p['trial_id'] = r.trial_id
     sites.append(s); plots.append(p)
     trials.append(dict(trial_id=r.trial_id, code=m['study']['code'], title=m['study']['title'],
-                       start=m['date']['start'], end=m['date']['end'], year=int(m['date']['start'][:4]),
+                       start=dt['start'], end=dt['end'], year=int(dt['start'][:4]),
                        pi=m['data_producer'].get('principal_investigator'), producer=m['data_producer']['name'],
                        partner=m['data_producer'].get('partner'), n_registered=len(s),
                        women=m['participants']['women'], men=m['participants']['men'],
@@ -262,15 +269,16 @@ pd.DataFrame([dict(funder=a, award=b, number=c, trials=n) for (a, b, c), n in fu
 
 # ---------------------------------------------------------------- PRMS result candidates
 doi = next(iter(meta.values()))['identifier']
-prms = [dict(type='Knowledge product', title='Open trial data of the PABRA bean tricot trials in Tanzania, 2021 to %d' % YEAR,
+countries = '; '.join(sorted({m['study']['country_name'].replace('United Republic of Tanzania', 'Tanzania') for m in meta.values()}))
+prms = [dict(type='Knowledge product', title='Open trial data, %s, %s' % (cfg['title'], cfg.get('period_label', '')),
              description='%d tricot trials with %d registered participants, published under CC0 1.0 in tricot-data' % (cum['trials'], cum['participants']),
-             evidence='datasets.csv of tricot-data, programme %s' % flt['program'], countries='Tanzania', doi=doi,
+             evidence='datasets.csv of tricot-data, programme %s' % flt['program'], countries=countries, doi=doi,
              readiness_level='', impact_areas='')]
 for _, e in REC[(REC.trials_ranked >= 3) & (REC.share_top3 >= 0.5)].iterrows():
     prms.append(dict(type='Innovation development', title='Bean entry %s, evaluated on-farm' % e.genotype,
                      description='Ranked in the top three for overall preference in %d of %d trials (seasons %s)'
                                  % (e.top3, e.trials_ranked, e.years_tested.replace(';', ', ')),
-                     evidence='output/tables/entries-record.csv, output/tables/pl-estimates.csv', countries='Tanzania', doi=doi,
+                     evidence='output/tables/entries-record.csv, output/tables/pl-estimates.csv', countries=countries, doi=doi,
                      readiness_level='', impact_areas=''))
 PRMS = pd.DataFrame(prms)
 PRMS.to_csv(os.path.join(OUT, 'prms-results.csv'), index=False)

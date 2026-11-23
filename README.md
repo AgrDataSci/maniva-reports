@@ -35,17 +35,12 @@ How CGIAR reports are built, and which parts maniva fills from the data, is in [
 
 ## See it
 
-The first report covers the 2025 tricot trials of the ICAR-Bioversity Annual Workplan in India, with 646 farmers, 13 trials and eight crops.
+Two worked examples show the standard on real, open data from tricot-data. They are examples of the standard, not reports of the programmes, and the teams that produced the data agreed that they stay public.
 
-- [The PDF](reports/india-icar-bioversity-annual-workplan-2025/output/india-tricot-2025-technical-report.pdf)
-- [The report folder](reports/india-icar-bioversity-annual-workplan-2025/), with the text, the settings, the result tables and the code
+- **Technical report.** The 2025 tricot trials of the ICAR-Bioversity Annual Workplan in India, 646 farmers, 13 trials and eight crops. [PDF](reports/india-icar-bioversity-annual-workplan-2025/output/india-tricot-2025-technical-report.pdf), [folder](reports/india-icar-bioversity-annual-workplan-2025/).
+- **Annual report.** The PABRA bean trials in Tanzania, 2024 with the record since 2021, 25 trials and 2,866 farmers. [PDF](reports/tanzania-pabra-bean-2024/output/tanzania-pabra-bean-annual-report-2024.pdf), [Word](reports/tanzania-pabra-bean-2024/output/tanzania-pabra-bean-annual-report-2024.docx), [folder](reports/tanzania-pabra-bean-2024/).
 
-It is a draft. See its README for what is still to confirm.
-
-The first annual report is a test on the PABRA bean trials in Tanzania, 2024 with the record since 2021, 25 trials and 2,866 farmers.
-
-- [The PDF](reports/tanzania-pabra-bean-2024/output/tanzania-pabra-bean-annual-report-2024.pdf) and [the Word file](reports/tanzania-pabra-bean-2024/output/tanzania-pabra-bean-annual-report-2024.docx)
-- [The report folder](reports/tanzania-pabra-bean-2024/)
+One synthetic example tests the code. It runs on an invented programme in `tests/fixtures/`, drawn from a model with known answers, and `tests/check-synthetic.py` and `tests/test-synthetic.R` compare its result tables with those answers. [PDF](reports/synthetic-example-annual/output/synthetic-example-annual-report-2024.pdf), [folder](reports/synthetic-example-annual/).
 
 ## How it works
 
@@ -78,7 +73,9 @@ With an AI assistant, start from [maniva](https://github.com/AgrDataSci/maniva) 
 | [template/reference.docx](template/reference.docx) | The styles of the Word version |
 | [script/](script/) | R workflow, three numbered scripts and their helpers |
 | [reports/_template/](reports/_template/) | Start a new report from here |
-| [reports/](reports/) | One folder per report |
+| [reports/](reports/) | One folder per report, the worked examples and the synthetic example |
+| [tests/](tests/) | Synthetic trials with known answers, and the checks that use them |
+| [.github/workflows/check-synthetic.yml](.github/workflows/check-synthetic.yml) | Runs the checks on GitHub, on demand for now |
 
 Each report folder follows the layout of [template-repo-data-analysis](https://github.com/AgrDataSci/template-repo-data-analysis), with `content/`, `output/`, `decisions/` and `metadata/`.
 
@@ -87,12 +84,12 @@ Each report folder follows the layout of [template-repo-data-analysis](https://g
 Under construction.
 
 - The report standard, the style guide, the theme and the layout are in use.
-- The R scripts are written and **not executed yet**. They mirror the Python draft that produced the first report where R was not available. That code is kept in the report folder under `script/other-language/`.
-- The first report is a draft until the R scripts have run and its authors approve it.
+- The R scripts are written and **not executed yet**. They mirror the Python drafts that produced the example reports where R was not available, kept in each report folder under `script/other-language/`.
+- The Python draft passes every check on the synthetic example.
 
 Planned next.
 
-- Run and test the R scripts, with synthetic data and tests as in tricot-analysis-workflows.
+- Run the R scripts on the synthetic example until `tests/test-synthetic.R` passes, then switch the GitHub check on for every pull request.
 - A GitHub Action that renders a report for a trial id, so partners get a report without installing R.
 - Themes for partner organisations.
 - Sections for climate and environment, with the environment-data layer.

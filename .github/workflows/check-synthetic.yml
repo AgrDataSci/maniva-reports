@@ -1,0 +1,50 @@
+# Runs the report workflow on the synthetic example and checks it against the true values.
+# Manual for now (Actions tab, "Run workflow"). Switch on pull_request once the R scripts pass.
+name: check-synthetic
+
+on:
+  workflow_dispatch:
+
+jobs:
+  python-draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pandas numpy scipy pyyaml matplotlib markdown
+      - name: Country outlines for the map
+        run: git clone --depth 1 https://github.com/datasets/geo-countries ../geo-countries
+      - name: Analysis and figures, Python draft
+        run: |
+          TRICOT_DATA=tests/fixtures/tricot-data python reports/synthetic-example-annual/script/other-language/analysis.py reports/synthetic-example-annual
+          GEO_COUNTRIES=../geo-countries/data/countries.geojson python reports/synthetic-example-annual/script/other-language/figs.py reports/synthetic-example-annual
+      - run: python tests/check-synthetic.py reports/synthetic-example-annual
+
+  r-workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-pandoc@v2
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::jsonlite
+            any::yaml
+            any::PlackettLuce
+            any::gosset
+            any::qvcalc
+            any::ggplot2
+            any::sf
+            any::commonmark
+            any::pagedown
+            any::rmarkdown
+            any::testthat
+      - name: Analysis, figures and report, R
+        run: |
+          Rscript script/01-analysis.R reports/synthetic-example-annual
+          Rscript script/02-figures.R reports/synthetic-example-annual
+          Rscript script/03-render.R reports/synthetic-example-annual
+      - run: Rscript tests/test-synthetic.R

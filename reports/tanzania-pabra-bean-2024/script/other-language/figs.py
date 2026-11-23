@@ -9,6 +9,9 @@ Usage, from the repository root
 """
 import json, os, sys
 import numpy as np, pandas as pd, yaml
+import os as _os, tempfile as _tf
+# matplotlib needs a writable configuration folder, which some sandboxes lack
+_os.environ.setdefault('MPLCONFIGDIR', _os.path.join(_tf.gettempdir(), 'matplotlib-maniva'))
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -59,7 +62,8 @@ def eqearth(lon, lat):
     return x, y
 
 pts = pd.read_csv(os.path.join(TAB, 'map-points.csv'))
-bbox = (28.5, 41.5, -12.2, -0.6)  # lon min, lon max, lat min, lat max of the trial region
+# region of the trials, from the site points with a margin, or from report.yml map_bbox
+bbox = tuple(cfg.get('map_bbox') or (pts.longitude.min() - 1.5, pts.longitude.max() + 1.5, pts.latitude.min() - 1.5, pts.latitude.max() + 1.5))
 gj = json.load(open(os.environ.get('GEO_COUNTRIES', 'geo-countries/data/countries.geojson'), encoding='utf-8'))
 fig, ax = plt.subplots(figsize=(W * 0.62, W * 0.62))
 for f in gj['features']:
@@ -81,7 +85,7 @@ for y_ in sorted(pts.year.unique()):
 x0, y0 = eqearth(bbox[0], bbox[2]); x1, y1 = eqearth(bbox[1], bbox[3])
 ax.set_xlim(x0, x1); ax.set_ylim(y0, y1); ax.set_aspect('equal'); ax.axis('off')
 ax.legend(title='Season start', frameon=False, loc='upper right', fontsize=7.5, title_fontsize=7.5, markerscale=1.4)
-for nm, lo, la in [('Indian Ocean', 40.6, -8.6)]:
+for nm, lo, la in (cfg.get('map_labels') or []):  # place names, from report.yml
     x, y = eqearth(lo, la); ax.text(x, y, nm, fontsize=7, color='#6b8fa3', style='italic', ha='center')
 dist = pd.read_csv(os.path.join(TAB, 'districts.csv'))
 save(fig, 'fig01-map.png', dist[['district', 'participants', 'participants_year', 'trials', 'lon', 'lat']]

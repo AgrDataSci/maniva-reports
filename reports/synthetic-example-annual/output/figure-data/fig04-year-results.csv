@@ -1,0 +1,17 @@
+code,trait,moment,genotype,logworth,se,lower,upper,n_tested,n_rankings,p_value
+SYN24A,overall_performance,Post-harvest,SYN-01,1.180,0.269,0.654,1.706,37,98,0.000
+SYN24A,overall_performance,Post-harvest,SYN-02,1.112,0.267,0.589,1.635,39,98,0.000
+SYN24A,overall_performance,Post-harvest,SYN-03,0.798,0.249,0.310,1.286,40,98,0.000
+SYN24A,overall_performance,Post-harvest,SYN-04,0.232,0.254,-0.266,0.730,35,98,0.000
+SYN24A,overall_performance,Post-harvest,SYN-05,-0.024,0.254,-0.521,0.473,37,98,0.000
+SYN24A,overall_performance,Post-harvest,SYN-06,-0.327,0.259,-0.835,0.182,36,98,0.000
+SYN24A,overall_performance,Post-harvest,SYN-07,-1.030,0.289,-1.597,-0.462,36,98,0.000
+SYN24A,overall_performance,Post-harvest,SYN-08,-1.942,0.382,-2.691,-1.193,34,98,0.000
+SYN24B,drought_tolerance,Reproductive,SYN-01,0.344,0.230,-0.107,0.796,38,100,0.284
+SYN24B,drought_tolerance,Reproductive,SYN-02,0.139,0.235,-0.322,0.600,38,100,0.284
+SYN24B,drought_tolerance,Reproductive,SYN-03,-0.229,0.230,-0.680,0.221,38,100,0.284
+SYN24B,drought_tolerance,Reproductive,SYN-04,0.343,0.230,-0.108,0.794,38,100,0.284
+SYN24B,drought_tolerance,Reproductive,SYN-05,-0.014,0.230,-0.466,0.437,37,100,0.284
+SYN24B,drought_tolerance,Reproductive,SYN-06,-0.446,0.233,-0.902,0.010,37,100,0.284
+SYN24B,drought_tolerance,Reproductive,SYN-07,-0.169,0.240,-0.639,0.301,37,100,0.284
+SYN24B,drought_tolerance,Reproductive,SYN-08,0.032,0.233,-0.424,0.488,37,100,0.284

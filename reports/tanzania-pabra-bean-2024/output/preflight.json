@@ -1,0 +1,296 @@
+{
+ "report": "reports/tanzania-pabra-bean-2024",
+ "checks": [
+  "25 tricot trials match the data section of report.yml",
+  "Take field names from the tricot-data README and SKILL, never from a guess. Dates come from the rules above."
+ ],
+ "warnings": [
+  "Rscript not found. The R workflow cannot run in this session.",
+  "50e4d181da22 carries quality flags {'plot_area_assumed': 90}. Drop flagged yields, or report them with the flag, and say which in the report.",
+  "7b153881fd9d carries quality flags {'plot_area_assumed': 414}. Drop flagged yields, or report them with the flag, and say which in the report.",
+  "1efd5fa72e1d carries quality flags {'implausible_yield_per_area': 3}. Drop flagged yields, or report them with the flag, and say which in the report.",
+  "5013a9591a71 carries quality flags {'implausible_yield_per_area': 13}. Drop flagged yields, or report them with the flag, and say which in the report.",
+  "2976151e9650 carries quality flags {'implausible_yield_per_area': 3}. Drop flagged yields, or report them with the flag, and say which in the report.",
+  "cffdd4067295 carries quality flags {'unit_unclear': 89}. Drop flagged yields, or report them with the flag, and say which in the report.",
+  "2416f83194e5 carries quality flags {'implausible_yield_per_area': 26}. Drop flagged yields, or report them with the flag, and say which in the report.",
+  "959322effc95 carries quality flags {'implausible_yield_per_area': 16}. Drop flagged yields, or report them with the flag, and say which in the report.",
+  "5f0ddca8eedd carries quality flags {'unit_unclear': 321, 'plot_area_assumed': 129}. Drop flagged yields, or report them with the flag, and say which in the report.",
+  "5587eb79283d carries quality flags {'unit_unclear': 291, 'plot_area_assumed': 36}. Drop flagged yields, or report them with the flag, and say which in the report.",
+  "2848259a8c19 carries quality flags {'unit_unclear': 75}. Drop flagged yields, or report them with the flag, and say which in the report."
+ ],
+ "errors": [],
+ "r": {
+  "rscript": null,
+  "missing_packages": [
+   "PlackettLuce",
+   "gosset",
+   "qvcalc",
+   "ggplot2",
+   "patchwork",
+   "sf",
+   "jsonlite",
+   "yaml",
+   "commonmark",
+   "pagedown",
+   "rmarkdown"
+  ]
+ },
+ "tools": {
+  "pandoc": "/usr/bin/pandoc",
+  "google-chrome": "/usr/bin/google-chrome",
+  "chromium": null,
+  "qpdf": "/usr/bin/qpdf"
+ },
+ "trials": [
+  {
+   "trial_id": "82cc41bf05f1",
+   "path": "data/commonbean/commonbean-TZA-82cc41bf05f1.json",
+   "start": "2021-04-02",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {},
+   "traits": 8
+  },
+  {
+   "trial_id": "50e4d181da22",
+   "path": "data/commonbean/commonbean-TZA-50e4d181da22.json",
+   "start": "2021-04-03",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {
+    "plot_area_assumed": 90
+   },
+   "traits": 18
+  },
+  {
+   "trial_id": "5ca791dab050",
+   "path": "data/commonbean/commonbean-TZA-5ca791dab050.json",
+   "start": "2021-04-16",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {},
+   "traits": 8
+  },
+  {
+   "trial_id": "7b153881fd9d",
+   "path": "data/commonbean/commonbean-TZA-7b153881fd9d.json",
+   "start": "2021-10-07",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {
+    "plot_area_assumed": 414
+   },
+   "traits": 20
+  },
+  {
+   "trial_id": "1efd5fa72e1d",
+   "path": "data/commonbean/commonbean-TZA-1efd5fa72e1d.json",
+   "start": "2021-11-23",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {
+    "implausible_yield_per_area": 3
+   },
+   "traits": 16
+  },
+  {
+   "trial_id": "7a1f8c327dc4",
+   "path": "data/commonbean/commonbean-TZA-7a1f8c327dc4.json",
+   "start": "2022-02-03",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {},
+   "traits": 22
+  },
+  {
+   "trial_id": "da70574012e2",
+   "path": "data/commonbean/commonbean-TZA-da70574012e2.json",
+   "start": "2022-02-03",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {},
+   "traits": 14
+  },
+  {
+   "trial_id": "0295f2c94fe1",
+   "path": "data/commonbean/commonbean-TZA-0295f2c94fe1.json",
+   "start": "2022-02-08",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {},
+   "traits": 22
+  },
+  {
+   "trial_id": "5013a9591a71",
+   "path": "data/commonbean/commonbean-TZA-5013a9591a71.json",
+   "start": "2022-02-19",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {
+    "implausible_yield_per_area": 13
+   },
+   "traits": 20
+  },
+  {
+   "trial_id": "66908577c955",
+   "path": "data/commonbean/commonbean-TZA-66908577c955.json",
+   "start": "2022-03-15",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {},
+   "traits": 11
+  },
+  {
+   "trial_id": "f18a9f58be94",
+   "path": "data/commonbean/commonbean-TZA-f18a9f58be94.json",
+   "start": "2022-03-21",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {},
+   "traits": 3
+  },
+  {
+   "trial_id": "5ec7c6394af9",
+   "path": "data/commonbean/commonbean-TZA-5ec7c6394af9.json",
+   "start": "2022-03-26",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {},
+   "traits": 21
+  },
+  {
+   "trial_id": "27565e02973a",
+   "path": "data/commonbean/commonbean-TZA-27565e02973a.json",
+   "start": "2022-03-29",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {},
+   "traits": 8
+  },
+  {
+   "trial_id": "2976151e9650",
+   "path": "data/commonbean/commonbean-TZA-2976151e9650.json",
+   "start": "2022-04-01",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {
+    "implausible_yield_per_area": 3
+   },
+   "traits": 13
+  },
+  {
+   "trial_id": "5e2b156be7a5",
+   "path": "data/commonbean/commonbean-TZA-5e2b156be7a5.json",
+   "start": "2022-05-23",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {},
+   "traits": 11
+  },
+  {
+   "trial_id": "cffdd4067295",
+   "path": "data/commonbean/commonbean-TZA-cffdd4067295.json",
+   "start": "2023-04-19",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {
+    "unit_unclear": 89
+   },
+   "traits": 12
+  },
+  {
+   "trial_id": "2416f83194e5",
+   "path": "data/commonbean/commonbean-TZA-2416f83194e5.json",
+   "start": "2023-04-22",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {
+    "implausible_yield_per_area": 26
+   },
+   "traits": 17
+  },
+  {
+   "trial_id": "f41aa2802320",
+   "path": "data/commonbean/commonbean-TZA-f41aa2802320.json",
+   "start": "2023-04-27",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {},
+   "traits": 6
+  },
+  {
+   "trial_id": "e0f6f1da3d57",
+   "path": "data/commonbean/commonbean-TZA-e0f6f1da3d57.json",
+   "start": "2023-04-28",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {},
+   "traits": 20
+  },
+  {
+   "trial_id": "52c171cf9718",
+   "path": "data/commonbean/commonbean-TZA-52c171cf9718.json",
+   "start": "2023-05-02",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {},
+   "traits": 17
+  },
+  {
+   "trial_id": "959322effc95",
+   "path": "data/commonbean/commonbean-TZA-959322effc95.json",
+   "start": "2023-05-04",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {
+    "implausible_yield_per_area": 16
+   },
+   "traits": 17
+  },
+  {
+   "trial_id": "5f0ddca8eedd",
+   "path": "data/commonbean/commonbean-TZA-5f0ddca8eedd.json",
+   "start": "2024-04-15",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {
+    "unit_unclear": 321,
+    "plot_area_assumed": 129
+   },
+   "traits": 17
+  },
+  {
+   "trial_id": "5587eb79283d",
+   "path": "data/commonbean/commonbean-TZA-5587eb79283d.json",
+   "start": "2024-06-07",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {
+    "unit_unclear": 291,
+    "plot_area_assumed": 36
+   },
+   "traits": 13
+  },
+  {
+   "trial_id": "94bfde0f9213",
+   "path": "data/commonbean/commonbean-TZA-94bfde0f9213.json",
+   "start": "2024-11-20",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {},
+   "traits": 13
+  },
+  {
+   "trial_id": "2848259a8c19",
+   "path": "data/commonbean/commonbean-TZA-2848259a8c19.json",
+   "start": "2024-12-13",
+   "date_source": "metadata.date",
+   "rankings": true,
+   "flags": {
+    "unit_unclear": 75
+   },
+   "traits": 13
+  }
+ ],
+ "analysis_level": "draft"
+}

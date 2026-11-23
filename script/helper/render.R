@@ -12,6 +12,7 @@ render_report = function(report) {
 
   cfg = read_config(report)
   theme = read_theme(cfg)
+  cfg = with_analysis_level(cfg, report)
   esc = function(x) {
     x = gsub("&", "&amp;", x, fixed = TRUE)
     x = gsub("<", "&lt;", x, fixed = TRUE)
@@ -113,6 +114,11 @@ render_report = function(report) {
     sug_ia = if (is.null(rf)) character(0) else rf$field[rf$group == "Impact Areas" & rf$suggested == "1"]
     sug_sdg = if (is.null(rf)) "" else rf$suggested[rf$group == "SDGs"][1]
     sug_rl = if (is.null(rf)) "" else rf$suggested[grepl("^Innovation readiness", rf$field)][1]
+    # a story about one result can carry its own suggestions, when the portfolio values do not fit it
+    sg = sc$suggested
+    if (!is.null(sg$impact_areas)) sug_ia = unlist(sg$impact_areas)
+    if (!is.null(sg$sdgs)) sug_sdg = sg$sdgs
+    if (!is.null(sg$readiness_level)) sug_rl = sg$readiness_level
     item = function(title, v, suggestion = NULL) {
       v = unlist(v); v = v[nzchar(v)]
       val = if (length(v) > 0) paste(esc(v), collapse = " &middot; ")
@@ -159,8 +165,8 @@ render_report = function(report) {
     per = vapply(cfg$highlights, function(t) if (is.null(t$period)) "" else t$period, character(1))
     groups = paste0("<div class=\"tilegroups\"><div class=\"tilegroup year\"><div class=\"gl\">In ", esc(as.character(cfg$reporting_year)),
                     "</div><div class=\"tiles\">", tiles_of(cfg$highlights[per == "year"]), "</div></div>",
-                    "<div class=\"tilegroup cumulative\"><div class=\"gl\">Since the start, ", esc(as.character(cfg$period_label)),
-                    "</div><div class=\"tiles\">", tiles_of(cfg$highlights[per == "cumulative"]), "</div></div></div>")
+                    if (any(per == "cumulative")) paste0("<div class=\"tilegroup cumulative\"><div class=\"gl\">Since the start, ", esc(as.character(cfg$period_label)),
+                    "</div><div class=\"tiles\">", tiles_of(cfg$highlights[per == "cumulative"]), "</div></div>") else "", "</div>")
     pic = if (!is.null(cfg$cover_photo)) paste0("<img src=\"", esc(cfg$cover_photo$file), "\" alt=\"\"><div class=\"credit\">", esc(cfg$cover_photo$credit), "</div>")
           else "<div class=\"rings\"></div><div class=\"rings2\"></div>"
     cover = paste0("<section class=\"cover annual\"><div class=\"logobar\">", logos, "</div>",
@@ -183,20 +189,28 @@ render_report = function(report) {
     fund_txt = if (is.null(fund)) "" else paste(paste0(esc(fund$funder), ", ", esc(fund$award), " (", esc(fund$number), ")"), collapse = "; ")
     handle = if (is.null(co$handle) || !nzchar(co$handle)) "<em>Handle to be issued by CGSpace</em>" else esc(co$handle)
     lic = if (is.null(co$licence)) "CC BY 4.0" else co$licence
+    # texts that depend on the data module, overridable in report.yml colophon
+    or_else = function(x, y) if (is.null(x) || !nzchar(x)) y else x
+    data_licence = or_else(co$data_licence, "The trial data it uses are released under CC0 1.0.")
+    evidence = or_else(co$evidence, "This report presents evidence from the trial data it names.")
+    ack = or_else(co$acknowledgements, if (isTRUE(cfg$synthetic)) "No real farmer, trial or funder is behind this synthetic report." else
+                  paste0("We thank the farmers who tested the varieties on their own farms and shared their assessments. The trials were funded by ", fund_txt, "."))
+    maps_note = if (isTRUE(co$no_maps)) "" else "<p>Boundaries on the maps are indicative and do not imply any opinion on the legal status of any country, territory or area, or on the delimitation of its frontiers.</p>"
     front = paste0("<section class=\"colophon\"><div class=\"cite\">",
                    "<p><strong>Author.</strong> ", esc(cfg$corporate_author), "</p>",
                    "<p><strong>Title.</strong> ", esc(if (is.null(co$title)) cfg$title else co$title), "</p>",
                    "<p><strong>Suggested citation.</strong> ", esc(co$citation), "</p><p>", handle, "</p>",
                    "<p>This publication is licensed under a Creative Commons Attribution 4.0 International License (", esc(lic),
-                   "). The trial data it uses are released under CC0 1.0.</p></div>",
-                   "<h4>Disclaimers</h4><p>This report presents evidence from the trial data it names. Views and interpretations are those of the authors and do not necessarily represent those of their institutions or funders.</p>",
-                   "<p>Boundaries on the maps are indicative and do not imply any opinion on the legal status of any country, territory or area, or on the delimitation of its frontiers.</p>",
+                   "). ", esc(data_licence), "</p></div>",
+                   "<h4>Disclaimers</h4><p>", esc(evidence), " Views and interpretations are those of the authors and do not necessarily represent those of their institutions or funders.</p>",
+                   maps_note,
+                   if (isTRUE(cfg$example) || isTRUE(cfg$synthetic)) paste0("<h4>About this document</h4><p>",
+                     esc(if (isTRUE(cfg$synthetic)) shared$synthetic else shared$example), "</p>") else "",
                    "<h4>Use of artificial intelligence</h4><p>", esc(shared$generated_by), " ",
-                   esc(if (isTRUE(cfg$approved)) shared$reviewed else shared$not_reviewed), " ", esc(if (is.null(co$ai_statement)) "" else co$ai_statement), "</p>",
+                   esc(if (isTRUE(cfg$approved)) shared$reviewed else shared$not_reviewed), " ", esc(if (is.null(co$ai_statement)) "" else co$ai_statement), " ", esc(cfg$level_text), "</p>",
                    "<p><strong>Cite maniva as</strong> ", esc(shared$maniva_citation), "</p>",
                    "<h4>Machine-readable content</h4><p>", esc(shared$machine_readable), "</p>",
-                   "<div class=\"ack\"><h4>Acknowledgements</h4><p>We thank the farmers who tested the varieties on their own farms and shared their assessments. The trials were funded by ",
-                   fund_txt, ".</p></div></section>")
+                   "<div class=\"ack\"><h4>Acknowledgements</h4><p>", esc(ack), "</p></div></section>")
     items = paste0("<li><span class=\"lab\">", heads$lab, "</span><span class=\"nm\">", heads$nm, "</span></li>", collapse = "")
     front = paste0(front, "<section class=\"contents\"><h2>Table of contents</h2><ol>", items, "</ol></section>")
   }
@@ -232,6 +246,24 @@ render_report = function(report) {
   out_docx = render_docx(report, cfg, lines, sub("[.]pdf$", ".docx", out_pdf))
 
   c(out_pdf, out_docx)
+
+}
+
+
+#' Analysis level of a report and its colophon text
+#'
+#' From analysis_level in report.yml, else output/preflight.json written by tests/preflight.py,
+#' else draft. A report the R workflow did not compute keeps a draft status on its cover.
+with_analysis_level = function(cfg, report) {
+
+  pf = file.path(report, "output", "preflight.json")
+  level = cfg$analysis_level
+  if (is.null(level)) level = if (file.exists(pf)) jsonlite::fromJSON(pf)$analysis_level else "draft"
+  co = yaml::read_yaml(file.path("template", "colophon.yml"))
+  cfg$analysis_level = level
+  cfg$level_text = if (is.null(co$analysis_levels[[level]])) "" else co$analysis_levels[[level]]
+  if (level != "r-workflow" && is.null(cfg$status) && !isTRUE(cfg$synthetic)) cfg$status = co$draft_status
+  cfg
 
 }
 
@@ -305,9 +337,12 @@ render_docx = function(report, cfg, lines, out_docx) {
                    "\n\n**Suggested citation.** ", co$citation, "\n\n",
                    if (is.null(co$handle) || !nzchar(co$handle)) "*Handle to be issued by CGSpace*" else co$handle,
                    "\n\nThis publication is licensed under a Creative Commons Attribution 4.0 International License (",
-                   if (is.null(co$licence)) "CC BY 4.0" else co$licence, "). The trial data it uses are released under CC0 1.0.\n\n",
+                   if (is.null(co$licence)) "CC BY 4.0" else co$licence, "). ",
+                   if (is.null(co$data_licence)) "The trial data it uses are released under CC0 1.0." else co$data_licence, "\n\n",
+                   if (isTRUE(cfg$example) || isTRUE(cfg$synthetic)) paste0("**About this document.** ",
+                     if (isTRUE(cfg$synthetic)) shared$synthetic else shared$example, "\n\n") else "",
                    "**Use of artificial intelligence.** ", shared$generated_by, " ",
-                   if (isTRUE(cfg$approved)) shared$reviewed else shared$not_reviewed, " ", if (is.null(co$ai_statement)) "" else co$ai_statement,
+                   if (isTRUE(cfg$approved)) shared$reviewed else shared$not_reviewed, " ", if (is.null(co$ai_statement)) "" else co$ai_statement, " ", cfg$level_text,
                    "\n\n**Cite maniva as** ", shared$maniva_citation,
                    "\n\n**Machine-readable content.** ", shared$machine_readable, " In this Word file the figure data are in the annex.\n")
   }
