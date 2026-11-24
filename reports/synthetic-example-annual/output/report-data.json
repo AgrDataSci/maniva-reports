@@ -2,11 +2,17 @@
   "schema": "maniva-reports/report-data/0.1",
   "title": "Synthetic Example Programme",
   "subtitle": "Synthetic data for testing maniva-reports. No real trial, place or person",
-  "type": "annual",
+  "type": "working_paper",
   "reporting_year": 2024,
   "period": "2023 to 2024",
   "corporate_author": "Synthetic Example Programme",
-  "authors": [],
+  "authors": [
+    {
+      "name": "Ada Example",
+      "role": "Synthetic Scientist",
+      "institution": "Synthetic Research Institute"
+    }
+  ],
   "institutions": [
     "Synthetic Research Institute",
     "Synthetic National Partner"

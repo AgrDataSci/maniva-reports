@@ -36,7 +36,7 @@ err = lambda m: out['errors'].append(m)
 
 # ---------------------------------------------------------------- 1. tools
 R_PACKAGES = ['PlackettLuce', 'gosset', 'qvcalc', 'ggplot2', 'patchwork', 'sf', 'jsonlite', 'yaml',
-              'commonmark', 'pagedown', 'rmarkdown']
+              'commonmark', 'pagedown', 'pdftools', 'rmarkdown']
 rscript = shutil.which('Rscript')
 missing = R_PACKAGES
 if rscript:
