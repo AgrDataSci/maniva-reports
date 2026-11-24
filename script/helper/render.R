@@ -211,7 +211,8 @@ render_report = function(report) {
                    "<p><strong>Cite maniva as</strong> ", esc(shared$maniva_citation), "</p>",
                    "<h4>Machine-readable content</h4><p>", esc(shared$machine_readable), "</p>",
                    "<div class=\"ack\"><h4>Acknowledgements</h4><p>", esc(ack), "</p></div></section>")
-    items = paste0("<li><span class=\"lab\">", heads$lab, "</span><span class=\"nm\">", heads$nm, "</span></li>", collapse = "")
+    items = paste0("<li><a><span class=\"lab\">", heads$lab, "</span><span class=\"nm\">", heads$nm,
+                   "</span><span class=\"pg\">{{PG:", seq_len(nrow(heads)), "}}</span></a></li>", collapse = "")
     front = paste0(front, "<section class=\"contents\"><h2>Table of contents</h2><ol>", items, "</ol></section>")
   }
 
@@ -235,9 +236,29 @@ render_report = function(report) {
   name = if (is.null(cfg$output_name)) basename(normalizePath(report)) else cfg$output_name
   out_pdf = file.path(report, "output", paste0(name, ".pdf"))
   dir.create(dirname(out_pdf), showWarnings = FALSE, recursive = TRUE)
-  pagedown::chrome_print(input = normalizePath(out_html), output = out_pdf,
+  print_pdf = function() pagedown::chrome_print(input = normalizePath(out_html), output = out_pdf,
                          options = list(printBackground = TRUE, preferCSSPageSize = TRUE),
                          extra_args = c("--no-pdf-header-footer"))
+
+  # Chrome has no target-counter(), so the contents get their page numbers from a first print with
+  # two-digit placeholders. Each heading is found as the first page after the contents whose text
+  # holds it, then the numbers are written in and the page is printed again. The Python renderer
+  # reads the named destinations of the PDF instead, which pdftools does not expose.
+  if (grepl("{{PG:", doc, fixed = TRUE)) {
+    writeLines(gsub("\\{\\{PG:[0-9]+\\}\\}", "00", doc), out_html, useBytes = TRUE)
+    print_pdf()
+    txt = gsub("\\s+", " ", pdftools::pdf_text(out_pdf))
+    toc = which(grepl("Table of contents", txt, fixed = TRUE))[1]
+    from = if (is.na(toc)) 1 else toc + 1
+    for (i in seq_len(nrow(heads))) {
+      key = gsub("\\s+", " ", trimws(heads$nm[i]))
+      pg = which(grepl(key, txt, fixed = TRUE) & seq_along(txt) >= from)[1]
+      doc = sub(paste0("{{PG:", i, "}}"), if (is.na(pg)) "" else as.character(pg), doc, fixed = TRUE)
+      if (!is.na(pg)) from = pg
+    }
+    writeLines(doc, out_html, useBytes = TRUE)
+  }
+  print_pdf()
 
   # 11b. machine-readable summary and attachments
   attach_data(report, cfg, shared, out_pdf)

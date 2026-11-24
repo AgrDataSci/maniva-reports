@@ -228,3 +228,10 @@ section.back .band h4 { font: 700 8.8pt var(--font-body), sans-serif; margin: 4m
 section.back .foot { flex: 1 1 auto; position: relative; display: flex; align-items: flex-end; padding: 0 20mm 22mm 20mm; }
 section.back .foot::after { content: ""; position: absolute; right: 0; top: 18mm; bottom: 0; width: 9mm; background: var(--strip); }
 section.back .foot img { height: 15mm; width: auto; }
+
+/* page numbers in the contents, filled by the renderer from a first print */
+.contents li a { display: flex; gap: 4mm; width: 100%; color: inherit; text-decoration: none; border: 0; background: none; align-items: baseline; }
+.contents li .nm { flex: 1 1 auto; }
+.contents li .pg { flex: 0 0 auto; min-width: 8mm; text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+body.wp .contents li .nm { display: flex; gap: 2mm; }
+body.wp .contents li .nm::after { content: ""; flex: 1 1 auto; border-bottom: 0.3mm dotted var(--muted); margin-bottom: 1.2mm; }

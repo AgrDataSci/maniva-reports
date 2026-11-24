@@ -1,5 +1,6 @@
 # maniva-reports 0.2.0 (2026-11-23)
 
+- Page numbers in the contents of every report type. Chrome has no `target-counter()`, so the renderers print twice. The Python renderer reads the named destinations of the first print, the R renderer finds each heading in the page text with pdftools. Contents entries link to their sections. Headings with a page break before them are now listed too.
 - Annual report type after the CGIAR annual technical report, in `docs/annual-report-standard.md`, with the CGIAR formats described in `docs/cgiar-reporting.md`. Seven numbered sections, colophon with a statement on the use of AI, fact sheet, year against cumulative, status chips, PRMS result candidates and a key result story page.
 - Cover styles `band`, `annual` and `event`. Layout components in `template/report.css`, annual skeleton in `reports/_template/content/annual-report.md`.
 - R workflow extended for the annual type (`script/helper/annual.R`, figures and renderer), not executed yet.

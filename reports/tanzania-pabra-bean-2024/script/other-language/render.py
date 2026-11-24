@@ -132,21 +132,24 @@ heads = []
 
 
 def section(m):
-    lab, nm = m.group(1), m.group(2)
+    brk, lab, nm = m.group(1), m.group(2), m.group(3)
+    hid = f'sec-{len(heads) + 1}'
     heads.append((lab, nm))
+    nb = ' newpage' if brk else ''
     if lab:
-        return f'<h2 class="section"><span class="lab">{lab}:</span> {nm}</h2>'
-    return f'<h2 class="unnumbered">{nm}</h2>' if annual else m.group(0)
+        return f'<h2 id="{hid}" class="section{nb}"><span class="lab">{lab}:</span> {nm}</h2>'
+    return f'<h2 id="{hid}" class="unnumbered{nb}">{nm}</h2>' if annual else f'<h2 id="{hid}"{brk}>{nm}</h2>'
 
 if wp:
     # a working paper has unnumbered sections, and its contents list the subsections too
     def wp_head(m):
         lvl, nm = m.group(1), re.sub(r'^Section \d+: ', '', m.group(3))
+        hid = f'sec-{len(heads) + 1}'
         heads.append(('h' + lvl, nm))
-        return f'<h{lvl}{m.group(2)}>{nm}</h{lvl}>'
+        return f'<h{lvl} id="{hid}"{m.group(2)}>{nm}</h{lvl}>'
     body = re.sub(r'<h([23])((?: class="[^"]*")?)>(.*?)</h\1>', wp_head, body)
 else:
-    body = re.sub(r'<h2>(?:(Section \d+): )?(.*?)</h2>', section, body)
+    body = re.sub(r'<h2((?: class="newpage")?)>(?:(Section \d+): )?(.*?)</h2>', section, body)
 
 
 def wide(m):
@@ -257,7 +260,7 @@ if wp:
 <h4>Machine-readable content</h4><p>{esc(shared["machine_readable"])}</p>
 <p>This publication is licensed under a Creative Commons Attribution 4.0 International License ({esc(co.get("licence", "CC BY 4.0"))}).</p>
 <div class="photo-credits">{credits}</div></section>'''
-    items = ''.join(f'<li class="{l}"><span class="nm">{nm}</span></li>' for l, nm in heads)
+    items = ''.join(f'<li class="{l}"><a href="#sec-{i}"><span class="nm">{nm}</span><span class="pg">{{{{PG:sec-{i}}}}}</span></a></li>' for i, (l, nm) in enumerate(heads, 1))
     front += f'<section class="contents"><h2>Contents</h2><ol>{items}</ol></section>'
     bf = cfg.get('back_figure')
     contacts = ''.join(f'<p><strong>{esc(x["name"])}</strong>' + ''.join(f', {esc(x[k])}' for k in ('role', 'institution') if x.get(k)) +
@@ -292,7 +295,7 @@ if annual:
 <p><strong>Cite maniva as</strong> {esc(shared["maniva_citation"])}</p>
 <h4>Machine-readable content</h4><p>{esc(shared["machine_readable"])}</p>
 <div class="ack"><h4>Acknowledgements</h4><p>{esc(ack)}</p></div></section>'''
-    items = ''.join(f'<li><span class="lab">{esc(l) if l else ""}</span><span class="nm">{nm}</span></li>' for l, nm in heads)
+    items = ''.join(f'<li><a href="#sec-{i}"><span class="lab">{esc(l) if l else ""}</span><span class="nm">{nm}</span><span class="pg">{{{{PG:sec-{i}}}}}</span></a></li>' for i, (l, nm) in enumerate(heads, 1))
     front += f'<section class="contents"><h2>Table of contents</h2><ol>{items}</ol></section>'
 
 # 10. theme variables and stylesheet -----------------------------------------
@@ -356,8 +359,22 @@ open(out_html, 'w', encoding='utf-8').write(doc)
 chrome = next((c for c in ('google-chrome', 'chromium', 'chromium-browser', 'chrome') if shutil.which(c)), None)
 out_pdf = os.path.join(report, 'output', (cfg.get('output_name') or os.path.basename(report)) + '.pdf')
 os.makedirs(os.path.dirname(out_pdf), exist_ok=True)
-subprocess.run([chrome, '--headless=new', '--no-sandbox', '--disable-gpu', '--no-pdf-header-footer',
-                f'--print-to-pdf={out_pdf}', 'file://' + out_html], check=True, capture_output=True, timeout=300)
+def print_pdf():
+    subprocess.run([chrome, '--headless=new', '--no-sandbox', '--disable-gpu', '--no-pdf-header-footer',
+                    f'--print-to-pdf={out_pdf}', 'file://' + out_html], check=True, capture_output=True, timeout=300)
+
+# Chrome has no target-counter(), so the contents get their page numbers from a first print. Each
+# heading id becomes a named destination in the PDF. The numbers are written in and the page is
+# printed again. A number holds two digits in the first print, so the layout does not move.
+if '{{PG:' in doc:
+    open(out_html, 'w', encoding='utf-8').write(re.sub(r'\{\{PG:[^}]+\}\}', '00', doc))
+    print_pdf()
+    import pypdf
+    rd = pypdf.PdfReader(out_pdf)
+    pages = {k.lstrip('/'): rd.get_destination_page_number(v) + 1 for k, v in (rd.named_destinations or {}).items()}
+    doc = re.sub(r'\{\{PG:([^}]+)\}\}', lambda m: str(pages.get(m.group(1), '')), doc)
+    open(out_html, 'w', encoding='utf-8').write(doc)
+print_pdf()
 
 # 11b. machine-readable summary and attachments -------------------------------
 # output/report-data.json holds the reporting fields, the PRMS candidates and an index of the figure
