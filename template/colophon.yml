@@ -11,7 +11,7 @@ reviewed: "The authors reviewed and approved the text."
 not_reviewed: ""  # left empty on purpose, the colophon says nothing until the authors approve
 maniva_citation: >-
   de Sousa K, Laporte M-A, Youngberg B, Cremaschi A, Chase R, Rouard M, Guignon V, van Etten J. 2026. maniva.
-  An open commons of evidence, protocols, data and analysis for agricultural research.
+  An open commons for agricultural research.
   Version 1.0.0. Zenodo. https://doi.org/10.5281/zenodo.24011051
 example: >-
   This document is a worked example of the maniva-reports standard, built on open data
